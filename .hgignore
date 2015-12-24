@@ -1,0 +1,18 @@
+syntax: glob
+Thumbs.db
+*/bin/**
+*/obj/**
+packages/**
+TestResults/**
+Debug/**
+**/Debug/**
+Release/**
+**/Release/**
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.sln.DotSettings
+**/*.user
+*.vspx
+*.etl
