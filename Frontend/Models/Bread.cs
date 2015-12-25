@@ -1,4 +1,4 @@
-﻿namespace Facade.Models
+﻿namespace Frontend.Models
 {
     public class Bread
     {

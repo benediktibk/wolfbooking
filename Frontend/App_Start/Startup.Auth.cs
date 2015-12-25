@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace Facade
+namespace Frontend
 {
     public partial class Startup
     {

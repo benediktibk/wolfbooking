@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Backend.Business;
-using Backend.Persistence;
 using System.Net;
 using Backend;
 
-namespace Facade.Controllers
+namespace Frontend.Controllers
 {
     public class BreadsController : ApiController
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(Facade.Startup))]
+[assembly: OwinStartup(typeof(Frontend.Startup))]
 
-namespace Facade
+namespace Frontend
 {
     public partial class Startup
     {

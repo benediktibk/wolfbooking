@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Net.Http.Headers;
 
-namespace Facade
+namespace Frontend
 {
     public static class WebApiConfig
     {
