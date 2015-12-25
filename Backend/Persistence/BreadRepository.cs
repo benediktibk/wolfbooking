@@ -17,32 +17,30 @@ namespace Backend.Persistence
         {
             using (var context = CreateContext())
             {
-                bread.Created = DateTime.Now;
-                bread.Deleted = DateTime.MaxValue;
                 context.Breads.Add(bread);
                 context.SaveChanges();
             }
         }
 
-        public void Delete(Bread bread)
+        public void UpdateDates(Bread bread)
         {
             using (var context = CreateContext())
             {
-                var databaseBread = context.Breads.Find(bread.Id);
-                databaseBread.Deleted = DateTime.Now;
+                context.Breads.Attach(bread);
+                context.Entry(bread).Property(x => x.Created).IsModified = true;
+                context.Entry(bread).Property(x => x.Deleted).IsModified = true;
                 context.SaveChanges();
             }
         }
 
-        public IList<Bread> ListAvailableBreads()
+        public IList<Bread> GetAvailableBreads(DateTime dateTime)
         {
             IList<Bread> result;
 
             using (var context = CreateContext())
             {
-                var now = DateTime.Now;
                 var queryResult = from bread in context.Breads
-                                  where bread.Created < now && bread.Deleted > now
+                                  where bread.Created < dateTime && bread.Deleted > dateTime
                                   select bread;
                 result = queryResult.ToList();
             }

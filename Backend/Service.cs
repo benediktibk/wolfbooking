@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using System.Configuration;
 using NLog;
+using Backend.Business;
 
 namespace Backend
 {
@@ -11,6 +12,7 @@ namespace Backend
         Thread _worker;
         volatile bool _stopRequested;
         BreadRepository _breadRepository;
+        BreadFactory _breadFactory;
         private Logger _logger;
 
         public Service()
@@ -39,7 +41,7 @@ namespace Backend
 
             //_breadRepository.Add(new Bread { Name = "Schwarzbrot", Price = 2.2m });
 
-            var breads = _breadRepository.ListAvailableBreads();
+            var breads = _breadFactory.GetCurrentAvailableBreads();
 
             foreach (var bread in breads)
                 Console.WriteLine(bread.Name);
@@ -52,6 +54,7 @@ namespace Backend
         {
             var databaseConnectionString = GetDatabaseConnectionString();
             _breadRepository = new BreadRepository(databaseConnectionString);
+            _breadFactory = new BreadFactory(_breadRepository);
         }
 
         private string GetDatabaseConnectionString()

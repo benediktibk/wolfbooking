@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Bread.cs" />
+    <Compile Include="Business\BreadFactory.cs" />
+    <Compile Include="Facade\Bread.cs" />
     <Compile Include="Program.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,10 +84,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\" />
-    <Folder Include="Facade\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
