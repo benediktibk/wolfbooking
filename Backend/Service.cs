@@ -2,7 +2,6 @@
 using System;
 using System.Threading;
 using System.Configuration;
-using NLog;
 using Backend.Business;
 
 namespace Backend
@@ -13,13 +12,11 @@ namespace Backend
         volatile bool _stopRequested;
         BreadRepository _breadRepository;
         BreadFactory _breadFactory;
-        private Logger _logger;
 
         public Service()
         {
             _stopRequested = false;
             _worker = new Thread(Function);
-            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public delegate void FinishedEventHandler();
@@ -68,7 +65,6 @@ namespace Backend
             }
             catch (NullReferenceException e)
             {
-                _logger.Fatal($"could not find database connection string for host {hostName} in App.config");
                 throw e;
             }
 

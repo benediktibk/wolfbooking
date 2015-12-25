@@ -14,11 +14,16 @@ namespace Backend.Business
             _breadRepository = breadRepository;
         }
 
-        public IList<Bread> GetCurrentAvailableBreads()
+        public IEnumerable<Bread> GetCurrentAvailableBreads()
         {
             var breads = _breadRepository.GetAvailableBreads(DateTime.Now);
-            return breads.Select(x => new Bread(x)).ToList();
+            return breads.Select(x => new Bread(x));
         }
 
+        public Bread Get(int id)
+        {
+            var bread = _breadRepository.Get(id);
+            return bread == null ? null : new Bread(bread);
+        }
     }
 }

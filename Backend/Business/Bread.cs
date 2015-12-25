@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Business
 {
@@ -17,18 +13,12 @@ namespace Backend.Business
             Deleted = bread.Deleted;
         }
 
-        public Bread(Facade.Bread bread)
+        public Bread(string name, decimal price)
         {
-            Id = bread.Id;
-            Name = bread.Name;
-            Price = bread.Price;
+            Name = name;
+            Price = price;
             Created = DateTime.Now;
             Deleted = DateTime.MaxValue;
-        }
-
-        public Facade.Bread ToFacade()
-        {
-            return new Facade.Bread { Id = Id, Name = Name, Price = Price };
         }
 
         public Persistence.Bread ToPersistence()
@@ -39,7 +29,7 @@ namespace Backend.Business
         public int Id { get; private set; }
         public string Name { get; private set; }
         public decimal Price { get; private set; }
-        public DateTime Created { get; set; }
-        public DateTime Deleted { get; set; }
+        public DateTime Created { get; private set; }
+        public DateTime Deleted { get; private set; }
     }
 }

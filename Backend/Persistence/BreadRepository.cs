@@ -33,6 +33,12 @@ namespace Backend.Persistence
             }
         }
 
+        public Bread Get(int id)
+        {
+            using (var context = CreateContext())
+                return context.Breads.Find(id);
+        }
+
         public IList<Bread> GetAvailableBreads(DateTime dateTime)
         {
             IList<Bread> result;
