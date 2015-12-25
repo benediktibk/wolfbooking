@@ -16,3 +16,4 @@ Release/**
 **/*.user
 *.vspx
 *.etl
+.vs/**
