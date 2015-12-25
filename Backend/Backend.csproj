@@ -60,15 +60,12 @@
   <ItemGroup>
     <Compile Include="Business\Bread.cs" />
     <Compile Include="Business\BreadFactory.cs" />
-    <Compile Include="Program.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Factory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\Bread.cs" />
     <Compile Include="Persistence\BreadRepository.cs" />
     <Compile Include="Persistence\WolfBookingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
