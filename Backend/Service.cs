@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Backend.Persistence;
+using System;
 using System.Threading;
+using System.Configuration;
+using NLog;
 
 namespace Backend
 {
@@ -7,11 +10,14 @@ namespace Backend
     {
         Thread _worker;
         volatile bool _stopRequested;
+        BreadRepository _breadRepository;
+        private Logger _logger;
 
         public Service()
         {
             _stopRequested = false;
             _worker = new Thread(Function);
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public delegate void FinishedEventHandler();
@@ -29,14 +35,41 @@ namespace Backend
 
         private void Function()
         {
-            for (var i = 0; i < 100 && !_stopRequested; ++i)
-            {
-                Console.WriteLine($"{i}/100");
-                Thread.Sleep(100);
-            }
+            Initialize();
+
+            //_breadRepository.Add(new Bread { Name = "Schwarzbrot", Price = 2.2m });
+
+            var breads = _breadRepository.ListAvailableBreads();
+
+            foreach (var bread in breads)
+                Console.WriteLine(bread.Name);
 
             if (OnFinished != null)
                 OnFinished();
+        }
+
+        private void Initialize()
+        {
+            var databaseConnectionString = GetDatabaseConnectionString();
+            _breadRepository = new BreadRepository(databaseConnectionString);
+        }
+
+        private string GetDatabaseConnectionString()
+        {
+            var hostName = Environment.MachineName;
+            string databaseConnectionString;
+
+            try
+            {
+                databaseConnectionString = ConfigurationManager.ConnectionStrings[hostName].ConnectionString;
+            }
+            catch (NullReferenceException e)
+            {
+                _logger.Fatal($"could not find database connection string for host {hostName} in App.config");
+                throw e;
+            }
+
+            return databaseConnectionString;
         }
     }
 }

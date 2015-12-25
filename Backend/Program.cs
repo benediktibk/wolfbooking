@@ -4,12 +4,12 @@ using System.Threading;
 
 namespace Backend
 {
-    class Backend : ServiceBase
+    class Program : ServiceBase
     {
         Service _service;
         EventWaitHandle _finishedWaitHandle;
 
-        public Backend()
+        public Program()
         {
             _service = new Service();
             _finishedWaitHandle = new AutoResetEvent(false);
@@ -18,7 +18,7 @@ namespace Backend
 
         static void Main(string[] arguments)
         {
-            var backend = new Backend();
+            var backend = new Program();
             backend.TestStartupAndStop(arguments);
         }
 

@@ -4,8 +4,8 @@ namespace Backend.Persistence
 {
     public class WolfBookingContext : DbContext
     {
-        public WolfBookingContext() :
-            base()
+        public WolfBookingContext(string databaseConnectionString) :
+            base(databaseConnectionString)
         {
 
         }
