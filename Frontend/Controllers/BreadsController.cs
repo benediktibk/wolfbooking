@@ -1,36 +1,35 @@
 ﻿using System.Web.Http;
 using System.Collections.Generic;
-using System.Linq;
-using Backend.Business;
 using System.Net;
 using Backend;
+using Backend.Facade;
 
 namespace Frontend.Controllers
 {
     public class BreadsController : ApiController
     {
-        private static Factory _factory;
-        private static BreadFactory _breadFactory;
+        private Factory _factory;
+        private BookingFacade _bookingFacade;
 
-        static BreadsController()
+        public BreadsController()
         {
             _factory = new Factory();
-            _breadFactory = _factory.BreadFactory;
+            _bookingFacade = _factory.BookingFacade;
         }
 
-        public IEnumerable<Models.Bread> GetCurrentAvailableBreads()
+        public IEnumerable<Bread> GetCurrentAvailableBreads()
         {
-            return _breadFactory.GetCurrentAvailableBreads().Select(x => new Models.Bread(x));
+            return _bookingFacade.GetCurrentAvailableBreads();
         }
 
-        public Models.Bread GetBread(int id)
+        public Bread GetBread(int id)
         {
-            var bread = _breadFactory.Get(id);
+            var bread = _bookingFacade.GetBread(id);
 
             if (bread == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            return new Models.Bread(bread);
+            return bread;
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿namespace Frontend.Models
+﻿namespace Backend.Facade
 {
     public class Bread
     {
         public Bread()
         { }
 
-        public Bread(Backend.Business.Bread bread)
+        public Bread(Business.Bread bread)
         {
             Id = bread.Id;
             Name = bread.Name;
