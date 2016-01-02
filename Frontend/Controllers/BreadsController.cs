@@ -17,12 +17,12 @@ namespace Frontend.Controllers
             _bookingFacade = _factory.BookingFacade;
         }
 
-        public IEnumerable<Bread> GetCurrentAvailableBreads()
+        public IEnumerable<Bread> Get()
         {
             return _bookingFacade.GetCurrentAvailableBreads();
         }
 
-        public Bread GetBread(int id)
+        public Bread Get(int id)
         {
             var bread = _bookingFacade.GetBread(id);
 
