@@ -9,11 +9,11 @@ namespace Facade.Controllers
         {
 
         }
-
+        
         public HttpResponseMessage Get()
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            response.Content = new StringContent("<html><body>blub</body></html>");
+            response.Content = new StringContent($"<html><body>blub</body></html>");
             return response;
         }
     }
