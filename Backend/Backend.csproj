@@ -66,6 +66,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\Bread.cs" />
     <Compile Include="Persistence\BreadRepository.cs" />
+    <Compile Include="Persistence\WolfBookingContextFactory.cs" />
     <Compile Include="Persistence\WolfBookingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

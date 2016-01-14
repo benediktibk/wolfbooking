@@ -8,13 +8,11 @@ namespace Frontend.Controllers
 {
     public class BreadsController : ApiController
     {
-        private Factory _factory;
         private BookingFacade _bookingFacade;
 
         public BreadsController()
         {
-            _factory = new Factory();
-            _bookingFacade = _factory.BookingFacade;
+            _bookingFacade = Factory.BookingFacade;
         }
 
         [Route("breads/api/all")]

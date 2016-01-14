@@ -6,14 +6,14 @@ using Backend.Facade;
 
 namespace Backend
 {
-    public class Factory
+    public static class Factory
     {
-        private string _databaseConnectionString;
-        private BreadRepository _breadRepository;
-        private BreadFactory _breadFactory;
-        private BookingFacade _bookingFacade;
+        private static string _databaseConnectionString;
+        private static BreadRepository _breadRepository;
+        private static BreadFactory _breadFactory;
+        private static BookingFacade _bookingFacade;
 
-        public string DatabaseConnectionString
+        public static string DatabaseConnectionString
         {
             get
             {
@@ -27,7 +27,7 @@ namespace Backend
             }
         }
 
-        public BreadRepository BreadRepository
+        public static BreadRepository BreadRepository
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Backend
             }
         }
 
-        public BreadFactory BreadFactory
+        public static BreadFactory BreadFactory
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Backend
             }
         }
 
-        public BookingFacade BookingFacade
+        public static BookingFacade BookingFacade
         {
             get
             {
@@ -58,6 +58,11 @@ namespace Backend
 
                 return _bookingFacade;
             }
+        }
+
+        public static WolfBookingContext CreateWolfBookingContext()
+        {
+            return new WolfBookingContext(DatabaseConnectionString);
         }
     }
 }

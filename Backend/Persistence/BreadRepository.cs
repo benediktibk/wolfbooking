@@ -56,7 +56,7 @@ namespace Backend.Persistence
 
         private WolfBookingContext CreateContext()
         {
-            return new WolfBookingContext(_databaseConnectionString);
+            return Factory.CreateWolfBookingContext();
         }
     }
 }

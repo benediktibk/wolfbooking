@@ -6,7 +6,7 @@ namespace Backend.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Persistence.WolfBookingContext context)

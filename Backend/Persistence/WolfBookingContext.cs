@@ -7,7 +7,6 @@ namespace Backend.Persistence
         public WolfBookingContext(string databaseConnectionString) :
             base(databaseConnectionString)
         {
-
         }
 
         public DbSet<Bread> Breads { get; set; }
