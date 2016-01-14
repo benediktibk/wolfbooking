@@ -1,5 +1,4 @@
-﻿using RazorEngine;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
@@ -24,10 +23,8 @@ namespace Facade.Controllers
         public HttpResponseMessage GetIndex()
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            var viewPath = HttpContext.Current.Server.MapPath(@"~/Views/Home/Index.cshtml");
-            var template = File.ReadAllText(viewPath);
-            var parsedView = Razor.Parse(template);
-            response.Content = new StringContent(parsedView);
+            var content = TemplateEngine.Parse(@"~/Views/Shared/Layout.html", @"~/Views/Home/Index.html", "Home");
+            response.Content = new StringContent(content);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
         }
