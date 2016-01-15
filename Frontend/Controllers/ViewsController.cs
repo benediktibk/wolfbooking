@@ -13,11 +13,11 @@ namespace Facade.Controllers
 
         }
 
-        [Route("Views/home")]
-        public HttpResponseMessage GetHome()
+        [Route("views/{view}")]
+        public HttpResponseMessage Get(string view)
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/Views/home.html"));
+            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath($"~/Views/{view}.html"));
             response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
