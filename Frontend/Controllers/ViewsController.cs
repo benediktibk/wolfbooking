@@ -42,7 +42,6 @@ namespace Facade.Controllers
             response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
-
         }
     }
 }

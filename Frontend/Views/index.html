@@ -5,22 +5,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WolfBooking</title>
-    <script src="Scripts/angular.js"></script>
-    <script src="Scripts/angular-route.js"></script>
+
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
+
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
     <script src="Scripts/script.js"></script>
 </head>
 <body ng-controller="homeController">
-    <div class="container">
-        <div class="navigation">
-            <ul>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">WolfBooking</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
                 <li><a href="home">Home</a></li>
                 <li><a href="breads">Breads</a></li>
             </ul>
         </div>
+    </nav>
+
+    <div id="main">
         <div ng-view></div>
-        <div class="footer">
-            Footer
-        </div>
     </div>
+
+    <footer class="text-center">
+        <p>Footer</p>
+    </footer>
 </body>
 </html>
