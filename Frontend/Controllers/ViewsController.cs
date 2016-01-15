@@ -14,13 +14,25 @@ namespace Facade.Controllers
         }
 
         [Route("views/{view}")]
-        public HttpResponseMessage Get(string view)
+        public HttpResponseMessage GetView(string view)
+        {
+            return GetFile($"~/Views/{view}.html");
+        }
+
+        [Route("")]
+        public HttpResponseMessage GetIndex()
+        {
+            return GetFile($"~/index.html");
+        }
+
+        private HttpResponseMessage GetFile(string fileName)
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath($"~/Views/{view}.html"));
+            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(fileName));
             response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
+
         }
     }
 }
