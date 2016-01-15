@@ -16,17 +16,21 @@ namespace Facade.Controllers
         [Route("home")]
         public HttpResponseMessage Get()
         {
-            return GetIndex();
-        }
-
-        [Route("home/index")]
-        public HttpResponseMessage GetIndex()
-        {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            var content = TemplateEngine.Parse(@"~/Views/Shared/Layout.html", @"~/Views/Home/Index.html", "Home");
-            response.Content = new StringContent(content);
+            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/Views/Home.html"));
+            response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
         }
+
+        /*[Route("home/index")]
+        public HttpResponseMessage GetIndex()
+        {
+            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/Views/Index.html"));
+            response.Content = new StringContent(fileContent);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }*/
     }
 }
