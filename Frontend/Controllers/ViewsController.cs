@@ -9,9 +9,7 @@ namespace Facade.Controllers
     public class ViewsController : ApiController
     {
         public ViewsController()
-        {
-
-        }
+        { }
 
         [Route("views/{view}")]
         public HttpResponseMessage GetView(string view)
