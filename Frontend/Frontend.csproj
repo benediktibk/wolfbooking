@@ -933,7 +933,7 @@
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Index.html" />
+    <Content Include="index.html" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
     <Content Include="Scripts\version.json" />
   </ItemGroup>
