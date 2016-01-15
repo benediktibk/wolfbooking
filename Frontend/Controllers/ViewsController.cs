@@ -25,6 +25,18 @@ namespace Facade.Controllers
             return GetFile($"~/index.html");
         }
 
+        [Route("home")]
+        public HttpResponseMessage GetHome()
+        {
+            return GetIndex();
+        }
+
+        [Route("breads")]
+        public HttpResponseMessage GetBreads()
+        {
+            return GetIndex();
+        }
+
         private HttpResponseMessage GetFile(string fileName)
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
