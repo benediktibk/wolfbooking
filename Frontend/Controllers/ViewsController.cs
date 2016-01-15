@@ -22,7 +22,7 @@ namespace Facade.Controllers
         [Route("")]
         public HttpResponseMessage GetIndex()
         {
-            return GetFile($"~/index.html");
+            return GetFile($"~/Views/index.html");
         }
 
         [Route("home")]
