@@ -1,4 +1,4 @@
-﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute']);
+﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid']);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -19,4 +19,17 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
 })
 
 wolfBookingApp.controller('homeController', function ($scope) { });
-wolfBookingApp.controller('breadsController', function ($scope) { });
+wolfBookingApp.controller('breadsController', function ($scope, $http) {
+    $scope.breads = [];
+
+    $scope.loadBreads = function () {
+        var httpRequest = $http({
+            method: 'GET',
+            url: 'api/breads/all'
+        }).then(function (data) {
+            $scope.breads = data.data;
+        })
+    };
+
+    $scope.loadBreads();
+});

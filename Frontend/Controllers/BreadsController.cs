@@ -15,13 +15,13 @@ namespace Frontend.Controllers
             _bookingFacade = Factory.BookingFacade;
         }
 
-        [Route("breads/api/all")]
+        [Route("api/breads/all")]
         public IEnumerable<Bread> GetApiAll()
         {
             return _bookingFacade.GetCurrentAvailableBreads();
         }
 
-        [Route("breads/api/item/{id}")]
+        [Route("api/breads/item/{id}")]
         public Bread GetApiItem(int id)
         {
             var bread = _bookingFacade.GetBread(id);
