@@ -1,4 +1,4 @@
-﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid']);
+﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid', 'ui.grid.autoResize']);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -29,6 +29,14 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         }).then(function (data) {
             $scope.breads = data.data;
         })
+    };
+
+    $scope.calculateBreadsTableHeight = function () {
+        var rowHeight = 30;
+        var headerRowHeight = 33;
+        return {
+            height: ($scope.breads.length * rowHeight + headerRowHeight) + "px"
+        };
     };
 
     $scope.loadBreads();
