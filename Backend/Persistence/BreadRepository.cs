@@ -25,17 +25,6 @@ namespace Backend.Persistence
             return bread.Id;
         }
 
-        public void UpdateDates(Bread bread)
-        {
-            using (var context = CreateContext())
-            {
-                context.Breads.Attach(bread);
-                context.Entry(bread).Property(x => x.Created).IsModified = true;
-                context.Entry(bread).Property(x => x.Deleted).IsModified = true;
-                context.SaveChanges();
-            }
-        }
-
         public bool Update(Bread bread)
         {
             int count;
@@ -63,7 +52,7 @@ namespace Backend.Persistence
             using (var context = CreateContext())
             {
                 var queryResult = from bread in context.Breads
-                                  where bread.Created < dateTime && bread.Deleted > dateTime
+                                  where bread.Deleted > dateTime
                                   select bread;
                 result = queryResult.ToList();
             }

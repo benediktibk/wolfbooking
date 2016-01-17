@@ -9,7 +9,6 @@ namespace Backend.Business
             Id = bread.Id;
             Name = bread.Name;
             Price = bread.Price;
-            Created = bread.Created;
             Deleted = bread.Deleted;
         }
 
@@ -17,13 +16,12 @@ namespace Backend.Business
         {
             Name = name;
             Price = price;
-            Created = DateTime.Now;
             Deleted = DateTime.MaxValue;
         }
 
         public Persistence.Bread ToPersistence()
         {
-            return new Persistence.Bread { Id = Id, Name = Name, Price = Price, Created = Created, Deleted = Deleted};
+            return new Persistence.Bread { Id = Id, Name = Name, Price = Price, Deleted = Deleted};
         }
 
         public void UpdateWith(Facade.Bread bread)
@@ -43,7 +41,6 @@ namespace Backend.Business
         public int Id { get; private set; }
         public string Name { get; private set; }
         public decimal Price { get; private set; }
-        public DateTime Created { get; private set; }
         public DateTime Deleted { get; private set; }
     }
 }

@@ -12,8 +12,6 @@ namespace Backend.Persistence
         [Required]
         public decimal Price { get; set; }
         [Required]
-        public DateTime Created { get; set; }
-        [Required]
         public DateTime Deleted { get; set; }
     }
 }
