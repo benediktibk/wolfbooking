@@ -64,6 +64,10 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
     };
 
+    $scope.cancelBreadChanges = function () {
+        $scope.loadBreads();
+    }
+
     $scope.loadBreads();
 
     $scope.gridOptions = {

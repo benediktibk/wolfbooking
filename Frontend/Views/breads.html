@@ -1,2 +1,3 @@
-﻿<div ui-grid="gridOptions" class="breadsTable" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateBreadsTableHeight()"></div>
-<button ng-click="saveAllBreads()">Save</button>
+﻿<div ui-grid="gridOptions" id="breadsTable" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateBreadsTableHeight()"></div>
+<button ng-click="cancelBreadChanges()" id="breadsCancelButton">Cancel</button>
+<button ng-click="saveAllBreads()" id="breadsSaveButton">Save</button>
