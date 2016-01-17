@@ -35,22 +35,29 @@ namespace Frontend.Controllers
             return bread;
         }
 
-        [Route("api/breads/item")]
+        [Route("api/breads")]
         [HttpPost]
-        public HttpResponseMessage UpdateBreadById([FromBody]Bread bread)
+        public HttpResponseMessage CreateBread([FromBody]Bread bread)
         {
-            if (bread.Id == 0)
-            {
-                _bookingFacade.AddBread(bread);
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else
-            {
-                if (!_bookingFacade.UpdateBread(bread))
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
+            var id = _bookingFacade.AddBread(bread);
+            var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
+            response.Headers.Location = new System.Uri($"api/breads/item/{id}");
+            return response;
+        }
 
+        [Route("api/breads/item/{id}")]
+        [HttpPut]
+        public HttpResponseMessage UpdateBread(int id, [FromBody] Bread bread)
+        {
+            bread.Id = id;
+            return _bookingFacade.UpdateBread(bread) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
+        }
+
+        [Route("api/breads/item/{id}")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteBread(int id)
+        {
+            return _bookingFacade.DeleteBread(id) ? new HttpResponseMessage(HttpStatusCode.OK) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
 }

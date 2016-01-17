@@ -35,6 +35,11 @@ namespace Backend.Business
             Price = bread.Price;
         }
 
+        public void MarkAsDeleted()
+        {
+            Deleted = DateTime.Now;
+        }
+
         public int Id { get; private set; }
         public string Name { get; private set; }
         public decimal Price { get; private set; }

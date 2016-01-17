@@ -20,6 +20,8 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
 
 wolfBookingApp.controller('homeController', function ($scope) { });
 wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
+    $scope.deletedBreads = [];
+
     $scope.loadBreads = function () {
         var httpRequest = $http({
             method: 'GET',
@@ -37,15 +39,33 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         };
     };
 
-    $scope.saveBreadsRow = function (rowEntity) {
+    $scope.persistUpdateBread = function (rowEntity) {
         var httpRequest = $http({
-            method: 'POST',
-            url: 'api/breads/item',
+            method: 'PUT',
+            url: 'api/breads/item/' + rowEntity.Id,
             data: rowEntity
         });
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
         return httpRequest;
     };
+
+    $scope.persistCreateBread = function (rowEntity) {
+        var httpRequest = $http({
+            method: 'POST',
+            url: 'api/breads',
+            data: rowEntity
+        });
+        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
+        return httpRequest;
+    };
+
+    $scope.persistDeleteBread = function (rowEntity) {
+        var httpRequest = $http({
+            method: 'DELETE',
+            url: 'api/breads/item/' + rowEntity.Id
+        });
+        return httpRequest;
+    }
 
     $scope.saveAllBreads = function () {
         var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
@@ -57,10 +77,19 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         var i;
         for (i = 0; i < dataDirtyRows.length; ++i) {
             var row = dataDirtyRows[i];
-            promises.push($scope.saveBreadsRow(row));
+            if (row.Id == 0)
+                promises.push($scope.persistCreateBread(row));
+            else
+                promises.push($scope.persistUpdateBread(row));
         }
+
+        for (i = 0; i < $scope.deletedBreads.length; ++i)
+            promises.push($scope.persistDeleteBread($scope.deletedBreads[i]));
+
         $q.all(promises).then(function () {
+            $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
             $scope.loadBreads();
+            $scope.deletedBreads = [];
         });
     };
 
@@ -76,6 +105,12 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         });
     };
 
+    $scope.deleteBread = function (row) {
+        var index = $scope.gridOptions.data.indexOf(row.entity);
+        $scope.deletedBreads.push(row.entity);
+        $scope.gridOptions.data.splice(index, 1);
+    };
+
     $scope.gridOptions = {
         data: [],
         enableHorizontalScrollbar: 0,
@@ -84,7 +119,9 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         columnDefs: [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
+            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true },
+            { name: 'Delete', cellTemplate: '<button class="gridDeleteButton" ng-click="grid.appScope.deleteBread(row)">Delete</button>'
+            }
         ]
     };
 

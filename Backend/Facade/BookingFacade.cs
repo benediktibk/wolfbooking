@@ -2,6 +2,7 @@
 using Backend.Persistence;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Backend.Facade
 {
@@ -27,9 +28,9 @@ namespace Backend.Facade
             return bread == null ? null : new Bread(bread);
         }
 
-        public void AddBread(Bread bread)
+        public int AddBread(Bread bread)
         {
-            _breadFactory.Create(bread);
+            return _breadFactory.Create(bread);
         }
 
         public bool UpdateBread(Bread bread)
@@ -41,6 +42,17 @@ namespace Backend.Facade
 
             oldBread.UpdateWith(bread);
             return _breadRepository.Update(oldBread.ToPersistence());
+        }
+
+        public bool DeleteBread(int id)
+        {
+            var bread = _breadFactory.Get(id);
+
+            if (bread == null)
+                return false;
+
+            bread.MarkAsDeleted();
+            return _breadRepository.Update(bread.ToPersistence());
         }
     }
 }

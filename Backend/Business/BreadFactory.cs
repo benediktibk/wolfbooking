@@ -26,10 +26,10 @@ namespace Backend.Business
             return bread == null ? null : new Bread(bread);
         }
 
-        public void Create(Facade.Bread bread)
+        public int Create(Facade.Bread bread)
         {
             var businessBread = new Bread(bread.Name, bread.Price);
-            _breadRepository.Add(businessBread.ToPersistence());
+            return _breadRepository.Add(businessBread.ToPersistence());
         }
     }
 }

@@ -14,13 +14,15 @@ namespace Backend.Persistence
             _databaseConnectionString = databaseConnectionString;
         }
 
-        public void Add(Bread bread)
+        public int Add(Bread bread)
         {
             using (var context = CreateContext())
             {
                 context.Breads.Add(bread);
                 context.SaveChanges();
             }
+
+            return bread.Id;
         }
 
         public void UpdateDates(Bread bread)
@@ -36,21 +38,16 @@ namespace Backend.Persistence
 
         public bool Update(Bread bread)
         {
-            try
+            int count;
+
+            using (var context = CreateContext())
             {
-                using (var context = CreateContext())
-                {
-                    context.Breads.Attach(bread);
-                    context.Entry(bread).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception)
-            {
-                return false;
+                context.Breads.Attach(bread);
+                context.Entry(bread).State = EntityState.Modified;
+                count = context.SaveChanges();
             }
 
-            return true;
+            return count == 1;
         }
 
         public Bread Get(int id)
