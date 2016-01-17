@@ -35,14 +35,22 @@ namespace Frontend.Controllers
             return bread;
         }
 
-        [Route("api/breads/item/{id}")]
+        [Route("api/breads/item")]
         [HttpPost]
-        public HttpResponseMessage UpdateBreadById(int id, [FromBody]Bread bread)
+        public HttpResponseMessage UpdateBreadById([FromBody]Bread bread)
         {
-            if (!_bookingFacade.UpdateBread(bread))
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            if (bread.Id == 0)
+            {
+                _bookingFacade.AddBread(bread);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                if (!_bookingFacade.UpdateBread(bread))
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
 
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

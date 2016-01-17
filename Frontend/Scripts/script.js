@@ -19,16 +19,13 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
 })
 
 wolfBookingApp.controller('homeController', function ($scope) { });
-wolfBookingApp.controller('breadsController', function ($scope, $http) {
-    $scope.breads = [];
-
+wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     $scope.loadBreads = function () {
         var httpRequest = $http({
             method: 'GET',
             url: 'api/breads/all'
         }).then(function (data) {
-            $scope.breads = data.data;
-            $scope.fillBreadsTable();
+            $scope.gridOptions.data = data.data;
         })
     };
 
@@ -36,21 +33,18 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         var rowHeight = 30;
         var headerRowHeight = 33;
         return {
-            height: ($scope.breads.length * rowHeight + headerRowHeight) + "px"
+            height: ($scope.gridOptions.data.length * rowHeight + headerRowHeight) + "px"
         };
-    };
-
-    $scope.fillBreadsTable = function () {
-        $scope.gridOptions.data = $scope.breads
     };
 
     $scope.saveBreadsRow = function (rowEntity) {
         var httpRequest = $http({
             method: 'POST',
-            url: 'api/breads/item/' + rowEntity.Id,
+            url: 'api/breads/item',
             data: rowEntity
         });
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
+        return httpRequest;
     };
 
     $scope.saveAllBreads = function () {
@@ -58,20 +52,32 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         var dataDirtyRows = dirtyRows.map(function (gridRow) {
             return gridRow.entity;
         });
+
+        var promises = [];
         var i;
-        for (i = 0; i < dataDirtyRows.length; ++i)
-            $scope.saveBreadsRow(dataDirtyRows[i]);
-        $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
+        for (i = 0; i < dataDirtyRows.length; ++i) {
+            var row = dataDirtyRows[i];
+            promises.push($scope.saveBreadsRow(row));
+        }
+        $q.all(promises).then(function () {
+            $scope.loadBreads();
+        });
     };
 
     $scope.cancelBreadChanges = function () {
         $scope.loadBreads();
     }
 
-    $scope.loadBreads();
+    $scope.addBread = function () {
+        $scope.gridOptions.data.push({
+            Id: 0,
+            Name: '',
+            Price: ''
+        });
+    };
 
     $scope.gridOptions = {
-        data: $scope.breads,
+        data: [],
         enableHorizontalScrollbar: 0,
         enableVerticalScrollbar: 2,
         rowEditWaitInterval: -1,
@@ -81,6 +87,8 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
             { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
         ]
     };
+
+    $scope.loadBreads();
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;

@@ -13,7 +13,7 @@ namespace Backend.Business
             Deleted = bread.Deleted;
         }
 
-        public Bread(int id, string name, decimal price)
+        public Bread(string name, decimal price)
         {
             Name = name;
             Price = price;

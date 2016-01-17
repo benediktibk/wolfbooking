@@ -27,6 +27,11 @@ namespace Backend.Facade
             return bread == null ? null : new Bread(bread);
         }
 
+        public void AddBread(Bread bread)
+        {
+            _breadFactory.Create(bread);
+        }
+
         public bool UpdateBread(Bread bread)
         {
             var oldBread = _breadFactory.Get(bread.Id);

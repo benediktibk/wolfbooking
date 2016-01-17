@@ -5,12 +5,7 @@
     margin-right: auto;
 }
 
-#breadsSaveButton {
-    float: right;
-    margin: 5px;
-}
-
-#breadsCancelButton {
+.breadsButton {
     float: right;
     margin: 5px;
 }
