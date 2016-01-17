@@ -4,6 +4,7 @@ using System.Net;
 using Backend;
 using Backend.Facade;
 using System.Net.Http;
+using Facade.Controllers;
 
 namespace Frontend.Controllers
 {
@@ -41,7 +42,7 @@ namespace Frontend.Controllers
         {
             var id = _bookingFacade.AddBread(bread);
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
-            response.Headers.Location = new System.Uri($"api/breads/item/{id}");
+            response.Headers.Location = UrlHelper.CreateCompleteUrl($"api/breads/item/{id}");
             return response;
         }
 
