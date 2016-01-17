@@ -114,14 +114,15 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     $scope.gridOptions = {
         data: [],
         enableHorizontalScrollbar: 0,
-        enableVerticalScrollbar: 2,
+        enableVerticalScrollbar: 0,
         rowEditWaitInterval: -1,
         columnDefs: [
             { name: 'Id', field: 'Id', visible: false },
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="breadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true },
-            { name: 'Delete', cellTemplate: '<button class="gridDeleteButton" ng-click="grid.appScope.deleteBread(row)">Delete</button>' }
-        ]
+            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
+        ],
+        enableColumnMenus: false
     };
 
     $scope.loadBreads();
