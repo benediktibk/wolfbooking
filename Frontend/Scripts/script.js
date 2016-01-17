@@ -53,13 +53,24 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
     };
 
+    $scope.saveAllBreads = function () {
+        var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
+        var dataDirtyRows = dirtyRows.map(function (gridRow) {
+            return gridRow.entity;
+        });
+        var i;
+        for (i = 0; i < dataDirtyRows.length; ++i)
+            $scope.saveBreadsRow(dataDirtyRows[i]);
+        $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
+    };
+
     $scope.loadBreads();
 
     $scope.gridOptions = {
         data: $scope.breads,
         enableHorizontalScrollbar: 0,
         enableVerticalScrollbar: 2,
-       // rowEditWaitInterval: -1,
+        rowEditWaitInterval: -1,
         columnDefs: [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
