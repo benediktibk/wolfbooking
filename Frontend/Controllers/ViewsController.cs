@@ -4,9 +4,9 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 
-namespace Facade.Controllers
+namespace Frontend.Controllers
 {
-    public class ViewsController : ApiController
+    public class ViewsController : Controller
     {
         public ViewsController()
         { }
@@ -14,13 +14,13 @@ namespace Facade.Controllers
         [Route("views/{view}")]
         public HttpResponseMessage GetView(string view)
         {
-            return GetFile($"~/Views/{view}.html");
+            return CreateResponseMessageFromFile($"~/Views/{view}.html");
         }
 
         [Route("")]
         public HttpResponseMessage GetIndex()
         {
-            return GetFile($"~/Views/index.html");
+            return CreateResponseMessageFromFile($"~/Views/index.html");
         }
 
         [Route("home")]
@@ -35,12 +35,13 @@ namespace Facade.Controllers
             return GetIndex();
         }
 
-        private HttpResponseMessage GetFile(string fileName)
+        private HttpResponseMessage CreateResponseMessageFromFile(string fileName)
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(fileName));
             response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            LogDebug(fileContent);
             return response;
         }
     }

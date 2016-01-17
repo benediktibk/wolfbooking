@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Net.Http.Headers;
+using Frontend.Controllers;
 
 namespace Frontend
 {
@@ -12,6 +11,7 @@ namespace Frontend
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.MessageHandlers.Add(new LoggingMessageHandler());
         }
     }
 }

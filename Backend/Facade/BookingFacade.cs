@@ -17,9 +17,9 @@ namespace Backend.Facade
             _breadRepository = breadRepository;
         }
 
-        public IEnumerable<Bread> GetCurrentAvailableBreads()
+        public IList<Bread> GetCurrentAvailableBreads()
         {
-            return _breadFactory.GetCurrentAvailableBreads().Select(x => new Bread(x));
+            return _breadFactory.GetCurrentAvailableBreads().Select(x => new Bread(x)).ToList();
         }
 
         public Bread GetBread(int id)
