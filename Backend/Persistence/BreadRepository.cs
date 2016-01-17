@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace Backend.Persistence
 {
@@ -31,6 +32,25 @@ namespace Backend.Persistence
                 context.Entry(bread).Property(x => x.Deleted).IsModified = true;
                 context.SaveChanges();
             }
+        }
+
+        public bool Update(Bread bread)
+        {
+            try
+            {
+                using (var context = CreateContext())
+                {
+                    context.Breads.Attach(bread);
+                    context.Entry(bread).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public Bread Get(int id)

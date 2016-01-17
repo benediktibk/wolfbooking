@@ -54,7 +54,7 @@ namespace Backend
             get
             {
                 if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadFactory);
+                    _bookingFacade = new BookingFacade(BreadFactory, BreadRepository);
 
                 return _bookingFacade;
             }

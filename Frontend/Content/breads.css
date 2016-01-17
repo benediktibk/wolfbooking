@@ -4,3 +4,8 @@
     margin-left: auto ;
     margin-right: auto ;
 }
+
+.ui-grid-row-dirty .ui-grid-cell {
+    color: #94c11c;
+    background-color: #ccc;
+}

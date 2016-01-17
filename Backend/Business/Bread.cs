@@ -13,7 +13,7 @@ namespace Backend.Business
             Deleted = bread.Deleted;
         }
 
-        public Bread(string name, decimal price)
+        public Bread(int id, string name, decimal price)
         {
             Name = name;
             Price = price;
@@ -23,7 +23,16 @@ namespace Backend.Business
 
         public Persistence.Bread ToPersistence()
         {
-            return new Persistence.Bread { Id = Id, Name = Name, Price = Price };
+            return new Persistence.Bread { Id = Id, Name = Name, Price = Price, Created = Created, Deleted = Deleted};
+        }
+
+        public void UpdateWith(Facade.Bread bread)
+        {
+            if (bread.Id != Id)
+                throw new ArgumentException("bread", "wrong id");
+
+            Name = bread.Name;
+            Price = bread.Price;
         }
 
         public int Id { get; private set; }

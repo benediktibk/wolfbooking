@@ -1,4 +1,4 @@
-﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid', 'ui.grid.autoResize']);
+﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit']);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -28,6 +28,7 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
             url: 'api/breads/all'
         }).then(function (data) {
             $scope.breads = data.data;
+            $scope.fillBreadsTable();
         })
     };
 
@@ -39,5 +40,35 @@ wolfBookingApp.controller('breadsController', function ($scope, $http) {
         };
     };
 
+    $scope.fillBreadsTable = function () {
+        $scope.gridOptions.data = $scope.breads
+    };
+
+    $scope.saveBreadsRow = function (rowEntity) {
+        var httpRequest = $http({
+            method: 'POST',
+            url: 'api/breads/item/' + rowEntity.Id,
+            data: rowEntity
+        });
+        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
+    };
+
     $scope.loadBreads();
+
+    $scope.gridOptions = {
+        data: $scope.breads,
+        enableHorizontalScrollbar: 0,
+        enableVerticalScrollbar: 2,
+       // rowEditWaitInterval: -1,
+        columnDefs: [
+            { name: 'Id', field: 'Id', visible: false },
+            { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
+        ]
+    };
+
+    $scope.gridOptions.onRegisterApi = function (gridApi) {
+        $scope.gridApi = gridApi;
+        gridApi.rowEdit.on.saveRow($scope, $scope.saveBreadsRow);
+    };
 });
