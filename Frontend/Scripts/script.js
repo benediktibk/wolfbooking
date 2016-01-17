@@ -120,8 +120,7 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
             { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true },
-            { name: 'Delete', cellTemplate: '<button class="gridDeleteButton" ng-click="grid.appScope.deleteBread(row)">Delete</button>'
-            }
+            { name: 'Delete', cellTemplate: '<button class="gridDeleteButton" ng-click="grid.appScope.deleteBread(row)">Delete</button>' }
         ]
     };
 
