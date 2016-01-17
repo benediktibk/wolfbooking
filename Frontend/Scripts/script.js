@@ -1,4 +1,4 @@
-﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit']);
+﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit']);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -28,6 +28,11 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
             url: 'api/breads/all'
         }).then(function (data) {
             $scope.gridOptions.data = data.data;
+            var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
+            var dataDirtyRows = dirtyRows.map(function (gridRow) {
+                return gridRow.entity;
+            });
+            $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
         })
     };
 
@@ -67,7 +72,7 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         return httpRequest;
     }
 
-    $scope.saveAllBreads = function () {
+    $scope.persistAllBreadChanges = function () {
         var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
         var dataDirtyRows = dirtyRows.map(function (gridRow) {
             return gridRow.entity;
@@ -87,13 +92,12 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
             promises.push($scope.persistDeleteBread($scope.deletedBreads[i]));
 
         $q.all(promises).then(function () {
-            $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
             $scope.loadBreads();
             $scope.deletedBreads = [];
         });
     };
 
-    $scope.cancelBreadChanges = function () {
+    $scope.cancelAllBreadChanges = function () {
         $scope.loadBreads();
     }
 
@@ -125,10 +129,10 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
         enableColumnMenus: false
     };
 
-    $scope.loadBreads();
-
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;
         gridApi.rowEdit.on.saveRow($scope, $scope.saveBreadsRow);
     };
+
+    $scope.loadBreads();
 });
