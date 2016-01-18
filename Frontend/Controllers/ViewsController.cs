@@ -41,7 +41,6 @@ namespace Frontend.Controllers
             var fileContent = File.ReadAllText(HttpContext.Current.Server.MapPath(fileName));
             response.Content = new StringContent(fileContent);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-            LogDebug(fileContent);
             return response;
         }
     }

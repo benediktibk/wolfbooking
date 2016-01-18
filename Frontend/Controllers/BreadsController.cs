@@ -22,9 +22,7 @@ namespace Frontend.Controllers
         public IList<Bread> GetAllBreads()
         {
             LogDebug("fetching all currently available breads");
-            var result = _bookingFacade.GetCurrentAvailableBreads();
-            LogDebug($"returning [{result.Select(x => $"{{{x.ToString()}}}").Aggregate((a, b) => $"{a}, {b}")}]");
-            return result;
+            return _bookingFacade.GetCurrentAvailableBreads();
         }
 
         [Route("api/breads/item/{id}")]
@@ -36,8 +34,7 @@ namespace Frontend.Controllers
 
             if (bread == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
-
-            LogDebug($"returning {{{bread}}}");
+            
             return bread;
         }
 

@@ -11,10 +11,21 @@ namespace Frontend.Controllers
 
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            logger.Debug($"{request.RequestUri} - {request.Method}");
+            logger.Debug($"{request.Method} {request.RequestUri}");
+
             var response = await base.SendAsync(request, cancellationToken);
+            var responseContent = response.Content?.ReadAsStringAsync().Result;
+
             logger.Debug($"{(int)response.StatusCode} - {response.StatusCode}");
+            if (!string.IsNullOrEmpty(responseContent))
+                logger.Debug($"\n{responseContent}");
+
             return response;
+        }
+
+        private void LogRequestAndResponse(HttpRequestMessage request, HttpResponseMessage response)
+        {
+
         }
     }
 }
