@@ -19,6 +19,11 @@ namespace Backend.Business
             Deleted = DateTime.MaxValue;
         }
 
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public decimal Price { get; private set; }
+        public DateTime Deleted { get; private set; }
+
         public Persistence.Bread ToPersistence()
         {
             return new Persistence.Bread { Id = Id, Name = Name, Price = Price, Deleted = Deleted};
@@ -37,10 +42,5 @@ namespace Backend.Business
         {
             Deleted = DateTime.Now;
         }
-
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public decimal Price { get; private set; }
-        public DateTime Deleted { get; private set; }
     }
 }

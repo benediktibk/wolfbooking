@@ -10,11 +10,13 @@ namespace Backend.Facade
     {
         private readonly BreadFactory _breadFactory;
         private readonly BreadRepository _breadRepository;
+        private readonly UserFactory _userFactory;
 
-        public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository)
+        public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository, UserFactory userFactory)
         {
             _breadFactory = breadFactory;
             _breadRepository = breadRepository;
+            _userFactory = userFactory;
         }
 
         public IList<Bread> GetCurrentAvailableBreads()
@@ -53,6 +55,16 @@ namespace Backend.Facade
 
             bread.MarkAsDeleted();
             return _breadRepository.Update(bread.ToPersistence());
+        }
+
+        public bool IsLoginValid(string login, string password)
+        {
+            var user = _userFactory.GetByLogin(login);
+
+            if (user == null)
+                return false;
+
+            return user.Password == password;
         }
     }
 }

@@ -7,11 +7,11 @@ namespace Backend.Persistence
 {
     public class BreadRepository
     {
-        private string _databaseConnectionString;
+        private WolfBookingContextFactory _contextFactory;
 
-        public BreadRepository(string databaseConnectionString)
+        public BreadRepository(WolfBookingContextFactory contextFactory)
         {
-            _databaseConnectionString = databaseConnectionString;
+            _contextFactory = contextFactory;
         }
 
         public int Add(Bread bread)
@@ -62,7 +62,7 @@ namespace Backend.Persistence
 
         private WolfBookingContext CreateContext()
         {
-            return Factory.CreateWolfBookingContext();
+            return _contextFactory.Create();
         }
     }
 }

@@ -1,13 +1,19 @@
-﻿using System;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 
 namespace Backend.Persistence
 {
-    class WolfBookingContextFactory : IDbContextFactory<WolfBookingContext>
+    public class WolfBookingContextFactory : IDbContextFactory<WolfBookingContext>
     {
+        private string _databaseConnectionString;
+
+        public WolfBookingContextFactory(string databaseConnectionString)
+        {
+            _databaseConnectionString = databaseConnectionString;
+        }
+
         public WolfBookingContext Create()
         {
-            return Factory.CreateWolfBookingContext();
+            return new WolfBookingContext(_databaseConnectionString);
         }
     }
 }

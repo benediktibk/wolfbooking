@@ -4,7 +4,6 @@ using System.Net;
 using Backend;
 using Backend.Facade;
 using System.Net.Http;
-using System.Linq;
 
 namespace Frontend.Controllers
 {
