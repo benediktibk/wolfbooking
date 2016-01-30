@@ -13,12 +13,17 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
         .when('/breads', {
             templateUrl: 'views/breads',
             controller: 'breadsController'
+        })
+        .when('/login', {
+            templateUrl: 'views/login',
+            controller: 'loginController'
         });
 
     $locationProvider.html5Mode(true);
 })
 
 wolfBookingApp.controller('homeController', function ($scope) { });
+
 wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     $scope.deletedBreads = [];
 
@@ -135,4 +140,12 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     };
 
     $scope.loadBreads();
+});
+
+wolfBookingApp.controller('loginController', function ($scope) {
+
+    $scope.login = function () {
+        var username = $scope.username;
+        var password = $scope.password;
+    };
 });

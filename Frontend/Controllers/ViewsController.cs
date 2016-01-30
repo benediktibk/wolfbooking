@@ -35,6 +35,12 @@ namespace Frontend.Controllers
             return GetIndex();
         }
 
+        [Route("login")]
+        public HttpResponseMessage GetLogin()
+        {
+            return GetIndex();
+        }
+
         private HttpResponseMessage CreateResponseMessageFromFile(string fileName)
         {
             var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);

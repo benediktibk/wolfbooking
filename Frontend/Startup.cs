@@ -13,9 +13,6 @@ namespace Frontend
 {
     public partial class Startup
     {
-        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-        public static string PublicClientId { get; private set; }
-
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
@@ -23,15 +20,14 @@ namespace Frontend
 
         public void ConfigureAuth(IAppBuilder app)
         {
-            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
+                TokenEndpointPath = new PathString("/authtoken"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new AuthorizationServerProvider(Factory.BookingFacade)
             };
-
-            // Token Generation
+            
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 

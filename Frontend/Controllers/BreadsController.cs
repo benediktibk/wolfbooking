@@ -7,6 +7,7 @@ using System.Net.Http;
 
 namespace Frontend.Controllers
 {
+    [Authorize]
     public class BreadsController : Controller
     {
         private BookingFacade _bookingFacade;
