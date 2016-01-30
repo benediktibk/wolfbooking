@@ -62,6 +62,7 @@
     <Compile Include="Business\BreadFactory.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="Business\UserFactory.cs" />
+    <Compile Include="DatabaseConfiguration.cs" />
     <Compile Include="Facade\BookingFacade.cs" />
     <Compile Include="Facade\Bread.cs" />
     <Compile Include="Facade\User.cs" />
