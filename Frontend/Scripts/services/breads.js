@@ -1,11 +1,12 @@
 ﻿var breads = angular.module('breads', []);
-breads.factory('breads', function ($http) {
+breads.factory('breads', function ($http, authentication) {
     var breadsFactory = {};
 
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/breads/all'
+            url: 'api/breads/all',
+            headers: authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;

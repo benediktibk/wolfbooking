@@ -28,15 +28,24 @@ authentication.factory('authentication', function ($http) {
         return httpRequest;
     }
 
-    var logout = function ()
-    {
+    var logout = function () {
         _isAuthenticated = false;
         _username = '';
         _token = '';
     }
 
+    var getHttpHeaderWithAuthorization = function () {
+        var headers = {};
+
+        if (_isAuthenticated)
+            headers.Authorization = 'Bearer ' + _token;
+
+        return headers;
+    }
+
     authenticationFactory.login = login;
     authenticationFactory.logout = logout;
+    authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
 
     return authenticationFactory;
 });
