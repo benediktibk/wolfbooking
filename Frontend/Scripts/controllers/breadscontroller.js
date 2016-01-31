@@ -1,8 +1,8 @@
-﻿wolfBookingApp.controller('breadsController', function ($scope, $http, $q, breads) {
+﻿wolfBookingApp.controller('breadsController', function ($scope, $q, breads) {
     $scope.deletedBreads = [];
 
     $scope.loadBreads = function () {
-        breads.loadAll().then(function (data) {
+        breads.getAll().then(function (data) {
             $scope.gridOptions.data = data.data;
             var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
             var dataDirtyRows = dirtyRows.map(function (gridRow) {
@@ -21,30 +21,19 @@
     };
 
     $scope.persistUpdateBread = function (rowEntity) {
-        var httpRequest = $http({
-            method: 'PUT',
-            url: 'api/breads/item/' + rowEntity.Id,
-            data: rowEntity
-        });
+        var httpRequest = breads.updateItem(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
         return httpRequest;
     };
 
     $scope.persistCreateBread = function (rowEntity) {
-        var httpRequest = $http({
-            method: 'POST',
-            url: 'api/breads',
-            data: rowEntity
-        });
+        var httpRequest = breads.createItem(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
         return httpRequest;
     };
 
     $scope.persistDeleteBread = function (rowEntity) {
-        var httpRequest = $http({
-            method: 'DELETE',
-            url: 'api/breads/item/' + rowEntity.Id
-        });
+        var httpRequest = breads.deleteItem(rowEntity);
         return httpRequest;
     }
 
