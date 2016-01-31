@@ -11,12 +11,14 @@ namespace Backend.Facade
         private readonly BreadFactory _breadFactory;
         private readonly BreadRepository _breadRepository;
         private readonly UserFactory _userFactory;
+        private readonly RoleFactory _roleFactory;
 
-        public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository, UserFactory userFactory)
+        public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository, UserFactory userFactory, RoleFactory roleFactory)
         {
             _breadFactory = breadFactory;
             _breadRepository = breadRepository;
             _userFactory = userFactory;
+            _roleFactory = roleFactory;
         }
 
         public IList<Bread> GetCurrentAvailableBreads()
@@ -63,8 +65,19 @@ namespace Backend.Facade
 
             if (user == null)
                 return false;
-
+            
             return user.Password == password;
+        }
+
+        public List<string> GetRolesForUser(string login)
+        {
+            var user = _userFactory.GetByLogin(login);
+
+            if (user == null)
+                return new List<string>();
+
+            var roles = _roleFactory.GetRolesForUser(user.Id);
+            return roles.Select(role => role.Name).ToList();
         }
     }
 }

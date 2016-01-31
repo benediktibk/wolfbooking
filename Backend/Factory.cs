@@ -12,8 +12,10 @@ namespace Backend
         private static WolfBookingContextFactory _contextFactory;
         private static BreadRepository _breadRepository;
         private static UserRepository _userRepository;
+        private static RoleRepository _roleRepository;
         private static BreadFactory _breadFactory;
         private static UserFactory _userFactory;
+        private static RoleFactory _roleFactory;
         private static BookingFacade _bookingFacade;
 
         public static string DatabaseConnectionString
@@ -63,6 +65,17 @@ namespace Backend
             }
         }
 
+        public static RoleRepository RoleRepository
+        {
+            get
+            {
+                if (_roleRepository == null)
+                    _roleRepository = new RoleRepository(WolfBookingContextFactory);
+
+                return _roleRepository;
+            }
+        }
+
         public static BreadFactory BreadFactory
         {
             get
@@ -85,12 +98,23 @@ namespace Backend
             }
         }
 
+        public static RoleFactory RoleFactory
+        {
+            get
+            {
+                if (_roleFactory == null)
+                    _roleFactory = new RoleFactory(RoleRepository);
+
+                return _roleFactory;
+            }
+        }
+
         public static BookingFacade BookingFacade
         {
             get
             {
                 if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadFactory, BreadRepository, UserFactory);
+                    _bookingFacade = new BookingFacade(BreadFactory, BreadRepository, UserFactory, RoleFactory);
 
                 return _bookingFacade;
             }

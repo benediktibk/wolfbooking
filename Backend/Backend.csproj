@@ -61,6 +61,7 @@
     <Compile Include="Business\Bread.cs" />
     <Compile Include="Business\BreadFactory.cs" />
     <Compile Include="Business\Role.cs" />
+    <Compile Include="Business\RoleFactory.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="Business\UserFactory.cs" />
     <Compile Include="DatabaseConfiguration.cs" />
