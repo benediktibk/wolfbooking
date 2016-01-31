@@ -11,12 +11,6 @@
     <link rel="stylesheet" href="Content/font-awesome.min.css" />
     <link rel="stylesheet" href="Content/breads.css" />
     <link rel="stylesheet" href="Content/common.css" />
-
-    <script src="Scripts/angular.min.js"></script>
-    <script src="Scripts/angular-route.min.js"></script>
-    <script src="Scripts/angular-animate.min.js"></script>
-    <script src="Scripts/ui-grid.min.js"></script>
-    <script src="Scripts/script.js"></script>
 </head>
 <body ng-controller="homeController">
     <nav class="navbar navbar-default">
@@ -35,5 +29,19 @@
     <div id="mainDiv">
         <div ng-view></div>
     </div>
+
+    <!-- 3rd party libraries -->
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="Scripts/angular-animate.min.js"></script>
+    <script src="Scripts/ui-grid.min.js"></script>
+
+    <!-- Main script -->
+    <script src="Scripts/wolfbooking.js"></script>
+
+    <!-- Controllers -->
+    <script src="Scripts/controllers/homeController.js"></script>
+    <script src="Scripts/controllers/breadsController.js"></script>
+    <script src="Scripts/controllers/loginController.js"></script>
 </body>
 </html>

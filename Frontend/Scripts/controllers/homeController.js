@@ -1,0 +1,1 @@
+﻿wolfBookingApp.controller('homeController', function ($scope) { });

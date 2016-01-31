@@ -1,30 +1,4 @@
-﻿var wolfBookingApp = angular.module('wolfBooking', ['ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit']);
-
-wolfBookingApp.config(function ($routeProvider, $locationProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'views/home',
-            controller: 'homeController'
-        })
-        .when('/home', {
-            templateUrl: 'views/home',
-            controller: 'homeController'
-        })
-        .when('/breads', {
-            templateUrl: 'views/breads',
-            controller: 'breadsController'
-        })
-        .when('/login', {
-            templateUrl: 'views/login',
-            controller: 'loginController'
-        });
-
-    $locationProvider.html5Mode(true);
-})
-
-wolfBookingApp.controller('homeController', function ($scope) { });
-
-wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
+﻿wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     $scope.deletedBreads = [];
 
     $scope.loadBreads = function () {
@@ -140,27 +114,4 @@ wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
     };
 
     $scope.loadBreads();
-});
-
-wolfBookingApp.controller('loginController', function ($scope, $http) {
-
-    $scope.login = function () {
-        var username = $scope.username;
-        var password = $scope.password;
-        var data = "grant_type=password&username=" + username + "&password=" + password;
-        var httpRequest = $http({
-            method: 'POST',
-            url: 'token',
-            data: data,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-        
-        httpRequest.success(function (response) {
-            $window.alert('login succeeded, token ' + response.access_token);
-        }).error(function (err, status) {
-            $window.alert('login failed');
-        });
-    };
 });
