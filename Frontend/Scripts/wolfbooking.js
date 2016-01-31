@@ -1,6 +1,9 @@
 ﻿var wolfBookingApp = angular.module(
     'wolfBooking', 
-    ['ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit']);
+    [
+    'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit',
+    'breads'
+    ]);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider

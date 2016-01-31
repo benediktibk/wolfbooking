@@ -1,11 +1,8 @@
-﻿wolfBookingApp.controller('breadsController', function ($scope, $http, $q) {
+﻿wolfBookingApp.controller('breadsController', function ($scope, $http, $q, breads) {
     $scope.deletedBreads = [];
 
     $scope.loadBreads = function () {
-        var httpRequest = $http({
-            method: 'GET',
-            url: 'api/breads/all'
-        }).then(function (data) {
+        breads.loadAll().then(function (data) {
             $scope.gridOptions.data = data.data;
             var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
             var dataDirtyRows = dirtyRows.map(function (gridRow) {
