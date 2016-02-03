@@ -12,6 +12,8 @@ namespace Frontend.Controllers
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             logger.Debug($"{request.Method} {request.RequestUri}");
+            if (request.Headers.Authorization != null)
+                logger.Debug($"{request.Headers.Authorization.Scheme} {request.Headers.Authorization.Parameter}");
 
             var response = await base.SendAsync(request, cancellationToken);
             var responseContent = response.Content?.ReadAsStringAsync().Result;
