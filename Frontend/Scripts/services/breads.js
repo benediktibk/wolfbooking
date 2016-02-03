@@ -16,6 +16,7 @@ breads.factory('breads', function ($http, authentication) {
         var httpRequest = $http({
             method: 'PUT',
             url: 'api/breads/item/' + bread.Id,
+            headers: authentication.getHttpHeaderWithAuthorization(),
             data: bread
         });
 
@@ -26,6 +27,7 @@ breads.factory('breads', function ($http, authentication) {
         var httpRequest = $http({
             method: 'POST',
             url: 'api/breads',
+            headers: authentication.getHttpHeaderWithAuthorization(),
             data: bread
         });
 
@@ -35,7 +37,8 @@ breads.factory('breads', function ($http, authentication) {
     var deleteItem = function (bread) {
         var httpRequest = $http({
             method: 'DELETE',
-            url: 'api/breads/item/' + bread.Id
+            url: 'api/breads/item/' + bread.Id,
+            headers: authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
