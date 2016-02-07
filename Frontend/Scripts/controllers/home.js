@@ -1,1 +1,1 @@
-﻿wolfBookingApp.controller('homeController', function ($scope) { });
+﻿wolfBookingApp.controller('homeController', function ($scope, pagehistory) {});
