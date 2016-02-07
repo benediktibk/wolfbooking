@@ -1,5 +1,10 @@
-﻿wolfBookingApp.controller('usersController', function ($scope, $q, users) {
+﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication) {
     $scope.deleted = [];
+
+    if (!authentication.isAuthenticated()) {
+        $location.path('/login');
+        return;
+    }
 
     $scope.loadAll = function () {
         users.getAll().then(function (data) {
