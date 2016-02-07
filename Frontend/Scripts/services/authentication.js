@@ -5,6 +5,7 @@ authentication.factory('authentication', function ($http) {
     var _isAuthenticated = false;
     var _username = '';
     var _token = '';
+    var _roles = [];
 
     var login = function (username, password) {
         var data = "grant_type=password&username=" + username + "&password=" + password;
@@ -37,15 +38,20 @@ authentication.factory('authentication', function ($http) {
     var getHttpHeaderWithAuthorization = function () {
         var headers = {};
 
-        if (_isAuthenticated)
+        if (isAuthenticated())
             headers.Authorization = 'Bearer ' + _token;
 
         return headers;
     }
 
+    var isAuthenticated = function () {
+        return _isAuthenticated;
+    }
+
     authenticationFactory.login = login;
     authenticationFactory.logout = logout;
     authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
+    authenticationFactory.isAuthenticated = isAuthenticated;
 
     return authenticationFactory;
 });
