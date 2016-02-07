@@ -205,7 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\AuthorizationServerProvider.cs" />
     <Compile Include="Controllers\BreadsController.cs" />
     <Compile Include="Controllers\Controller.cs" />
@@ -230,6 +230,7 @@
     <Content Include="Content\ui-grid.css" />
     <Content Include="Content\ui-grid.min.css" />
     <Content Include="Content\ui-grid.svg" />
+    <Content Include="Content\users.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -289,6 +290,7 @@
     <Content Include="Scripts\controllers\breads.js" />
     <Content Include="Scripts\controllers\home.js" />
     <Content Include="Scripts\controllers\login.js" />
+    <Content Include="Scripts\controllers\users.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1062,12 +1064,14 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\services\authentication.js" />
     <Content Include="Scripts\services\breads.js" />
+    <Content Include="Scripts\services\users.js" />
     <Content Include="Scripts\wolfbooking.js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />
     <Content Include="Views\breads.html" />
     <Content Include="Views\home.html" />
     <Content Include="Views\login.html" />
+    <Content Include="Views\users.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

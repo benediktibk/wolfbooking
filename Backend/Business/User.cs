@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Backend.Facade;
 
 namespace Backend.Business
 {
@@ -11,6 +12,13 @@ namespace Backend.Business
             Login = user.Login;
             Password = user.Password;
             Deleted = user.Deleted;
+        }
+
+        public User(string login, string password)
+        {
+            Login = login;
+            Password = password;
+            Deleted = DateTime.MaxValue;
         }
 
         public int Id { get; private set; }
@@ -27,6 +35,20 @@ namespace Backend.Business
                 Password = Password,
                 Deleted = Deleted
             };
+        }
+
+        public void UpdateWith(Facade.User user)
+        {
+            if (user.Id != Id)
+                throw new ArgumentException("user", "wrong id");
+
+            Login = user.Login;
+            Password = user.Password;
+        }
+
+        public void MarkAsDeleted()
+        {
+            Deleted = DateTime.Now;
         }
     }
 }

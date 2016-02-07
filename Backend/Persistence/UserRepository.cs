@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Backend.Persistence
@@ -27,6 +29,52 @@ namespace Backend.Persistence
 
                 return queryResult.FirstOrDefault();
             }
+        }
+
+        public User Get(int id)
+        {
+            using (var context = CreateContext())
+                return context.Users.Find(id);
+        }
+
+        public int Add(User user)
+        {
+            using (var context = CreateContext())
+            {
+                context.Users.Add(user);
+                context.SaveChanges();
+            }
+
+            return user.Id;
+        }
+
+        public IList<User> GetAvailableUsers(DateTime dateTime)
+        {
+            IList<User> result;
+
+            using (var context = CreateContext())
+            {
+                var queryResult = from user in context.Users
+                                  where user.Deleted > dateTime
+                                  select user;
+                result = queryResult.ToList();
+            }
+
+            return result;
+        }
+
+        public bool Update(User user)
+        {
+            int count;
+
+            using (var context = CreateContext())
+            {
+                context.Users.Attach(user);
+                context.Entry(user).State = EntityState.Modified;
+                count = context.SaveChanges();
+            }
+
+            return count == 1;
         }
 
         private WolfBookingContext CreateContext()

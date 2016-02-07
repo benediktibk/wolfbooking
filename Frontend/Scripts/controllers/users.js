@@ -1,8 +1,8 @@
-﻿wolfBookingApp.controller('breadsController', function ($scope, $q, breads) {
+﻿wolfBookingApp.controller('usersController', function ($scope, $q, users) {
     $scope.deleted = [];
 
     $scope.loadAll = function () {
-        breads.getAll().then(function (data) {
+        users.getAll().then(function (data) {
             $scope.gridOptions.data = data.data;
             var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
             var dataDirtyRows = dirtyRows.map(function (gridRow) {
@@ -21,19 +21,19 @@
     };
 
     $scope.persistUpdate = function (rowEntity) {
-        var httpRequest = breads.updateItem(rowEntity);
+        var httpRequest = users.updateItem(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
         return httpRequest;
     };
 
     $scope.persistCreate = function (rowEntity) {
-        var httpRequest = breads.createItem(rowEntity);
+        var httpRequest = users.createItem(rowEntity);
         $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
         return httpRequest;
     };
 
     $scope.persistDelete = function (rowEntity) {
-        var httpRequest = breads.deleteItem(rowEntity);
+        var httpRequest = users.deleteItem(rowEntity);
         return httpRequest;
     }
 
@@ -66,7 +66,7 @@
         $scope.loadAll();
     }
 
-    $scope.addBread = function () {
+    $scope.addUser = function () {
         $scope.gridOptions.data.push({
             Id: 0,
             Name: '',
@@ -74,7 +74,7 @@
         });
     };
 
-    $scope.deleteBread = function (row) {
+    $scope.deleteUser = function (row) {
         var index = $scope.gridOptions.data.indexOf(row.entity);
         $scope.deleted.push(row.entity);
         $scope.gridOptions.data.splice(index, 1);
@@ -87,9 +87,9 @@
         rowEditWaitInterval: -1,
         columnDefs: [
             { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="breadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
-            { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
+            { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true }
         ],
         enableColumnMenus: false
     };

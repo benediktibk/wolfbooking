@@ -4,6 +4,11 @@
     margin-right: auto;
 }
 
+.tableButton {
+    float: right;
+    margin: 5px;
+}
+
 .ui-grid-row-dirty .ui-grid-cell {
     color: #6600ff;
     background-color: #ccc;
