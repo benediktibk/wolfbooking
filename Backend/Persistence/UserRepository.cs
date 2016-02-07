@@ -34,7 +34,13 @@ namespace Backend.Persistence
         public User Get(int id)
         {
             using (var context = CreateContext())
-                return context.Users.Find(id);
+            {
+                var queryResult = from user in context.Users.Include(x => x.Roles)
+                                  where user.Id == id
+                                  select user;
+
+                return queryResult.FirstOrDefault();
+            }
         }
 
         public int Add(User user)
@@ -65,12 +71,15 @@ namespace Backend.Persistence
 
         public bool Update(User user)
         {
+            var roles = user.Roles.ToList();
+            user.Roles.Clear();
             int count;
 
             using (var context = CreateContext())
             {
                 context.Users.Attach(user);
                 context.Entry(user).State = EntityState.Modified;
+                user.Roles = roles;
                 count = context.SaveChanges();
             }
 

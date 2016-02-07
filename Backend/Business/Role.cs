@@ -10,5 +10,14 @@
 
         public int Id { get; private set; }
         public string Name { get; private set; }
+
+        public Persistence.Role ToPersistence()
+        {
+            return new Persistence.Role
+            {
+                Id = Id,
+                Name = Name
+            };
+        }
     }
 }

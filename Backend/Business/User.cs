@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Business
 {
@@ -40,7 +41,8 @@ namespace Backend.Business
                 Id = Id,
                 Login = Login,
                 Password = Password,
-                Deleted = Deleted
+                Deleted = Deleted,
+                Roles = _roles.Select(x => x.ToPersistence()).ToList()
             };
         }
 
