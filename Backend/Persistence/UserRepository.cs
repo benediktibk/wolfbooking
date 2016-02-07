@@ -20,7 +20,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                var queryResult = from user in context.Users
+                var queryResult = from user in context.Users.Include(x => x.Roles)
                                   where user.Login == login && user.Deleted > now
                                   select user;
 
@@ -54,7 +54,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                var queryResult = from user in context.Users
+                var queryResult = from user in context.Users.Include(x => x.Roles)
                                   where user.Deleted > dateTime
                                   select user;
                 result = queryResult.ToList();

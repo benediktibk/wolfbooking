@@ -2,7 +2,6 @@
 using Backend.Persistence;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace Backend.Facade
 {
@@ -16,6 +15,7 @@ namespace Backend.Facade
 
         public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository, UserFactory userFactory, RoleFactory roleFactory, UserRepository userRepository)
         {
+            _breadRepository = breadRepository;
             _breadFactory = breadFactory;
             _userRepository = userRepository;
             _userFactory = userFactory;
@@ -72,7 +72,7 @@ namespace Backend.Facade
             if (oldUser == null)
                 return false;
 
-            oldUser.UpdateWith(user);
+            oldUser.UpdateWith(user, _roleFactory);
             return _userRepository.Update(oldUser.ToPersistence());
         }
 

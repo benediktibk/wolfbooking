@@ -85,6 +85,18 @@
         $scope.gridOptions.data.splice(index, 1);
     };
 
+    /*$scope.toggleIsUser = function (row) {
+        row.entity.isUser = !row.entity.isUser;
+    }
+
+    $scope.toggleIsManager = function (row) {
+        row.entity.isManager = !row.entity.isManager;
+    }
+
+    $scope.toggleIsAdministrator = function (row) {
+        row.entity.isAdministrator = !row.entity.isAdministrator;
+    }*/
+
     $scope.gridOptions = {
         data: [],
         enableHorizontalScrollbar: 0,
@@ -94,7 +106,10 @@
             { name: 'Id', field: 'Id', visible: false },
             { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
             { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true }
+            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser">' },
+            { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager">' },
+            { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator">' }
         ],
         enableColumnMenus: false
     };
