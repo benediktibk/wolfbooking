@@ -20,10 +20,10 @@ namespace Backend.Business
                 _roles.Add(new Role(role));
         }
 
-        public User(string login, string password)
+        public User(Facade.User user)
         {
-            Login = login;
-            Password = password;
+            Login = user.Login;
+            Password = user.Password;
             Deleted = DateTime.MaxValue;
         }
 
@@ -34,29 +34,13 @@ namespace Backend.Business
 
         public IReadOnlyList<Role> Roles => _roles;
 
-        public Persistence.User ToPersistence()
-        {
-            return new Persistence.User
-            {
-                Id = Id,
-                Login = Login,
-                Password = Password,
-                Deleted = Deleted,
-                Roles = _roles.Select(x => x.ToPersistence()).ToList()
-            };
-        }
-
-        public void UpdateWith(Facade.User user, RoleFactory roleFactory)
+        public void UpdateWith(Facade.User user)
         {
             if (user.Id != Id)
                 throw new ArgumentException("user", "wrong id");
 
             Login = user.Login;
             Password = user.Password;
-            _roles = roleFactory.GetRolesByName(user.Roles);
-
-            if (_roles.Count != user.Roles.Count)
-                throw new ArgumentException("user", "user has invalid roles");
         }
 
         public void MarkAsDeleted()

@@ -5,6 +5,9 @@ namespace Backend.Persistence
 {
     public class Role
     {
+        public Role()
+        { }
+
         [Key]
         public int Id { get; set; }
         [Required]

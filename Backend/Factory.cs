@@ -13,9 +13,6 @@ namespace Backend
         private static BreadRepository _breadRepository;
         private static UserRepository _userRepository;
         private static RoleRepository _roleRepository;
-        private static BreadFactory _breadFactory;
-        private static UserFactory _userFactory;
-        private static RoleFactory _roleFactory;
         private static BookingFacade _bookingFacade;
 
         public static string DatabaseConnectionString
@@ -76,45 +73,12 @@ namespace Backend
             }
         }
 
-        public static BreadFactory BreadFactory
-        {
-            get
-            {
-                if (_breadFactory == null)
-                    _breadFactory = new BreadFactory(BreadRepository);
-
-                return _breadFactory;
-            }
-        }
-
-        public static UserFactory UserFactory
-        {
-            get
-            {
-                if (_userFactory == null)
-                    _userFactory = new UserFactory(UserRepository);
-
-                return _userFactory;
-            }
-        }
-
-        public static RoleFactory RoleFactory
-        {
-            get
-            {
-                if (_roleFactory == null)
-                    _roleFactory = new RoleFactory(RoleRepository);
-
-                return _roleFactory;
-            }
-        }
-
         public static BookingFacade BookingFacade
         {
             get
             {
                 if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadFactory, BreadRepository, UserFactory, RoleFactory, UserRepository);
+                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository);
 
                 return _bookingFacade;
             }

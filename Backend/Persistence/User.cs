@@ -7,6 +7,16 @@ namespace Backend.Persistence
 {
     public class User
     {
+        public User(Business.User user)
+        {
+            Login = user.Login;
+            Password = user.Password;
+            Deleted = user.Deleted;
+        }
+
+        public User()
+        { }
+
         [Key]
         public int Id { get; set; }
         [Required]
@@ -21,5 +31,15 @@ namespace Backend.Persistence
         public virtual ICollection<Role> Roles { get; set; }
 
         public const int LoginMaximumLength = 100;
+
+        public void UpdateWith(Business.User user)
+        {
+            if (Id != user.Id)
+                throw new ArgumentException("user", "id mismatch");
+
+            Login = user.Login;
+            Password = user.Password;
+            Deleted = user.Deleted;
+        }
     }
 }

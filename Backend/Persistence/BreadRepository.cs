@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Data.Entity;
 
 namespace Backend.Persistence
 {
@@ -14,38 +13,51 @@ namespace Backend.Persistence
             _contextFactory = contextFactory;
         }
 
-        public int Add(Bread bread)
+        public int Add(Business.Bread bread)
         {
+            Bread persistenceBread;
+
             using (var context = CreateContext())
             {
-                context.Breads.Add(bread);
+                persistenceBread = new Bread(bread);
+                context.Breads.Add(persistenceBread);
                 context.SaveChanges();
             }
 
-            return bread.Id;
+            return persistenceBread.Id;
         }
 
-        public bool Update(Bread bread)
+        public bool Update(Business.Bread bread)
         {
             int count;
 
             using (var context = CreateContext())
             {
-                context.Breads.Attach(bread);
-                context.Entry(bread).State = EntityState.Modified;
+                var persistenceBread = context.Breads.Find(bread.Id);
+
+                if (persistenceBread == null)
+                    return false;
+
+                context.Breads.Attach(persistenceBread);
+                persistenceBread.UpdateWith(bread);
                 count = context.SaveChanges();
             }
 
             return count == 1;
         }
 
-        public Bread Get(int id)
+        public Business.Bread Get(int id)
         {
             using (var context = CreateContext())
-                return context.Breads.Find(id);
+                return new Business.Bread(context.Breads.Find(id));
         }
 
-        public IList<Bread> GetAvailableBreads(DateTime dateTime)
+        public IList<Business.Bread> GetCurrentAvailableBreads()
+        {
+            return GetAvailableBreads(DateTime.Now);
+        }
+
+        public IList<Business.Bread> GetAvailableBreads(DateTime dateTime)
         {
             IList<Bread> result;
 
@@ -54,10 +66,11 @@ namespace Backend.Persistence
                 var queryResult = from bread in context.Breads
                                   where bread.Deleted > dateTime
                                   select bread;
+
                 result = queryResult.ToList();
             }
 
-            return result;
+            return result.Select(x => new Business.Bread(x)).ToList();
         }
 
         private WolfBookingContext CreateContext()

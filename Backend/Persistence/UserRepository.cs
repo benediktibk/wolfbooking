@@ -14,9 +14,10 @@ namespace Backend.Persistence
             _contextFactory = contextFactory;
         }
 
-        public User GetByLogin(string login)
+        public Business.User GetByLogin(string login)
         {
             var now = DateTime.Now;
+            User result;
 
             using (var context = CreateContext())
             {
@@ -27,34 +28,48 @@ namespace Backend.Persistence
                 if (queryResult.Count() > 1)
                     throw new InvalidOperationException("found more than one user with the same login name");
 
-                return queryResult.FirstOrDefault();
+                result = queryResult.FirstOrDefault();
             }
+
+            return result != null ? new Business.User(result) : null;
         }
 
-        public User Get(int id)
+        public Business.User Get(int id)
         {
+            User result;
+
             using (var context = CreateContext())
             {
                 var queryResult = from user in context.Users.Include(x => x.Roles)
                                   where user.Id == id
                                   select user;
 
-                return queryResult.FirstOrDefault();
+                result = queryResult.FirstOrDefault();
             }
+
+            return result != null ? new Business.User(result) : null;
         }
 
-        public int Add(User user)
+        public int Add(Business.User user)
         {
+            User persistenceUser;
+
             using (var context = CreateContext())
             {
-                context.Users.Add(user);
+                persistenceUser = new User(user);
+                context.Users.Add(persistenceUser);
                 context.SaveChanges();
             }
 
-            return user.Id;
+            return persistenceUser.Id;
         }
 
-        public IList<User> GetAvailableUsers(DateTime dateTime)
+        public IList<Business.User> GetCurrentAvailableUsers()
+        {
+            return GetAvailableUsers(DateTime.Now);
+        }
+
+        public IList<Business.User> GetAvailableUsers(DateTime dateTime)
         {
             IList<User> result;
 
@@ -66,20 +81,22 @@ namespace Backend.Persistence
                 result = queryResult.ToList();
             }
 
-            return result;
+            return result.Select(x => new Business.User(x)).ToList();
         }
 
-        public bool Update(User user)
+        public bool Update(Business.User user)
         {
-            var roles = user.Roles.ToList();
-            user.Roles.Clear();
             int count;
 
             using (var context = CreateContext())
             {
-                context.Users.Attach(user);
-                context.Entry(user).State = EntityState.Modified;
-                user.Roles = roles;
+                var persistenceUser = context.Users.Find(user.Id);
+
+                if (persistenceUser == null)
+                    return false;
+
+                context.Users.Attach(persistenceUser);
+                persistenceUser.UpdateWith(user);
                 count = context.SaveChanges();
             }
 

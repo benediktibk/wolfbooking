@@ -8,99 +8,95 @@ namespace Backend.Facade
     public class BookingFacade
     {
         private readonly BreadRepository _breadRepository;
-        private readonly BreadFactory _breadFactory;
         private readonly UserRepository _userRepository;
-        private readonly UserFactory _userFactory;
-        private readonly RoleFactory _roleFactory;
+        private readonly RoleRepository _roleRepository;
 
-        public BookingFacade(BreadFactory breadFactory, BreadRepository breadRepository, UserFactory userFactory, RoleFactory roleFactory, UserRepository userRepository)
+        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository)
         {
             _breadRepository = breadRepository;
-            _breadFactory = breadFactory;
             _userRepository = userRepository;
-            _userFactory = userFactory;
-            _roleFactory = roleFactory;
+            _roleRepository = roleRepository;
         }
 
         public IList<User> GetCurrentAvailableUsers()
         {
-            return _userFactory.GetCurrentAvailableUsers().Select(x => new User(x)).ToList();
+            return _userRepository.GetCurrentAvailableUsers().Select(x => new User(x)).ToList();
         }
 
         public IList<Bread> GetCurrentAvailableBreads()
         {
-            return _breadFactory.GetCurrentAvailableBreads().Select(x => new Bread(x)).ToList();
+            return _breadRepository.GetCurrentAvailableBreads().Select(x => new Bread(x)).ToList();
         }
 
         public User GetUser(int id)
         {
-            var user = _userFactory.Get(id);
+            var user = _userRepository.Get(id);
             return user == null ? null : new User(user);
         }
 
         public Bread GetBread(int id)
         {
-            var bread = _breadFactory.Get(id);
+            var bread = _breadRepository.Get(id);
             return bread == null ? null : new Bread(bread);
         }
 
         public int AddUser(User user)
         {
-            return _userFactory.Create(user);
+            return _userRepository.Add(new Business.User(user));
         }
 
         public int AddBread(Bread bread)
         {
-            return _breadFactory.Create(bread);
+            return _breadRepository.Add(new Business.Bread(bread));
         }
 
         public bool UpdateBread(Bread bread)
         {
-            var oldBread = _breadFactory.Get(bread.Id);
+            var businessBread = _breadRepository.Get(bread.Id);
 
-            if (oldBread == null)
+            if (businessBread == null)
                 return false;
 
-            oldBread.UpdateWith(bread);
-            return _breadRepository.Update(oldBread.ToPersistence());
+            businessBread.UpdateWith(bread);
+            return _breadRepository.Update(businessBread);
         }
 
         public bool UpdateUser(User user)
         {
-            var oldUser = _userFactory.Get(user.Id);
+            var businessUser = _userRepository.Get(user.Id);
 
-            if (oldUser == null)
+            if (businessUser == null)
                 return false;
 
-            oldUser.UpdateWith(user, _roleFactory);
-            return _userRepository.Update(oldUser.ToPersistence());
+            businessUser.UpdateWith(user);
+            return _userRepository.Update(businessUser);
         }
 
         public bool DeleteUser(int id)
         {
-            var user = _userFactory.Get(id);
+            var user = _userRepository.Get(id);
 
             if (user == null)
                 return false;
 
             user.MarkAsDeleted();
-            return _userRepository.Update(user.ToPersistence());
+            return _userRepository.Update(user);
         }
 
         public bool DeleteBread(int id)
         {
-            var bread = _breadFactory.Get(id);
+            var bread = _breadRepository.Get(id);
 
             if (bread == null)
                 return false;
 
             bread.MarkAsDeleted();
-            return _breadRepository.Update(bread.ToPersistence());
+            return _breadRepository.Update(bread);
         }
 
         public bool IsLoginValid(string login, string password)
         {
-            var user = _userFactory.GetByLogin(login);
+            var user = _userRepository.GetByLogin(login);
 
             if (user == null)
                 return false;
@@ -110,12 +106,12 @@ namespace Backend.Facade
 
         public List<string> GetRolesForUser(string login)
         {
-            var user = _userFactory.GetByLogin(login);
+            var user = _userRepository.GetByLogin(login);
 
             if (user == null)
                 return new List<string>();
 
-            var roles = _roleFactory.GetRolesForUser(user.Id);
+            var roles = _roleRepository.GetRolesForUser(user.Id);
             return roles.Select(role => role.Name).ToList();
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Backend.Persistence
@@ -13,28 +12,36 @@ namespace Backend.Persistence
             _contextFactory = contextFactory;
         }
 
-        public List<Role> GetRolesForUser(int userId)
+        public List<Business.Role> GetRolesForUser(int userId)
         {
+            IList<Role> result;
+
             using (var context = CreateContext())
             {
                 var queryResult = from role in context.Roles
                                   where role.Users.Any(u => u.Id == userId)
                                   select role;
 
-                return queryResult.ToList();
+                result = queryResult.ToList();
             }
+
+            return result.Select(x => new Business.Role(x)).ToList();
         }
 
-        public List<Role> GetRolesByName(List<string> roleNames)
+        public List<Business.Role> GetRolesByName(List<string> roleNames)
         {
+            IList<Role> result;
+
             using (var context = CreateContext())
             {
                 var queryResult = from role in context.Roles
                                   where roleNames.Contains(role.Name)
                                   select role;
 
-                return queryResult.ToList();
+                result = queryResult.ToList();
             }
+
+            return result.Select(x => new Business.Role(x)).ToList();
         }
 
         private WolfBookingContext CreateContext()

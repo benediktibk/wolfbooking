@@ -12,10 +12,10 @@ namespace Backend.Business
             Deleted = bread.Deleted;
         }
 
-        public Bread(string name, decimal price)
+        public Bread(Facade.Bread bread)
         {
-            Name = name;
-            Price = price;
+            Name = bread.Name;
+            Price = bread.Price;
             Deleted = DateTime.MaxValue;
         }
 
@@ -23,11 +23,6 @@ namespace Backend.Business
         public string Name { get; private set; }
         public decimal Price { get; private set; }
         public DateTime Deleted { get; private set; }
-
-        public Persistence.Bread ToPersistence()
-        {
-            return new Persistence.Bread { Id = Id, Name = Name, Price = Price, Deleted = Deleted};
-        }
 
         public void UpdateWith(Facade.Bread bread)
         {
