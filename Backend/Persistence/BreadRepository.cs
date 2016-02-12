@@ -19,7 +19,8 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                persistenceBread = new Bread(bread);
+                persistenceBread = new Bread();
+                persistenceBread.UpdateWith(bread);
                 context.Breads.Add(persistenceBread);
                 context.SaveChanges();
             }
@@ -27,23 +28,19 @@ namespace Backend.Persistence
             return persistenceBread.Id;
         }
 
-        public bool Update(Business.Bread bread)
+        public void Update(Business.Bread bread)
         {
-            int count;
-
             using (var context = CreateContext())
             {
                 var persistenceBread = context.Breads.Find(bread.Id);
 
                 if (persistenceBread == null)
-                    return false;
+                    throw new ArgumentException("bread", $"bread with id {bread.Id} does not exist");
 
                 context.Breads.Attach(persistenceBread);
                 persistenceBread.UpdateWith(bread);
-                count = context.SaveChanges();
+                context.SaveChanges();
             }
-
-            return count == 1;
         }
 
         public Business.Bread Get(int id)

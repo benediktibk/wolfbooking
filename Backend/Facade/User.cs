@@ -6,7 +6,7 @@ namespace Backend.Facade
     {
         public User()
         {
-            Roles = new List<string>();
+            Roles = new List<int>();
         }
 
         public User(Business.User user)
@@ -14,15 +14,12 @@ namespace Backend.Facade
             Id = user.Id;
             Login = user.Login;
             Password = user.Password;
-            Roles = new List<string>();
-
-            foreach (var role in user.Roles)
-                Roles.Add(role.Name);
+            Roles = new List<int>(user.Roles);
         }
 
         public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public List<string> Roles { get; set; }
+        public List<int> Roles { get; set; }
     }
 }

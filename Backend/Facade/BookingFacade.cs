@@ -58,7 +58,8 @@ namespace Backend.Facade
                 return false;
 
             businessBread.UpdateWith(bread);
-            return _breadRepository.Update(businessBread);
+            _breadRepository.Update(businessBread);
+            return true;
         }
 
         public bool UpdateUser(User user)
@@ -69,7 +70,8 @@ namespace Backend.Facade
                 return false;
 
             businessUser.UpdateWith(user);
-            return _userRepository.Update(businessUser);
+            _userRepository.Update(businessUser);
+            return true;
         }
 
         public bool DeleteUser(int id)
@@ -80,7 +82,8 @@ namespace Backend.Facade
                 return false;
 
             user.MarkAsDeleted();
-            return _userRepository.Update(user);
+            _userRepository.Update(user);
+            return true;
         }
 
         public bool DeleteBread(int id)
@@ -91,7 +94,8 @@ namespace Backend.Facade
                 return false;
 
             bread.MarkAsDeleted();
-            return _breadRepository.Update(bread);
+            _breadRepository.Update(bread);
+            return true;
         }
 
         public bool IsLoginValid(string login, string password)
@@ -113,6 +117,11 @@ namespace Backend.Facade
 
             var roles = _roleRepository.GetRolesForUser(user.Id);
             return roles.Select(role => role.Name).ToList();
+        }
+
+        public List<Role> GetAllRoles()
+        {
+            return _roleRepository.GetAllRoles().Select(x => new Role(x)).ToList();
         }
     }
 }

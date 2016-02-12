@@ -1,46 +1,62 @@
 ﻿var users = angular.module('users', []);
-users.factory('users', function ($http, authentication) {
+users.factory('users', function ($http, authentication, roles) {
     var usersFactory = {};
 
     var addRoleVariablesToData = function (data) {
-        for (var i = 0; i < data.data.length; ++i) {
-            var user = data.data[i];
-            var roles = user.Roles;
-            user.isAdministrator = false;
-            user.isManager = false;
-            user.isUser = false;
+        var rolesDictonaryRequest = roles.getRolesDictionary();
 
-            for (var j = 0; j < roles.length; ++j) {
-                switch (roles[j]) {
-                    case 'Administrators':
-                        user.isAdministrator = true;
-                        break;
-                    case 'Managers':
-                        user.isManager = true;
-                        break;
-                    case 'Users':
-                        user.isUser = true;
-                        break;
+        return rolesDictonaryRequest.then(function (rolesDictonary) {
+            for (var i = 0; i < data.data.length; ++i) {
+                var user = data.data[i];
+                var roles = user.Roles;
+                user.isAdministrator = false;
+                user.isManager = false;
+                user.isUser = false;
+
+                for (var j = 0; j < roles.length; ++j) {
+                    var role = roles[j];
+                    var roleTranslated = rolesDictonary[role];
+                    switch (roleTranslated) {
+                        case 'Administrators':
+                            user.isAdministrator = true;
+                            break;
+                        case 'Managers':
+                            user.isManager = true;
+                            break;
+                        case 'Users':
+                            user.isUser = true;
+                            break;
+                    }
                 }
             }
-        }
 
-        return data;
+            return data;
+        });
     }
 
     var addRolesToUser = function (user) {
-        user.Roles = [];
+        var rolesDictonaryRequest = roles.getRolesDictionaryInvers();
 
-        if (user.isUser)
-            user.Roles.push('Users');
+        return rolesDictonaryRequest.then(function (rolesDictionary) {
+            user.Roles = [];
 
-        if (user.isManager)
-            user.Roles.push('Managers');
+            if (user.isUser) {
+                var roleId = rolesDictionary["Users"];
+                user.Roles.push(roleId);
+            }
 
-        if (user.isAdministrator)
-            user.Roles.push('Administrators');
+            if (user.isManager) {
+                var roleId = rolesDictionary["Managers"];
+                user.Roles.push(roleId);
+            }
 
-        return user;
+            if (user.isAdministrator) {
+                var roleId = rolesDictionary["Administrators"];
+                user.Roles.push(roleId);
+            }
+
+            return user;
+        })
     }
 
     var getAll = function () {
@@ -56,23 +72,28 @@ users.factory('users', function ($http, authentication) {
     }
 
     var updateItem = function (user) {
-        user.Roles = [];
-        var httpRequest = $http({
-            method: 'PUT',
-            url: 'api/users/item/' + user.Id,
-            headers: authentication.getHttpHeaderWithAuthorization(),
-            data: addRolesToUser(user)
-        });
+        return addRolesToUser(user).then(function (user) {
+            var httpRequest = $http({
+                method: 'PUT',
+                url: 'api/users/item/' + user.Id,
+                headers: authentication.getHttpHeaderWithAuthorization(),
+                data: user
+            });
 
-        return httpRequest;
+            return httpRequest;
+        });
     }
 
     var createItem = function (user) {
-        var httpRequest = $http({
-            method: 'POST',
-            url: 'api/users',
-            headers: authentication.getHttpHeaderWithAuthorization(),
-            data: addRolesToUser(user)
+        return addRolesToUser(user).then(function (user) {
+            var httpRequest = $http({
+                method: 'POST',
+                url: 'api/users',
+                headers: authentication.getHttpHeaderWithAuthorization(),
+                data: user
+            });
+
+            return httpRequest;
         });
 
         return httpRequest;

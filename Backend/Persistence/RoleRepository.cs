@@ -28,14 +28,13 @@ namespace Backend.Persistence
             return result.Select(x => new Business.Role(x)).ToList();
         }
 
-        public List<Business.Role> GetRolesByName(List<string> roleNames)
+        public List<Business.Role> GetAllRoles()
         {
             IList<Role> result;
 
             using (var context = CreateContext())
             {
                 var queryResult = from role in context.Roles
-                                  where roleNames.Contains(role.Name)
                                   select role;
 
                 result = queryResult.ToList();

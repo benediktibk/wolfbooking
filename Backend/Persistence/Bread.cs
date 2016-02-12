@@ -8,13 +8,6 @@ namespace Backend.Persistence
         public Bread()
         { }
 
-        public Bread(Business.Bread bread)
-        {
-            Name = bread.Name;
-            Price = bread.Price;
-            Deleted = bread.Deleted;
-        }
-
         [Key]
         public int Id { get; set; }
         [Required]
@@ -24,11 +17,8 @@ namespace Backend.Persistence
         [Required]
         public DateTime Deleted { get; set; }
 
-        internal void UpdateWith(Business.Bread bread)
+        public void UpdateWith(Business.Bread bread)
         {
-            if (Id != bread.Id)
-                throw new ArgumentException("bread", "id mismatch");
-
             Name = bread.Name;
             Price = bread.Price;
             Deleted = bread.Deleted;

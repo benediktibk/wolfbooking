@@ -6,7 +6,7 @@ namespace Backend.Business
 {
     public class User
     {
-        private List<Role> _roles;
+        private List<int> _roles;
 
         public User(Persistence.User user)
         {
@@ -14,10 +14,7 @@ namespace Backend.Business
             Login = user.Login;
             Password = user.Password;
             Deleted = user.Deleted;
-            _roles = new List<Role>();
-
-            foreach (var role in user.Roles)
-                _roles.Add(new Role(role));
+            _roles = user.Roles.Select(x => x.Id).ToList();
         }
 
         public User(Facade.User user)
@@ -32,7 +29,7 @@ namespace Backend.Business
         public string Password { get; private set; }
         public DateTime Deleted { get; private set; }
 
-        public IReadOnlyList<Role> Roles => _roles;
+        public IReadOnlyList<int> Roles => _roles;
 
         public void UpdateWith(Facade.User user)
         {
@@ -41,6 +38,7 @@ namespace Backend.Business
 
             Login = user.Login;
             Password = user.Password;
+            _roles = user.Roles.ToList();
         }
 
         public void MarkAsDeleted()

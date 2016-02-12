@@ -7,13 +7,6 @@ namespace Backend.Persistence
 {
     public class User
     {
-        public User(Business.User user)
-        {
-            Login = user.Login;
-            Password = user.Password;
-            Deleted = user.Deleted;
-        }
-
         public User()
         { }
 
@@ -34,9 +27,6 @@ namespace Backend.Persistence
 
         public void UpdateWith(Business.User user)
         {
-            if (Id != user.Id)
-                throw new ArgumentException("user", "id mismatch");
-
             Login = user.Login;
             Password = user.Password;
             Deleted = user.Deleted;

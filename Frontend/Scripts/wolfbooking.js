@@ -2,7 +2,7 @@
     'wolfBooking', 
     [
     'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit',
-    'breads', 'authentication', 'users', 'pagehistory'
+    'breads', 'authentication', 'users', 'pagehistory', 'roles'
     ]);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {

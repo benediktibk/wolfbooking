@@ -56,7 +56,8 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                persistenceUser = new User(user);
+                persistenceUser = new User();
+                persistenceUser.UpdateWith(user);
                 context.Users.Add(persistenceUser);
                 context.SaveChanges();
             }
@@ -84,23 +85,31 @@ namespace Backend.Persistence
             return result.Select(x => new Business.User(x)).ToList();
         }
 
-        public bool Update(Business.User user)
+        public void Update(Business.User user)
         {
-            int count;
-
             using (var context = CreateContext())
             {
                 var persistenceUser = context.Users.Find(user.Id);
 
                 if (persistenceUser == null)
-                    return false;
+                    throw new ArgumentException("user", $"user with id {user.Id} does not exist");
 
                 context.Users.Attach(persistenceUser);
                 persistenceUser.UpdateWith(user);
-                count = context.SaveChanges();
-            }
+                persistenceUser.Roles.Clear();
 
-            return count == 1;
+                foreach (var role in user.Roles)
+                {
+                    var persistenceRole = context.Roles.Find(role);
+
+                    if (persistenceRole == null)
+                        throw new ArgumentException("user", $"contains invalid role {role}");
+
+                    persistenceUser.Roles.Add(persistenceRole);
+                }
+                
+                context.SaveChanges();
+            }
         }
 
         private WolfBookingContext CreateContext()
