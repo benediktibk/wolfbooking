@@ -1,6 +1,23 @@
 ﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication) {
     $scope.deleted = [];
 
+    $scope.gridOptions = {
+        data: [],
+        enableHorizontalScrollbar: 0,
+        enableVerticalScrollbar: 0,
+        rowEditWaitInterval: -1,
+        columnDefs: [
+            { name: 'Id', field: 'Id', visible: false },
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
+            { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
+            { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
+            { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' }
+        ],
+        enableColumnMenus: false
+    };
+
     if (!authentication.isAuthenticated()) {
         $location.path('/login');
         return;
@@ -88,23 +105,6 @@
     $scope.markAsDirty = function (row) {
         $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
     }
-
-    $scope.gridOptions = {
-        data: [],
-        enableHorizontalScrollbar: 0,
-        enableVerticalScrollbar: 0,
-        rowEditWaitInterval: -1,
-        columnDefs: [
-            { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
-            { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
-            { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
-            { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' }
-        ],
-        enableColumnMenus: false
-    };
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
         $scope.gridApi = gridApi;

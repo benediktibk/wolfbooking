@@ -1,6 +1,20 @@
 ﻿wolfBookingApp.controller('breadsController', function ($scope, $q, $location, breads, authentication) {
     $scope.deleted = [];
 
+    $scope.gridOptions = {
+        data: [],
+        enableHorizontalScrollbar: 0,
+        enableVerticalScrollbar: 0,
+        rowEditWaitInterval: -1,
+        columnDefs: [
+            { name: 'Id', field: 'Id', visible: false },
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="breadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
+            { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
+        ],
+        enableColumnMenus: false
+    };
+
     if (!authentication.isAuthenticated()) {
         $location.path('/login');
         return;
@@ -83,20 +97,6 @@
         var index = $scope.gridOptions.data.indexOf(row.entity);
         $scope.deleted.push(row.entity);
         $scope.gridOptions.data.splice(index, 1);
-    };
-
-    $scope.gridOptions = {
-        data: [],
-        enableHorizontalScrollbar: 0,
-        enableVerticalScrollbar: 0,
-        rowEditWaitInterval: -1,
-        columnDefs: [
-            { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="breadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
-            { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true }
-        ],
-        enableColumnMenus: false
     };
 
     $scope.gridOptions.onRegisterApi = function (gridApi) {
