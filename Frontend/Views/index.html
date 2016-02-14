@@ -22,9 +22,10 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="home">Home</a></li>
-                <li><a href="breads">Breads</a></li>
-                <li><a href="users">Users</a></li>
-                <li><a href="login">Login</a></li>
+                <li ng-show="isLoggedIn()"><a href="breads">Breads</a></li>
+                <li ng-show="isLoggedIn()"><a href="users">Users</a></li>
+                <li ng-show="!isLoggedIn()"><a href="login">Login</a></li>
+                <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">Logout</a></li>
             </ul>
         </div>
     </nav>
