@@ -28,7 +28,10 @@ namespace Backend.Persistence
         public void UpdateWith(Business.User user)
         {
             Login = user.Login;
-            Password = user.Password;
+
+            if (!string.IsNullOrEmpty(user.Password))
+                Password = user.Password;
+
             Deleted = user.Deleted;
         }
     }

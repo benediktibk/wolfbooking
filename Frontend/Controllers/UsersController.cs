@@ -22,7 +22,7 @@ namespace Frontend.Controllers
         public IList<User> GetAllUsers()
         {
             LogDebug("fetching all currently available users");
-            return _bookingFacade.GetCurrentAvailableUsers();
+            return _bookingFacade.GetCurrentAvailableUsersWithoutPasswords();
         }
 
         [Route("api/users/item/{id}")]

@@ -18,9 +18,14 @@ namespace Backend.Facade
             _roleRepository = roleRepository;
         }
 
-        public IList<User> GetCurrentAvailableUsers()
+        public IList<User> GetCurrentAvailableUsersWithoutPasswords()
         {
-            return _userRepository.GetCurrentAvailableUsers().Select(x => new User(x)).ToList();
+            var users = _userRepository.GetCurrentAvailableUsers().Select(x => new User(x)).ToList();
+
+            foreach (var user in users)
+                user.Password = "";
+
+            return users;
         }
 
         public IList<Bread> GetCurrentAvailableBreads()
