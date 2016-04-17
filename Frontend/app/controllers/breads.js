@@ -22,20 +22,15 @@
     };
 
     $scope.persistUpdate = function (rowEntity) {
-        var httpRequest = breads.updateItem(rowEntity);
-        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
-        return httpRequest;
+        return breads.updateItem(rowEntity);
     };
 
     $scope.persistCreate = function (rowEntity) {
-        var httpRequest = breads.createItem(rowEntity);
-        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
-        return httpRequest;
+        return breads.createItem(rowEntity);
     };
 
     $scope.persistDelete = function (rowEntity) {
-        var httpRequest = breads.deleteItem(rowEntity);
-        return httpRequest;
+        return breads.deleteItem(rowEntity);
     }
 
     $scope.persistAllChanges = function () {
@@ -47,7 +42,7 @@
     }
 
     $scope.addBread = function () {
-        $scope.gridOptions.data.push({
+        tables.addRow($scope, {
             Id: 0,
             Name: '',
             Price: ''
@@ -55,13 +50,7 @@
     };
 
     $scope.deleteBread = function (row) {
-        var index = $scope.gridOptions.data.indexOf(row.entity);
-        $scope.deleted.push(row.entity);
-        $scope.gridOptions.data.splice(index, 1);
-    };
-
-    $scope.gridOptions.onRegisterApi = function (gridApi) {
-        $scope.gridApi = gridApi;
+        tables.deleteRow($scope, row);
     };
 
     $scope.loadAll();

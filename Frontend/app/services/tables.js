@@ -5,13 +5,17 @@ users.factory('tables', function ($q) {
     var initialize = function (scope, columnDefinitions) {
         scope.deleted = [];
 
-        $scope.gridOptions = {
+        scope.gridOptions = {
             data: [],
             enableHorizontalScrollbar: 0,
             enableVerticalScrollbar: 0,
             rowEditWaitInterval: -1,
             columnDefs: columnDefinitions,
             enableColumnMenus: false
+        };        
+
+        scope.gridOptions.onRegisterApi = function (gridApi) {
+            scope.gridApi = gridApi;
         };
     }
 
@@ -43,10 +47,16 @@ users.factory('tables', function ($q) {
         var i;
         for (i = 0; i < dataDirtyRows.length; ++i) {
             var row = dataDirtyRows[i];
-            if (row.Id == 0)
-                promises.push(scope.persistCreate(row));
-            else
-                promises.push(scope.persistUpdate(row));
+            if (row.Id == 0) {
+                var promise = scope.persistCreate(row);
+                scope.gridApi.rowEdit.setSavePromise(row, promise);
+                promises.push(promise);
+            }
+            else {
+                var promise = scope.persistUpdate(row);
+                scope.gridApi.rowEdit.setSavePromise(row, promise);
+                promises.push(promise);
+            }
         }
 
         for (i = 0; i < scope.deleted.length; ++i)
@@ -58,10 +68,22 @@ users.factory('tables', function ($q) {
         });
     };
 
+    var deleteRow = function (scope, row) {
+        var index = scope.gridOptions.data.indexOf(row.entity);
+        scope.deleted.push(row.entity);
+        scope.gridOptions.data.splice(index, 1);
+    }
+
+    var addRow = function (scope, row) {
+        scope.gridOptions.data.push(row);
+    }
+
     tablesFactory.setAllRowsClean = setAllRowsClean
     tablesFactory.calculateTableHeight = calculateTableHeight;
     tablesFactory.persistAllChanges = persistAllChanges;
     tablesFactory.initialize = initialize;
+    tablesFactory.deleteRow = deleteRow;
+    tablesFactory.addRow = addRow;
 
     return tablesFactory;
 });
