@@ -13,7 +13,6 @@ namespace Backend.Persistence
         [Key]
         public int Id { get; set; }
         [Required]
-        [Index(IsUnique = true)]
         [StringLength(LoginMaximumLength)]
         public string Login { get; set; }
         [Required]

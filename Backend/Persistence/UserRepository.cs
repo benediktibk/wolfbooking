@@ -52,12 +52,21 @@ namespace Backend.Persistence
 
         public int Add(Business.User user)
         {
+            var now = DateTime.Now;
             User persistenceUser;
-
+            
             using (var context = CreateContext())
             {
                 persistenceUser = new User();
                 persistenceUser.UpdateWith(user);
+                var loginAlreadyInUse = 
+                    (from databaseUser in context.Users
+                    where databaseUser.Login == persistenceUser.Login && databaseUser.Deleted > now
+                    select databaseUser).Count() > 0;
+
+                if (loginAlreadyInUse)
+                    return -1;
+
                 context.Users.Add(persistenceUser);
                 context.SaveChanges();
             }

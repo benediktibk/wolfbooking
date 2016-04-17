@@ -1,12 +1,5 @@
-﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication) {
-    $scope.deleted = [];
-
-    $scope.gridOptions = {
-        data: [],
-        enableHorizontalScrollbar: 0,
-        enableVerticalScrollbar: 0,
-        rowEditWaitInterval: -1,
-        columnDefs: [
+﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables) {
+    tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
             { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
@@ -14,9 +7,7 @@
             { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
             { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
             { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' }
-        ],
-        enableColumnMenus: false
-    };
+    ]);
 
     if (!authentication.isAuthenticated()) {
         $location.path('/login');
@@ -25,63 +16,28 @@
 
     $scope.loadAll = function () {
         users.getAll().then(function (data) {
-            $scope.gridOptions.data = data.data;
-            var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
-            var dataDirtyRows = dirtyRows.map(function (gridRow) {
-                return gridRow.entity;
-            });
-            $scope.gridApi.rowEdit.setRowsClean(dataDirtyRows);
+            tables.setAllRowsClean($scope, data.data);
         })
     };
 
     $scope.calculateTableHeight = function () {
-        var rowHeight = 30;
-        var headerRowHeight = 33;
-        return {
-            height: ($scope.gridOptions.data.length * rowHeight + headerRowHeight) + "px"
-        };
+        return tables.calculateTableHeight($scope);
     };
 
     $scope.persistUpdate = function (rowEntity) {
-        var httpRequest = users.updateItem(rowEntity);
-        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
-        return httpRequest;
+        return users.updateItem(rowEntity);
     };
 
     $scope.persistCreate = function (rowEntity) {
-        var httpRequest = users.createItem(rowEntity);
-        $scope.gridApi.rowEdit.setSavePromise(rowEntity, httpRequest);
-        return httpRequest;
+        return users.createItem(rowEntity);
     };
 
     $scope.persistDelete = function (rowEntity) {
-        var httpRequest = users.deleteItem(rowEntity);
-        return httpRequest;
+        return users.deleteItem(rowEntity);
     }
 
     $scope.persistAllChanges = function () {
-        var dirtyRows = $scope.gridApi.rowEdit.getDirtyRows($scope.gridApi.grid);
-        var dataDirtyRows = dirtyRows.map(function (gridRow) {
-            return gridRow.entity;
-        });
-
-        var promises = [];
-        var i;
-        for (i = 0; i < dataDirtyRows.length; ++i) {
-            var row = dataDirtyRows[i];
-            if (row.Id == 0)
-                promises.push($scope.persistCreate(row));
-            else
-                promises.push($scope.persistUpdate(row));
-        }
-
-        for (i = 0; i < $scope.deleted.length; ++i)
-            promises.push($scope.persistDelete($scope.deleted[i]));
-
-        $q.all(promises).then(function () {
-            $scope.loadAll();
-            $scope.deleted = [];
-        });
+        tables.persistAllChanges($scope);
     };
 
     $scope.cancelAllChanges = function () {
@@ -89,26 +45,23 @@
     }
 
     $scope.addUser = function () {
-        $scope.gridOptions.data.push({
+        tables.addRow($scope, {
             Id: 0,
-            Name: '',
-            Price: ''
+            Login: '',
+            Password: '',
+            User: false,
+            Manager: false,
+            Administrator: false
         });
     };
 
     $scope.deleteUser = function (row) {
-        var index = $scope.gridOptions.data.indexOf(row.entity);
-        $scope.deleted.push(row.entity);
-        $scope.gridOptions.data.splice(index, 1);
+        tables.deleteRow($scope, row);
     };
 
     $scope.markAsDirty = function (row) {
-        $scope.gridApi.rowEdit.setRowsDirty([row.entity]);
+        tables.markAsDirty($scope, row);
     }
-
-    $scope.gridOptions.onRegisterApi = function (gridApi) {
-        $scope.gridApi = gridApi;
-    };
 
     $scope.loadAll();
 });

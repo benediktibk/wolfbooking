@@ -46,6 +46,10 @@ namespace Frontend.Controllers
         {
             LogDebug($"creating user {{{user}}}");
             var id = _bookingFacade.AddUser(user);
+
+            if (id < 0)
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict };
+
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
             response.Headers.Location = CreateCompleteUri($"api/users/item/{id}");
             return response;
