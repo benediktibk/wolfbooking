@@ -14,6 +14,7 @@ namespace Backend.Facade
             Id = user.Id;
             Login = user.Login;
             Password = user.Password;
+            Room = user.Room;
             Roles = new List<int>(user.Roles);
         }
 
