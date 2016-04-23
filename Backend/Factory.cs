@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using Backend.Business;
 using Backend.Persistence;
 using Backend.Facade;
 
@@ -13,6 +12,7 @@ namespace Backend
         private static BreadRepository _breadRepository;
         private static UserRepository _userRepository;
         private static RoleRepository _roleRepository;
+        private static RoomRepository _roomRepository;
         private static BookingFacade _bookingFacade;
 
         public static string DatabaseConnectionString
@@ -73,12 +73,23 @@ namespace Backend
             }
         }
 
+        public static RoomRepository RoomRepository
+        {
+            get
+            {
+                if (_roomRepository == null)
+                    _roomRepository = new RoomRepository(WolfBookingContextFactory);
+
+                return _roomRepository;
+            }
+        }
+
         public static BookingFacade BookingFacade
         {
             get
             {
                 if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository);
+                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository, RoomRepository);
 
                 return _bookingFacade;
             }

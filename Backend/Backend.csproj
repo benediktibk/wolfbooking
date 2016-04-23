@@ -60,11 +60,13 @@
   <ItemGroup>
     <Compile Include="Business\Bread.cs" />
     <Compile Include="Business\Role.cs" />
+    <Compile Include="Business\Room.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="DatabaseConfiguration.cs" />
     <Compile Include="Facade\BookingFacade.cs" />
     <Compile Include="Facade\Bread.cs" />
     <Compile Include="Facade\Role.cs" />
+    <Compile Include="Facade\Room.cs" />
     <Compile Include="Facade\User.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -72,6 +74,8 @@
     <Compile Include="Persistence\BreadRepository.cs" />
     <Compile Include="Persistence\Role.cs" />
     <Compile Include="Persistence\RoleRepository.cs" />
+    <Compile Include="Persistence\Room.cs" />
+    <Compile Include="Persistence\RoomRepository.cs" />
     <Compile Include="Persistence\User.cs" />
     <Compile Include="Persistence\UserRepository.cs" />
     <Compile Include="Persistence\WolfBookingContextFactory.cs" />

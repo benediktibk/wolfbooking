@@ -1,5 +1,4 @@
-﻿using Backend.Business;
-using Backend.Persistence;
+﻿using Backend.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,15 +6,32 @@ namespace Backend.Facade
 {
     public class BookingFacade
     {
+        #region repositories
+
         private readonly BreadRepository _breadRepository;
         private readonly UserRepository _userRepository;
         private readonly RoleRepository _roleRepository;
+        private readonly RoomRepository _roomRepository;
 
-        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository)
+        #endregion
+
+        #region constructor
+
+        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository, RoomRepository roomRepository)
         {
             _breadRepository = breadRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _roomRepository = roomRepository;
+        }
+
+        #endregion constructor
+
+        #region GET
+
+        public IList<Room> GetCurrentAvailableRooms()
+        {
+            return _roomRepository.GetCurrentAvailableRooms().Select(x => new Room(x)).ToList();
         }
 
         public IList<User> GetCurrentAvailableUsersWithoutPasswords()
@@ -33,6 +49,12 @@ namespace Backend.Facade
             return _breadRepository.GetCurrentAvailableBreads().Select(x => new Bread(x)).ToList();
         }
 
+        public Room GetRoom(int id)
+        {
+            var room = _roomRepository.Get(id);
+            return room == null ? null : new Room(room);
+        }
+
         public User GetUser(int id)
         {
             var user = _userRepository.Get(id);
@@ -45,6 +67,41 @@ namespace Backend.Facade
             return bread == null ? null : new Bread(bread);
         }
 
+        public List<string> GetRolesForUser(string login)
+        {
+            var user = _userRepository.GetByLogin(login);
+
+            if (user == null)
+                return new List<string>();
+
+            var roles = _roleRepository.GetRolesForUser(user.Id);
+            return roles.Select(role => role.Name).ToList();
+        }
+
+        public List<Role> GetAllRoles()
+        {
+            return _roleRepository.GetAllRoles().Select(x => new Role(x)).ToList();
+        }
+
+        public bool IsLoginValid(string login, string password)
+        {
+            var user = _userRepository.GetByLogin(login);
+
+            if (user == null)
+                return false;
+
+            return user.Password == password;
+        }
+
+        #endregion
+
+        #region ADD
+
+        public object AddRoom(Room room)
+        {
+            return _roomRepository.Add(new Business.Room(room));
+        }
+
         public int AddUser(User user)
         {
             return _userRepository.Add(new Business.User(user));
@@ -53,6 +110,22 @@ namespace Backend.Facade
         public int AddBread(Bread bread)
         {
             return _breadRepository.Add(new Business.Bread(bread));
+        }
+
+        #endregion
+
+        #region UPDATE
+
+        public bool UpdateRoom(Room room)
+        {
+            var businessRoom = _roomRepository.Get(room.Id);
+
+            if (businessRoom == null)
+                return false;
+
+            businessRoom.UpdateWith(room);
+            _roomRepository.Update(businessRoom);
+            return true;
         }
 
         public bool UpdateBread(Bread bread)
@@ -76,6 +149,22 @@ namespace Backend.Facade
 
             businessUser.UpdateWith(user);
             _userRepository.Update(businessUser);
+            return true;
+        }
+
+        #endregion
+
+        #region DELETE
+
+        public bool DeleteRoom(int id)
+        {
+            var room = _roomRepository.Get(id);
+
+            if (room == null)
+                return false;
+
+            room.MarkAsDeleted();
+            _roomRepository.Update(room);
             return true;
         }
 
@@ -103,30 +192,6 @@ namespace Backend.Facade
             return true;
         }
 
-        public bool IsLoginValid(string login, string password)
-        {
-            var user = _userRepository.GetByLogin(login);
-
-            if (user == null)
-                return false;
-            
-            return user.Password == password;
-        }
-
-        public List<string> GetRolesForUser(string login)
-        {
-            var user = _userRepository.GetByLogin(login);
-
-            if (user == null)
-                return new List<string>();
-
-            var roles = _roleRepository.GetRolesForUser(user.Id);
-            return roles.Select(role => role.Name).ToList();
-        }
-
-        public List<Role> GetAllRoles()
-        {
-            return _roleRepository.GetAllRoles().Select(x => new Role(x)).ToList();
-        }
+        #endregion
     }
 }

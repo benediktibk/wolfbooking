@@ -11,5 +11,6 @@ namespace Backend.Persistence
         public DbSet<Bread> Breads { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Room> Rooms { get; set; }
     }
 }
