@@ -19,6 +19,10 @@ users.factory('tables', function ($q) {
         };
     }
 
+    var addColumnDefinition = function (scope, columnDefinition) {
+        scope.gridOptions.columnDefs.splice(scope.gridOptions.columnDefs.length, 0, columnDefinition);
+    }
+
     var setAllRowsClean = function (scope, data) {
         scope.gridOptions.data = data;
         var dirtyRows = scope.gridApi.rowEdit.getDirtyRows(scope.gridApi.grid);
@@ -89,6 +93,7 @@ users.factory('tables', function ($q) {
     tablesFactory.deleteRow = deleteRow;
     tablesFactory.addRow = addRow;
     tablesFactory.markAsDirty = markAsDirty;
+    tablesFactory.addColumnDefinition = addColumnDefinition;
 
     return tablesFactory;
 });

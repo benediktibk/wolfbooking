@@ -1,12 +1,14 @@
-﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables) {
+﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables, rooms) {
+    $scope.availableRooms = [];
+
     tables.initialize($scope, [
-            { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
-            { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
-            { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
-            { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' }
+        { name: 'Id', field: 'Id', visible: false },
+        { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
+        { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+        { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
+        { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
     ]);
 
     if (!authentication.isAuthenticated()) {
@@ -17,7 +19,7 @@
     $scope.loadAll = function () {
         users.getAll().then(function (data) {
             tables.setAllRowsClean($scope, data.data);
-        })
+        });
     };
 
     $scope.calculateTableHeight = function () {
@@ -63,5 +65,12 @@
         tables.markAsDirty($scope, row);
     }
 
-    $scope.loadAll();
+    rooms.getAll().then(function (rooms) {
+        $scope.availableRooms = rooms.data;
+        tables.addColumnDefinition(
+            $scope,
+            { name: 'Room', field: 'Room', enableCellEdit: true, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in $scope.availableRoomsA" value="{{room.Id}}">{{room.Name}}</option></select>' }
+        );
+        $scope.loadAll();
+    });
 });
