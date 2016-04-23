@@ -41,6 +41,7 @@ namespace Backend.Business
 
             Login = user.Login;
             Password = user.Password;
+            Room = user.Room;
             _roles = user.Roles.ToList();
         }
 
