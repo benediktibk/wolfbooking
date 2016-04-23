@@ -9,7 +9,7 @@
         { name: 'User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in row.entity.availableRooms" value="{{room.Id}}">{{room.Name}}</option></select>' }
+        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.Room"><option value="-1">None</option><option ng-repeat="room in row.entity.availableRooms" value="{{room.Id}}">{{room.Name}}</option></select>' }
     ]);
 
     if (!authentication.isAuthenticated()) {
