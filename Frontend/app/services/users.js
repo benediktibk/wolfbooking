@@ -1,5 +1,5 @@
 ﻿var users = angular.module('users', []);
-users.factory('users', function ($http, authentication, roles) {
+users.factory('users', function ($http, authentication, roles, rooms) {
     var usersFactory = {};
 
     var addRoleVariablesToData = function (data) {
@@ -59,6 +59,19 @@ users.factory('users', function ($http, authentication, roles) {
         })
     }
 
+    var addAvailableRoomsToData = function (data) {
+        var roomsRequest = rooms.getAll();
+
+        return roomsRequest.then(function (availableRooms) {
+            for (var i = 0; i < data.data.length; ++i) {
+                var user = data.data[i];
+                user.availableRooms = availableRooms.data;
+            }
+
+            return data;
+        });
+    }
+
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
@@ -67,7 +80,11 @@ users.factory('users', function ($http, authentication, roles) {
         });
 
         return httpRequest.then(function (data) {
-            return addRoleVariablesToData(data);
+            return addRoleVariablesToData(data).then(function (data) {
+                return addAvailableRoomsToData(data).then(function (data) {
+                    return data;
+                });
+            });
         });
     }
 

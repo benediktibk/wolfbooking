@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables, rooms) {
+﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables) {
     $scope.availableRooms = [];
 
     tables.initialize($scope, [
@@ -9,6 +9,7 @@
         { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Room', field: 'Room', enableCellEdit: true, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in row.entity.availableRooms" value="{{room.Id}}">{{room.Name}}</option></select>' }
     ]);
 
     if (!authentication.isAuthenticated()) {
@@ -64,13 +65,6 @@
     $scope.markAsDirty = function (row) {
         tables.markAsDirty($scope, row);
     }
-
-    rooms.getAll().then(function (rooms) {
-        $scope.availableRooms = rooms.data;
-        tables.addColumnDefinition(
-            $scope,
-            { name: 'Room', field: 'Room', enableCellEdit: true, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in $scope.availableRoomsA" value="{{room.Id}}">{{room.Name}}</option></select>' }
-        );
-        $scope.loadAll();
-    });
+    
+    $scope.loadAll();
 });
