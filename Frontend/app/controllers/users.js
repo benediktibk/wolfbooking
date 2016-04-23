@@ -6,10 +6,10 @@
         { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
         { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
         { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-        { name: 'User', field: 'isUser', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Manager', field: 'isManager', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Administrator', field: 'isAdministrator', enableCellEdit: true, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Room', field: 'Room', enableCellEdit: true, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in row.entity.availableRooms" value="{{room.Id}}">{{room.Name}}</option></select>' }
+        { name: 'User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
+        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.Room"><option ng-repeat="room in row.entity.availableRooms" value="{{room.Id}}">{{room.Name}}</option></select>' }
     ]);
 
     if (!authentication.isAuthenticated()) {
