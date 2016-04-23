@@ -18,8 +18,8 @@ namespace Backend.Persistence
         [Required]
         public string Password { get; set; }
         [Required]
-        public DateTime Deleted { get; set; }
-
+        public DateTime Deleted { get; set; }        
+        public virtual Room Room { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
 
         public const int LoginMaximumLength = 100;

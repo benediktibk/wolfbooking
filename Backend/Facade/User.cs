@@ -21,5 +21,6 @@ namespace Backend.Facade
         public string Login { get; set; }
         public string Password { get; set; }
         public List<int> Roles { get; set; }
+        public int Room { get; set; }
     }
 }

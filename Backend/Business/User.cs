@@ -14,6 +14,7 @@ namespace Backend.Business
             Login = user.Login;
             Password = user.Password;
             Deleted = user.Deleted;
+            Room = user.Room?.Id ?? -1;
             _roles = user.Roles.Select(x => x.Id).ToList();
         }
 
@@ -22,12 +23,14 @@ namespace Backend.Business
             Login = user.Login;
             Password = user.Password;
             Deleted = DateTime.MaxValue;
+            Room = user.Room;
         }
 
         public int Id { get; private set; }
         public string Login { get; private set; }
         public string Password { get; private set; }
         public DateTime Deleted { get; private set; }
+        public int Room { get; private set; }
 
         public IReadOnlyList<int> Roles => _roles;
 

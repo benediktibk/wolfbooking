@@ -40,7 +40,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                var queryResult = from user in context.Users.Include(x => x.Roles)
+                var queryResult = from user in context.Users.Include(x => x.Roles).Include(x => x.Room)
                                   where user.Id == id
                                   select user;
 
@@ -105,6 +105,7 @@ namespace Backend.Persistence
 
                 context.Users.Attach(persistenceUser);
                 persistenceUser.UpdateWith(user);
+                persistenceUser.Room = context.Rooms.Find(user.Room);
                 persistenceUser.Roles.Clear();
 
                 foreach (var role in user.Roles)
