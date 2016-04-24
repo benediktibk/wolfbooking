@@ -59,6 +59,22 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         })
     }
 
+    var addParentUserToRooms = function (rooms, user) {
+        var roomsWithParentUsers = [];
+
+        for (var i = 0; i < rooms.length; ++i) {
+            var oldRoom = rooms[i];
+            var newRoom = {
+                Id: oldRoom.Id,
+                Name: oldRoom.Name,
+                ParentUser: user
+            };
+            roomsWithParentUsers.splice(i, 0, newRoom);
+        }
+
+        return roomsWithParentUsers;
+    }
+
     var addAvailableRoomsToData = function (data) {
         var roomsRequest = rooms.getAll();
 
@@ -66,7 +82,7 @@ users.factory('users', function ($http, authentication, roles, rooms) {
             availableRooms.data.splice(0, 0, { Id: -1, Name: 'None' });
             for (var i = 0; i < data.data.length; ++i) {
                 var user = data.data[i];
-                user.availableRooms = availableRooms.data;
+                user.availableRooms = addParentUserToRooms(availableRooms.data, user);
             }
 
             return data;
@@ -116,6 +132,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     var updateItem = function (user) {
         return addRolesToUser(user).then(function (user) {
             var userWithRoomSet = setIdOfSelectedRoom(user);
+            delete userWithRoomSet.selectedRoom;
+            delete userWithRoomSet.availableRooms;
             var httpRequest = $http({
                 method: 'PUT',
                 url: 'api/users/item/' + user.Id,
@@ -129,11 +147,14 @@ users.factory('users', function ($http, authentication, roles, rooms) {
 
     var createItem = function (user) {
         return addRolesToUser(user).then(function (user) {
+            var userWithRoomSet = setIdOfSelectedRoom(user);
+            delete userWithRoomSet.selectedRoom;
+            delete userWithRoomSet.availableRooms;
             var httpRequest = $http({
                 method: 'POST',
                 url: 'api/users',
                 headers: authentication.getHttpHeaderWithAuthorization(),
-                data: user
+                data: userWithRoomSet
             });
 
             return httpRequest;

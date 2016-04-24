@@ -9,7 +9,7 @@
         { name: 'User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
         { name: 'Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id"></select>' }
+        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id" ng-change="grid.appScope.roomSelectionChanged(row.entity.selectedRoom)"></select>' }
     ]);
 
     if (!authentication.isAuthenticated()) {
@@ -64,6 +64,21 @@
 
     $scope.markAsDirty = function (row) {
         tables.markAsDirty($scope, row);
+    }
+
+    $scope.roomSelectionChanged = function (selectedItem) {
+        var user = selectedItem.ParentUser;
+        var rows = $scope.gridApi.grid.rows;
+
+        for (var i = 0; i < rows.length; ++i) {
+            var row = rows[i];
+            var rowEntity = row.entity;
+
+            if (rowEntity.Id == user.Id) {
+                tables.markAsDirty($scope, row);
+                return;
+            }
+        }
     }
     
     $scope.loadAll();
