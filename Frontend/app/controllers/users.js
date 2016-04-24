@@ -48,13 +48,16 @@
     }
 
     $scope.addUser = function () {
-        tables.addRow($scope, {
+        var user = {
             Id: 0,
             Login: '',
             Password: '',
             User: false,
             Manager: false,
             Administrator: false
+        };
+        users.fillNewUserWithAvailableRooms(user).then(function (user) {
+            tables.addRow($scope, user);
         });
     };
 

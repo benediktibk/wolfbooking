@@ -2,32 +2,38 @@
 users.factory('users', function ($http, authentication, roles, rooms) {
     var usersFactory = {};
 
+    var addRoleVariablesToUser = function (user, rolesDictonary) {
+        var roles = user.Roles;
+        user.isAdministrator = false;
+        user.isManager = false;
+        user.isUser = false;
+
+        for (var j = 0; j < roles.length; ++j) {
+            var role = roles[j];
+            var roleTranslated = rolesDictonary[role];
+            switch (roleTranslated) {
+                case 'Administrators':
+                    user.isAdministrator = true;
+                    break;
+                case 'Managers':
+                    user.isManager = true;
+                    break;
+                case 'Users':
+                    user.isUser = true;
+                    break;
+            }
+        }
+
+        return user;
+    }
+
     var addRoleVariablesToData = function (data) {
         var rolesDictonaryRequest = roles.getRolesDictionary();
 
         return rolesDictonaryRequest.then(function (rolesDictonary) {
             for (var i = 0; i < data.data.length; ++i) {
                 var user = data.data[i];
-                var roles = user.Roles;
-                user.isAdministrator = false;
-                user.isManager = false;
-                user.isUser = false;
-
-                for (var j = 0; j < roles.length; ++j) {
-                    var role = roles[j];
-                    var roleTranslated = rolesDictonary[role];
-                    switch (roleTranslated) {
-                        case 'Administrators':
-                            user.isAdministrator = true;
-                            break;
-                        case 'Managers':
-                            user.isManager = true;
-                            break;
-                        case 'Users':
-                            user.isUser = true;
-                            break;
-                    }
-                }
+                user = addRoleVariablesToUser(user, rolesDictonary);
             }
 
             return data;
@@ -89,20 +95,25 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         });
     }
 
+    var addSelectedRoomToUser = function (user) {
+        var roomFound = false;
+
+        for (var j = 0; j < user.availableRooms.length && !roomFound; ++j) {
+            var currentAvailableRoom = user.availableRooms[j];
+
+            if (user.Room == currentAvailableRoom.Id) {
+                user.selectedRoom = currentAvailableRoom;
+                roomFound = true;
+            }
+        }
+
+        return user;
+    }
+
     var addSelectedRoomToData = function (data) {        
         for (var i = 0; i < data.data.length; ++i) {
             var user = data.data[i];
-
-            var roomFound = false;
-
-            for (var j = 0; j < user.availableRooms.length && !roomFound; ++j) {
-                var currentAvailableRoom = user.availableRooms[j];
-
-                if (user.Room == currentAvailableRoom.Id) {
-                    user.selectedRoom = currentAvailableRoom;
-                    roomFound = true;
-                }
-            }
+            user = addSelectedRoomToUser(user);
         }
 
         return data;
@@ -111,6 +122,16 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     var setIdOfSelectedRoom = function (user) {
         user.Room = user.selectedRoom.Id;
         return user;
+    }
+
+    var fillNewUserWithAvailableRooms = function (user) {
+        var roomsRequest = rooms.getAll();
+
+        return roomsRequest.then(function (availableRooms) {
+            availableRooms.data.splice(0, 0, { Id: -1, Name: 'None' });
+            user.availableRooms = addParentUserToRooms(availableRooms.data, user);
+            return addSelectedRoomToUser(user);
+        });
     }
 
     var getAll = function () {
@@ -177,6 +198,7 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     usersFactory.updateItem = updateItem;
     usersFactory.createItem = createItem;
     usersFactory.deleteItem = deleteItem;
+    usersFactory.fillNewUserWithAvailableRooms = fillNewUserWithAvailableRooms;
 
     return usersFactory;
 });
