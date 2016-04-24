@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Facade
 {
@@ -23,5 +24,10 @@ namespace Backend.Facade
         public string Password { get; set; }
         public List<int> Roles { get; set; }
         public int Room { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Login: {Login}, Roles: {Roles.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}")}, Room: {Room}";
+        }
     }
 }

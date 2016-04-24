@@ -63,6 +63,7 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         var roomsRequest = rooms.getAll();
 
         return roomsRequest.then(function (availableRooms) {
+            availableRooms.data.splice(0, 0, { Id: -1, Name: 'None' });
             for (var i = 0; i < data.data.length; ++i) {
                 var user = data.data[i];
                 user.availableRooms = availableRooms.data;

@@ -98,14 +98,14 @@ namespace Backend.Persistence
         {
             using (var context = CreateContext())
             {
-                var persistenceUser = context.Users.Find(user.Id);
+                var persistenceUser = context.Users.Include(x => x.Room).SingleOrDefault(x => x.Id == user.Id);
 
                 if (persistenceUser == null)
                     throw new ArgumentException("user", $"user with id {user.Id} does not exist");
 
                 context.Users.Attach(persistenceUser);
                 persistenceUser.UpdateWith(user);
-                persistenceUser.Room = context.Rooms.Find(user.Room);
+                persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
                 persistenceUser.Roles.Clear();
 
                 foreach (var role in user.Roles)
@@ -117,7 +117,8 @@ namespace Backend.Persistence
 
                     persistenceUser.Roles.Add(persistenceRole);
                 }
-                
+
+                context.Entry(persistenceUser).State = EntityState.Modified;
                 context.SaveChanges();
             }
         }
