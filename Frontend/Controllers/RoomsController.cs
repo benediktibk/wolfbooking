@@ -45,6 +45,9 @@ namespace Frontend.Controllers
         [HttpPost]
         public HttpResponseMessage CreateRoom([FromBody]Room room)
         {
+            if (room == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             LogDebug($"creating room {{{room}}}");
             var id = _bookingFacade.AddRoom(room);
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
@@ -57,6 +60,9 @@ namespace Frontend.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateRoom(int id, [FromBody]Room room)
         {
+            if (room == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             room.Id = id;
             LogDebug($"updating room {{{room}}}");
             return _bookingFacade.UpdateRoom(room) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);

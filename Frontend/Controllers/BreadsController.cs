@@ -45,6 +45,9 @@ namespace Frontend.Controllers
         [HttpPost]
         public HttpResponseMessage CreateBread([FromBody]Bread bread)
         {
+            if (bread == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             LogDebug($"creating bread {{{bread}}}");
             var id = _bookingFacade.AddBread(bread);
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
@@ -57,6 +60,9 @@ namespace Frontend.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateBread(int id, [FromBody]Bread bread)
         {
+            if (bread == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             bread.Id = id;
             LogDebug($"updating bread {{{bread}}}");
             return _bookingFacade.UpdateBread(bread) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);

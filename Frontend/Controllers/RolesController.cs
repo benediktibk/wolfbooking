@@ -16,7 +16,7 @@ namespace Frontend.Controllers
 
         [Route("api/roles/all")]
         [HttpGet]
-        public IList<Role> GetAllUsers()
+        public IList<Role> GetAllRoles()
         {
             LogDebug("fetching all currently available roles");
             return _bookingFacade.GetAllRoles();

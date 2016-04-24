@@ -44,6 +44,9 @@ namespace Frontend.Controllers
         [HttpPost]
         public HttpResponseMessage CreateUser([FromBody]User user)
         {
+            if (user == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             LogDebug($"creating user {{{user}}}");
             var id = _bookingFacade.AddUser(user);
 
@@ -60,6 +63,9 @@ namespace Frontend.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateUser(int id, [FromBody]User user)
         {
+            if (user == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
             user.Id = id;
             LogDebug($"updating user {{{user}}}");
             return _bookingFacade.UpdateUser(user) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
