@@ -72,6 +72,30 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         });
     }
 
+    var addSelectedRoomToData = function (data) {        
+        for (var i = 0; i < data.data.length; ++i) {
+            var user = data.data[i];
+
+            var roomFound = false;
+
+            for (var j = 0; j < user.availableRooms.length && !roomFound; ++j) {
+                var currentAvailableRoom = user.availableRooms[j];
+
+                if (user.Room == currentAvailableRoom.Id) {
+                    user.selectedRoom = currentAvailableRoom;
+                    roomFound = true;
+                }
+            }
+        }
+
+        return data;
+    }
+
+    var setIdOfSelectedRoom = function (user) {
+        user.Room = user.selectedRoom.Id;
+        return user;
+    }
+
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
@@ -81,8 +105,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
 
         return httpRequest.then(function (data) {
             return addRoleVariablesToData(data).then(function (data) {
-                return addAvailableRoomsToData(data).then(function (data) {
-                    return data;
+                 return addAvailableRoomsToData(data).then(function (data) {
+                    return addSelectedRoomToData(data);
                 });
             });
         });
@@ -90,11 +114,12 @@ users.factory('users', function ($http, authentication, roles, rooms) {
 
     var updateItem = function (user) {
         return addRolesToUser(user).then(function (user) {
+            var userWithRoomSet = setIdOfSelectedRoom(user);
             var httpRequest = $http({
                 method: 'PUT',
                 url: 'api/users/item/' + user.Id,
                 headers: authentication.getHttpHeaderWithAuthorization(),
-                data: user
+                data: userWithRoomSet
             });
 
             return httpRequest;
