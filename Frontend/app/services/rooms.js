@@ -44,10 +44,21 @@ rooms.factory('rooms', function ($http, authentication) {
         return httpRequest;
     }
 
+    var isInUse = function (room) {
+        var httpRequest = $http({
+            method: 'GET',
+            url: 'api/rooms/inuse/' + room.Id,
+            headers: authentication.getHttpHeaderWithAuthorization()
+        });
+
+        return httpRequest;
+    }
+
     roomsFactory.getAll = getAll;
     roomsFactory.updateItem = updateItem;
     roomsFactory.createItem = createItem;
     roomsFactory.deleteItem = deleteItem;
+    roomsFactory.isInUse = isInUse;
 
     return roomsFactory;
 });

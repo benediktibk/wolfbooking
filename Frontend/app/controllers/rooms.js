@@ -50,7 +50,13 @@
     };
 
     $scope.deleteRoom = function (row) {
-        tables.deleteRow($scope, row);
+        rooms.isInUse(row.entity).then(function (data) {
+            if (data.data)
+                window.alert("You cannot delete this room, it is still assigned to an user.");
+            else
+                tables.deleteRow($scope, row);
+        });
+
     };
 
     $scope.loadAll();

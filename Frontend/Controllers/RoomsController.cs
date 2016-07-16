@@ -40,6 +40,15 @@ namespace Frontend.Controllers
             return room;
         }
 
+        [Route("api/rooms/inuse/{id}")]
+        [Authorize(Roles = "Managers")]
+        [HttpGet]
+        public bool GetInUseById(int id)
+        {
+            LogDebug($"checking if room with id {id} is in use");
+            return _bookingFacade.IsRoomInUse(id);
+        }
+
         [Route("api/rooms")]
         [Authorize(Roles = "Managers")]
         [HttpPost]

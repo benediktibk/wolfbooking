@@ -93,6 +93,16 @@ namespace Backend.Facade
             return user.Password == password;
         }
 
+        public bool IsRoomInUse(int id)
+        {
+            var room = _roomRepository.Get(id);
+
+            if (room == null)
+                return false;
+
+            return _roomRepository.IsRoomInUse(room);
+        }
+
         #endregion
 
         #region ADD
@@ -161,6 +171,9 @@ namespace Backend.Facade
             var room = _roomRepository.Get(id);
 
             if (room == null)
+                return false;
+
+            if (_roomRepository.IsRoomInUse(room))
                 return false;
 
             room.MarkAsDeleted();

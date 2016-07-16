@@ -70,6 +70,20 @@ namespace Backend.Persistence
             return result.Select(x => new Business.Room(x)).ToList();
         }
 
+        public bool IsRoomInUse(Business.Room room)
+        {
+            var now = DateTime.Now;
+
+            using (var context = CreateContext())
+            {
+                var queryResult = from user in context.Users
+                                  where user.Deleted > now && user.Room.Id == room.Id
+                                  select user;
+
+                return queryResult.Count() > 0;
+            }
+        }
+
         private WolfBookingContext CreateContext()
         {
             return _contextFactory.Create();
