@@ -13,6 +13,7 @@ namespace Backend
         private static UserRepository _userRepository;
         private static RoleRepository _roleRepository;
         private static RoomRepository _roomRepository;
+        private static BreadBookingsRepository _breadBookingsRepository;
         private static BookingFacade _bookingFacade;
 
         public static string DatabaseConnectionString
@@ -84,12 +85,23 @@ namespace Backend
             }
         }
 
+        public static BreadBookingsRepository BreadBookingsRepository
+        {
+            get
+            {
+                if (_breadBookingsRepository == null)
+                    _breadBookingsRepository = new BreadBookingsRepository(WolfBookingContextFactory);
+
+                return _breadBookingsRepository;
+            }
+        }
+
         public static BookingFacade BookingFacade
         {
             get
             {
                 if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository, RoomRepository);
+                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository, RoomRepository, BreadBookingsRepository);
 
                 return _bookingFacade;
             }

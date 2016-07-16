@@ -12,17 +12,19 @@ namespace Backend.Facade
         private readonly UserRepository _userRepository;
         private readonly RoleRepository _roleRepository;
         private readonly RoomRepository _roomRepository;
+        private readonly BreadBookingsRepository _breadBookingsRepository;
 
         #endregion
 
         #region constructor
 
-        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository, RoomRepository roomRepository)
+        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository, RoomRepository roomRepository, BreadBookingsRepository breadBookingsRepository)
         {
             _breadRepository = breadRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _roomRepository = roomRepository;
+            _breadBookingsRepository = breadBookingsRepository;
         }
 
         #endregion constructor

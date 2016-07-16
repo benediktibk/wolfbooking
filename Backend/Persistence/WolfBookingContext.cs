@@ -12,5 +12,7 @@ namespace Backend.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<BreadBooking> BreadBooking { get; set; }
+        public DbSet<BreadBookings> BreadBookings { get; set; }
     }
 }

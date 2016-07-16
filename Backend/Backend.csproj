@@ -59,18 +59,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Bread.cs" />
+    <Compile Include="BreadBooking.cs" />
+    <Compile Include="Business\BreadBookings.cs" />
     <Compile Include="Business\Role.cs" />
     <Compile Include="Business\Room.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="DatabaseConfiguration.cs" />
     <Compile Include="Facade\BookingFacade.cs" />
     <Compile Include="Facade\Bread.cs" />
+    <Compile Include="Facade\BreadBookings.cs" />
     <Compile Include="Facade\Role.cs" />
     <Compile Include="Facade\Room.cs" />
     <Compile Include="Facade\User.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\Bread.cs" />
+    <Compile Include="Persistence\BreadBooking.cs" />
+    <Compile Include="Persistence\BreadBookings.cs" />
+    <Compile Include="Persistence\BreadBookingsRepository.cs" />
     <Compile Include="Persistence\BreadRepository.cs" />
     <Compile Include="Persistence\Role.cs" />
     <Compile Include="Persistence\RoleRepository.cs" />
