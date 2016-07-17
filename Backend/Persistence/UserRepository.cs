@@ -21,7 +21,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                var queryResult = from user in context.Users.Include(x => x.Roles)
+                var queryResult = from user in context.Users.Include(x => x.Roles).Include(x => x.Room)
                                   where user.Login == login && user.Deleted > now
                                   select user;
 
