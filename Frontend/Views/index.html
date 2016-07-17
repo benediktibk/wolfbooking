@@ -25,6 +25,7 @@
                 <li ng-show="isLoggedIn()"><a href="breads">Breads</a></li>
                 <li ng-show="isLoggedIn()"><a href="users">Users</a></li>
                 <li ng-show="isLoggedIn()"><a href="rooms">Rooms</a></li>
+                <li ng-show="isLoggedIn()"><a href="breadbookings">Bread Booking</a></li>
                 <li ng-show="!isLoggedIn()"><a href="login">Login</a></li>
                 <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">Logout</a></li>
             </ul>
@@ -49,6 +50,7 @@
     <script src="app/services/roles.js"></script>
     <script src="app/services/tables.js"></script>
     <script src="app/services/rooms.js"></script>
+    <script src="app/services/breadbookings.js"></script>
 
     <!-- Main script -->
     <script src="app/wolfbooking.js"></script>
@@ -59,5 +61,6 @@
     <script src="app/controllers/login.js"></script>
     <script src="app/controllers/users.js"></script>
     <script src="app/controllers/rooms.js"></script>
+    <script src="app/controllers/breadbookings.js"></script>
 </body>
 </html>

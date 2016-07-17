@@ -2,7 +2,7 @@
     'wolfBooking', 
     [
     'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit',
-    'breads', 'authentication', 'users', 'pagehistory', 'roles', 'tables', 'rooms'
+    'breads', 'authentication', 'users', 'pagehistory', 'roles', 'tables', 'rooms', 'breadbookings'
     ]);
 
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
@@ -30,6 +30,10 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
         .when('/rooms', {
             templateUrl: 'views/rooms',
             controller: 'roomsController'
+        })
+        .when('/breadbookings', {
+            templateUrl: 'views/breadbookings',
+            controller: 'breadBookingsController'
         });
 
     $locationProvider.html5Mode(true);
