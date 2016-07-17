@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('breadsBookingsController', function ($scope, $q, $location, breadBookings, authentication, tables) {
+﻿wolfBookingApp.controller('breadsBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
@@ -12,7 +12,7 @@
     }
 
     $scope.loadAll = function () {
-        breadBookings.getAll().then(function (data) {
+        breadbookings.getAll().then(function (data) {
             tables.setAllRowsClean($scope, data.data);
         })
     };
@@ -22,7 +22,7 @@
     };
 
     $scope.persistAllChanges = function () {
-        breadBookings.updateItem($scope.data).then(function () {
+        breadbookings.updateItem($scope.data).then(function () {
             $scope.loadAll();
         });
     };
