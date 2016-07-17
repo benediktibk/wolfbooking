@@ -44,6 +44,14 @@ namespace Backend.Persistence
                         throw new ArgumentException("room", $"could not find room with id {room}");
 
                     result = new BreadBookings { Room = persistenceRoom, Date = tomorrow, Bookings = new List<BreadBooking>() };
+                    var allBreads = context.Breads.Where(x => x.Deleted > now);
+
+                    foreach (var bread in allBreads)
+                    {
+                        var breadBooking = new BreadBooking() { Bread = bread, Amount = 0 };
+                        context.BreadBooking.Add(breadBooking);
+                        result.Bookings.Add(breadBooking);
+                    }
                     context.BreadBookings.Add(result);
                     context.SaveChanges();
                 }
@@ -67,6 +75,8 @@ namespace Backend.Persistence
 
         public void Update(Business.BreadBookings breadBookings)
         {
+            var now = DateTime.Now;
+
             using (var context = CreateContext())
             {
                 var persistenceBookings = context.BreadBookings.Include(x => x.Room).Include(x => x.Bookings).SingleOrDefault(x => x.Id == breadBookings.Id);
