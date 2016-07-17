@@ -1,6 +1,7 @@
 ﻿using Backend.Persistence;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Backend.Facade
 {
@@ -105,6 +106,30 @@ namespace Backend.Facade
             return _roomRepository.IsRoomInUse(room);
         }
 
+        public bool IsUserAllowedToSeeRoom(string login, int roomId)
+        {
+            var user = _userRepository.GetByLogin(login);
+
+            if (user.Room == roomId)
+                return true;
+
+            var roles = _roleRepository.GetRolesForUser(user.Id);
+            var roleNames = roles.Select(x => x.Name).ToList();
+            return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
+        }
+
+        public BreadBookings GetCurrentBreadBookingsForRoom(int id)
+        {
+            var breadBookings = _breadBookingsRepository.GetCurrentBreadBookingsForRoom(id);
+            return new BreadBookings(breadBookings);
+        }
+
+        public List<BreadBookings> GetPreviousBreadBookingsForRoom(int id)
+        {
+            var breadBookings = _breadBookingsRepository.GetPreviousBreadBookingsForRoom(id);
+            return breadBookings.Select(x => new BreadBookings(x)).ToList();
+        }
+
         #endregion
 
         #region ADD
@@ -161,6 +186,18 @@ namespace Backend.Facade
 
             businessUser.UpdateWith(user);
             _userRepository.Update(businessUser);
+            return true;
+        }
+
+        public bool UpdateBreadBookings(BreadBookings breadBookings)
+        {
+            var businessBreadBookings = _breadBookingsRepository.GetBreadBookingsById(breadBookings.Id);
+
+            if (businessBreadBookings == null)
+                return false;
+
+            businessBreadBookings.UpdateWith(breadBookings);
+            _breadBookingsRepository.Update(businessBreadBookings);
             return true;
         }
 

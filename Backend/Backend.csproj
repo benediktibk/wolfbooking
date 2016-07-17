@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Bread.cs" />
-    <Compile Include="BreadBooking.cs" />
+    <Compile Include="Business\BreadBooking.cs" />
     <Compile Include="Business\BreadBookings.cs" />
     <Compile Include="Business\Role.cs" />
     <Compile Include="Business\Room.cs" />
@@ -67,6 +67,7 @@
     <Compile Include="DatabaseConfiguration.cs" />
     <Compile Include="Facade\BookingFacade.cs" />
     <Compile Include="Facade\Bread.cs" />
+    <Compile Include="Facade\BreadBooking.cs" />
     <Compile Include="Facade\BreadBookings.cs" />
     <Compile Include="Facade\Role.cs" />
     <Compile Include="Facade\Room.cs" />

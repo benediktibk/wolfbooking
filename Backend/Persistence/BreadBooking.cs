@@ -12,6 +12,11 @@ namespace Backend.Persistence
         public int Id { get; set; }
         public virtual Bread Bread { get; set; }
         [Required]
-        public int Ammount { get; set; }
+        public int Amount { get; set; }
+
+        public void UpdateWith(Business.BreadBooking breadBooking)
+        {
+            Amount = breadBooking.Amount;
+        }
     }
 }

@@ -24,10 +24,5 @@ namespace Frontend.Controllers
 
             return response;
         }
-
-        private void LogRequestAndResponse(HttpRequestMessage request, HttpResponseMessage response)
-        {
-
-        }
     }
 }
