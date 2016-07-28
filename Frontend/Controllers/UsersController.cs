@@ -39,6 +39,20 @@ namespace Frontend.Controllers
             return user;
         }
 
+        [Route("api/users/username/{username}")]
+        [Authorize(Roles = "Managers")]
+        [HttpGet]
+        public User GetUserByUsername(string username)
+        {
+            LogDebug($"fetching user {username}");
+            var user = _bookingFacade.GetUserByUsername(username);
+
+            if (user == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return user;
+        }
+
         [Route("api/users")]
         [Authorize(Roles = "Administrators")]
         [HttpPost]

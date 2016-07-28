@@ -34,7 +34,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                result = context.BreadBookings.Include(x => x.Bookings).Include(x => x.Room).FirstOrDefault(x => x.Date.Equals(tomorrow) && x.Room.Id == room);
+                result = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).FirstOrDefault(x => x.Date.Equals(tomorrow) && x.Room.Id == room);
 
                 if (result == null)
                 {

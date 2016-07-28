@@ -64,6 +64,12 @@ namespace Backend.Facade
             return user == null ? null : new User(user);
         }
 
+        public User GetUserByUsername(string username)
+        {
+            var user = _userRepository.GetByLogin(username);
+            return user == null ? null : new User(user);
+        }
+
         public Bread GetBread(int id)
         {
             var bread = _breadRepository.Get(id);

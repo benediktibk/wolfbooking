@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('breadsBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables) {
+﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
@@ -12,9 +12,13 @@
     }
 
     $scope.loadAll = function () {
-        breadbookings.getAll().then(function (data) {
-            tables.setAllRowsClean($scope, data.data);
-        })
+        var username = authentication.getUsername();
+        
+        users.getItemByUserName(username).then(function (data) {
+            breadbookings.getCurrentByRoom(data.data.Room).then(function (data) {
+                tables.setAllRowsClean($scope, data.data.Bookings);
+            })
+        });
     };
 
     $scope.calculateTableHeight = function () {

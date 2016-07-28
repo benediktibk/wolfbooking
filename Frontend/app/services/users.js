@@ -150,6 +150,16 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         });
     }
 
+    var getItemByUserName = function (username) {
+        var httpRequest = $http({
+            metho: 'GET',
+            url: 'api/users/username/' + username,
+            headers: authentication.getHttpHeaderWithAuthorization()
+        });
+
+        return httpRequest;
+    }
+
     var updateItem = function (user) {
         return addRolesToUser(user).then(function (user) {
             var userWithRoomSet = setIdOfSelectedRoom(user);
@@ -199,6 +209,7 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     usersFactory.createItem = createItem;
     usersFactory.deleteItem = deleteItem;
     usersFactory.fillNewUserWithAvailableRooms = fillNewUserWithAvailableRooms;
+    usersFactory.getItemByUserName = getItemByUserName;
 
     return usersFactory;
 });

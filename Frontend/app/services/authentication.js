@@ -48,10 +48,15 @@ authentication.factory('authentication', function ($http) {
         return _isAuthenticated;
     }
 
+    var getUsername = function () {
+        return _username;
+    }
+
     authenticationFactory.login = login;
     authenticationFactory.logout = logout;
     authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
     authenticationFactory.isAuthenticated = isAuthenticated;
+    authenticationFactory.getUsername = getUsername;
 
     return authenticationFactory;
 });
