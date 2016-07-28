@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users) {
+﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users, breads) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
@@ -15,8 +15,26 @@
         var username = authentication.getUsername();
         
         users.getItemByUserName(username).then(function (data) {
-            breadbookings.getCurrentByRoom(data.data.Room).then(function (data) {
-                tables.setAllRowsClean($scope, data.data.Bookings);
+            var user = data.data;
+            breadbookings.getCurrentByRoom(user.Room).then(function (data) {
+                var bookings = data.data.Bookings;
+                var ids = [];
+
+                for (var i = 0; i < bookings.length; ++i)
+                    ids.push(bookings[i].Bread);
+
+                breads.getByIds(ids).then(function (data) {
+                    var breads = data;
+                    var breadsById = {};
+
+                    for (var i = 0; i < breads.length; ++i)
+                        breadsById[breads[i].Id] = breads[i];
+
+                    for (var i = 0; i < bookings.length; ++i)
+                        bookings[i].Bread = breadsById[bookings[i].Bread];
+
+                    tables.setAllRowsClean($scope, bookings);
+                });
             })
         });
     };

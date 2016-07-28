@@ -12,6 +12,28 @@ breads.factory('breads', function ($http, authentication) {
         return httpRequest;
     }
 
+    var getByIds = function (ids) {
+        var url = 'api/breads/items?'
+
+        for (var i = 0; i < ids.length; ++i) {
+            var separator = '';
+            if (i == 0)
+                separator = '?';
+            else
+                separator = '&';
+
+            url = url + separator + '=' + ids[i];
+        }
+
+        var httpRequest = $http({
+            method: 'GET',
+            url: url,
+            headers: authentication.getHttpHeaderWithAuthorization()
+        });
+
+        return httpRequest;
+    }
+
     var updateItem = function (bread) {
         var httpRequest = $http({
             method: 'PUT',
@@ -48,6 +70,7 @@ breads.factory('breads', function ($http, authentication) {
     breadsFactory.updateItem = updateItem;
     breadsFactory.createItem = createItem;
     breadsFactory.deleteItem = deleteItem;
+    breadsFactory.getByIds = getByIds;
 
     return breadsFactory;
 });

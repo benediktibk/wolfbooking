@@ -26,6 +26,15 @@ namespace Frontend.Controllers
             return _bookingFacade.GetCurrentAvailableBreads();
         }
 
+        [Route("api/breads/items")]
+        [Authorize(Roles = "Users")]
+        [HttpGet]
+        public IList<Bread> GetBreadsById([FromUri] List<int> ids)
+        {
+            LogDebug($"fetching breads with ids {ids}");
+            return _bookingFacade.GetBreads(ids);
+        }
+
         [Route("api/breads/item/{id}")]
         [Authorize(Roles = "Users")]
         [HttpGet]
