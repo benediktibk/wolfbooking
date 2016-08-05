@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users, breads) {
+﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users, breads, rooms) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Name', field: 'Name', enableCellEdit: false, type: 'string', enableCellEditOnFocus: true },
@@ -16,6 +16,13 @@
         Room: -1,
         Date: 0
     };
+
+    $scope.availableRooms = [];
+    $scope.selectedRoom = null;
+
+    rooms.getAll().then(function (data) {
+        $scope.availableRooms = data.data;
+    });
 
     $scope.loadAll = function () {
         var username = authentication.getUsername();

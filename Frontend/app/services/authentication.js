@@ -52,6 +52,10 @@ authentication.factory('authentication', function ($http) {
         return _username;
     }
 
+    var isOnlyUser = function () {
+        return ??????????????????????????
+    }
+
     authenticationFactory.login = login;
     authenticationFactory.logout = logout;
     authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
