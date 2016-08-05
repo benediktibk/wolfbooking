@@ -31,7 +31,12 @@ namespace Frontend.Controllers
                 return null;
             }
 
-            return _bookingFacade.GetCurrentBreadBookingsForRoom(id);
+            var result = _bookingFacade.GetCurrentBreadBookingsForRoom(id);
+
+            if (result == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return result;
         }
 
         [Route("api/breadbookings/previousbyroom/{id}")]

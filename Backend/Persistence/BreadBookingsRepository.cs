@@ -41,7 +41,7 @@ namespace Backend.Persistence
                     var persistenceRoom = context.Rooms.FirstOrDefault(x => x.Deleted > now && x.Id == room);
 
                     if (persistenceRoom == null)
-                        throw new ArgumentException("room", $"could not find room with id {room}");
+                        return null;
 
                     result = new BreadBookings { Room = persistenceRoom, Date = tomorrow, Bookings = new List<BreadBooking>() };
                     var allBreads = context.Breads.Where(x => x.Deleted > now);

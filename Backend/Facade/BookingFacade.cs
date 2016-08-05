@@ -133,7 +133,7 @@ namespace Backend.Facade
         public BreadBookings GetCurrentBreadBookingsForRoom(int id)
         {
             var breadBookings = _breadBookingsRepository.GetCurrentBreadBookingsForRoom(id);
-            return new BreadBookings(breadBookings);
+            return breadBookings == null ? null : new BreadBookings(breadBookings);
         }
 
         public List<BreadBookings> GetPreviousBreadBookingsForRoom(int id)
