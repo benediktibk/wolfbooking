@@ -13,7 +13,7 @@ breads.factory('breads', function ($http, authentication) {
     }
 
     var getByIds = function (ids) {
-        var url = 'api/breads/items?'
+        var url = 'api/breads/items'
 
         for (var i = 0; i < ids.length; ++i) {
             var separator = '';
