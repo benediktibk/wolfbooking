@@ -20,7 +20,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                result = context.BreadBookings.Find(id);  
+                result = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).FirstOrDefault(x => x.Id == id);  
             }
 
             return result == null ? null : new Business.BreadBookings(result);

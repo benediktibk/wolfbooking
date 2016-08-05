@@ -11,6 +11,12 @@
         return;
     }
 
+    var currentBookingMetaData = {
+        Id: -1,
+        Room: -1,
+        Date: 0
+    };
+
     $scope.loadAll = function () {
         var username = authentication.getUsername();
         
@@ -18,6 +24,9 @@
             var user = data.data;
             breadbookings.getCurrentByRoom(user.Room).then(function (data) {
                 var bookings = data.data.Bookings;
+                currentBookingMetaData.Id = data.data.Id;
+                currentBookingMetaData.Room = data.data.Room;
+                currentBookingMetaData.Date = data.data.Date;
                 var ids = [];
 
                 for (var i = 0; i < bookings.length; ++i)
@@ -48,14 +57,23 @@
 
     $scope.persistAllChanges = function () {
         var data = $scope.gridOptions.data;
-        var requests = [];
+        var bookings = {
+            Bookings: [],
+            Id: currentBookingMetaData.Id,
+            Room: currentBookingMetaData.Room,
+            Date: currentBookingMetaData.Date
+        };
 
         for (var i = 0; i < data.length; ++i) {
             var current = data[i];
-            requests.push(breadbookings.updateItem(current));
+            bookings.Bookings.push({
+                Id: current.Id,
+                Bread: current.Bread,
+                Ammount: current.Amount
+            });
         }
 
-        $q.all(requests).then(function () {
+        breadbookings.updateItem(bookings).then(function () {
             $scope.loadAll();
         });
     };
