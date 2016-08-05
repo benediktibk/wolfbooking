@@ -69,7 +69,7 @@
             bookings.Bookings.push({
                 Id: current.Id,
                 Bread: current.Bread,
-                Ammount: current.Amount
+                Amount: current.Amount
             });
         }
 
