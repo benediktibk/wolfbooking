@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Bill.cs" />
+    <Compile Include="Business\BillEntry.cs" />
     <Compile Include="Business\Bread.cs" />
     <Compile Include="Business\BreadBooking.cs" />
     <Compile Include="Business\BreadBookings.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="Business\Room.cs" />
     <Compile Include="Business\User.cs" />
     <Compile Include="DatabaseConfiguration.cs" />
+    <Compile Include="Facade\Bill.cs" />
+    <Compile Include="Facade\BillEntry.cs" />
     <Compile Include="Facade\BookingFacade.cs" />
     <Compile Include="Facade\Bread.cs" />
     <Compile Include="Facade\BreadBooking.cs" />

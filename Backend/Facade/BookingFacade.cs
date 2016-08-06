@@ -148,10 +148,10 @@ namespace Backend.Facade
             return breadBookings == null ? null : new BreadBookings(breadBookings);
         }
 
-        public List<BreadBookings> GetPreviousBreadBookingsForRoom(int id)
+        public Bill CalculateBill(int room, DateTime startDate, DateTime endDate)
         {
-            var breadBookings = _breadBookingsRepository.GetPreviousBreadBookingsForRoom(id);
-            return breadBookings.Select(x => new BreadBookings(x)).ToList();
+            var bill = _breadBookingsRepository.GetBreadBookingsForRoomBetween(room, startDate, endDate);
+            return bill == null ? null : new Bill(bill);
         }
 
         #endregion

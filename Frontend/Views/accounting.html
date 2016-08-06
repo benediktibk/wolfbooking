@@ -1,7 +1,10 @@
 ﻿<div>
-    <ul id="accountingRoomSelection">
-        <li ng-repeat="room in availableRooms"><input type="checkbox" ng-model="room.Selected">{{room.Name}}</li>
-    </ul>
+    <form>
+        <ul id="accountingRoomSelection">
+            <li ng-repeat="room in availableRooms"><input type="radio" ng-model="selectedRoom" value="{{room.Id}}">{{room.Name}}</li>
+        </ul>
+    </form>
+
     <div id="accoutingDates">
         <div id="accountingStartDate">
             <p class="dateTitle">Start Date</p>
@@ -12,7 +15,8 @@
             <div uib-datepicker ng-model="endDate" class="well well-sm" datepicker-options="options"></div>
         </div>
     </div>
-    <button ng-click="loadResult()" class="tableButton">Calculate Bill</button>
+
+    <button ng-click="calculateBill()" class="tableButton">Calculate Bill</button>
 </div>
 
 <div id="accountingResult">

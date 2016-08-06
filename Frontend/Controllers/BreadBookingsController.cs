@@ -36,20 +36,6 @@ namespace Frontend.Controllers
             return result;
         }
 
-        [Route("api/breadbookings/previousbyroom/{id}")]
-        [Authorize(Roles = "Users")]
-        [HttpGet]
-        public List<BreadBookings> GetPreviousBreadBookingsByRoomId(int id)
-        {
-            LogDebug($"fetching previous bread bookings for room {id}");
-            var user = RequestContext.Principal.Identity.Name;
-
-            if (!_bookingFacade.IsUserAllowedToSeeRoom(user, id))
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
-
-            return _bookingFacade.GetPreviousBreadBookingsForRoom(id);
-        }
-
         [Route("api/breadbookings/item/{id}")]
         [Authorize(Roles = "Users")]
         [HttpPut]

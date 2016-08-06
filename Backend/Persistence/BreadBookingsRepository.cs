@@ -59,18 +59,18 @@ namespace Backend.Persistence
 
             return new Business.BreadBookings(result);
         }
-        public List<Business.BreadBookings> GetPreviousBreadBookingsForRoom(int room)
+
+        public Business.Bill GetBreadBookingsForRoomBetween(int room, DateTime start, DateTime end)
         {
-            var now = DateTime.Now;
             List<BreadBookings> result;
 
             using (var context = CreateContext())
             {
-                var queryResult = context.BreadBookings.Include(x => x.Bookings).Include(x => x.Room).Where(x => DateTime.Compare(x.Date, now) <= 0 && x.Room.Id == room);
+                var queryResult = context.BreadBookings.Include(x => x.Bookings).Include(x => x.Room).Where(x => DateTime.Compare(x.Date, start) >= 0 && DateTime.Compare(x.Date, end) <= 0 && x.Room.Id == room);
                 result = queryResult.ToList();
             }
 
-            return result.Select(x => new Business.BreadBookings(x)).ToList();
+            return new Business.Bill(result);
         }
 
         public void Update(Business.BreadBookings breadBookings)

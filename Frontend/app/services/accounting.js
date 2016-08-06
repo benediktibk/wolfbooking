@@ -2,17 +2,17 @@
 accounting.factory('accounting', function ($http, authentication) {
     var accountingFactory = {};
 
-    var getBill = function (startDate, endDate, rooms) {
+    var calculateBill = function (room, startDate, endDate) {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/breadbookings/currentbyroom/' + roomId,
+            url: 'api/accounting/calculatebill/' + room + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString(),
             headers: authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
     }
-
-    breadBookingsFactory.getBill = getBill;
+    
+    accountingFactory.calculateBill = calculateBill;
 
     return accountingFactory;
 });
