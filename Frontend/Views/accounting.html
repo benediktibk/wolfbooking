@@ -1,5 +1,7 @@
 ﻿<div>
-    <input type="checkbox" ng-model="room1">
+    <ul id="accountingRoomSelection">
+        <li ng-repeat="room in availableRooms"><input type="checkbox" ng-model="room.Selected">{{room.Name}}</li>
+    </ul>
     <button ng-click="loadResult()" class="tableButton">Save</button>
 </div>
 
