@@ -1,7 +1,7 @@
 ﻿<div>
     <form>
         <ul id="accountingRoomSelection">
-            <li ng-repeat="room in availableRooms"><input type="radio" ng-model="selectedRoom" value="{{room.Id}}">{{room.Name}}</li>
+            <li ng-repeat="room in availableRooms"><input type="checkbox" ng-model="room.Selected">{{room.Name}}</li>
         </ul>
     </form>
 

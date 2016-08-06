@@ -66,7 +66,7 @@ namespace Backend.Persistence
 
             using (var context = CreateContext())
             {
-                var queryResult = context.BreadBookings.Include(x => x.Bookings).Include(x => x.Room).Where(x => DateTime.Compare(x.Date, start) >= 0 && DateTime.Compare(x.Date, end) <= 0 && x.Room.Id == room);
+                var queryResult = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).Where(x => DateTime.Compare(x.Date, start) >= 0 && DateTime.Compare(x.Date, end) <= 0 && x.Room.Id == room);
                 result = queryResult.ToList();
             }
 

@@ -7,10 +7,6 @@
     $scope.availableRooms = [];
     $scope.startDate = new Date();
     $scope.endDate = new Date();
-    $scope.selectedRoom = {
-        Id: -1,
-        Name: "None"
-    };
 
     $scope.datePickerOptions = {
         minDate: new Date(),
@@ -18,10 +14,16 @@
     };
 
     $scope.calculateBill = function () {
-        if ($scope.selectedRoom.Id < 0)
-            $window.alert('Please select a room')
+        var rooms = [];
+
+        for (var i = 0; i < $scope.availableRooms.length; ++i)
+            if ($scope.availableRooms[i].Selected)
+                rooms.push($scope.availableRooms[i]);
+
+        if (rooms.length <= 0)
+            $window.alert('Please select at least one room')
         else
-            accounting.calculateBill($scope.selectedRoom.Id, $scope.startDate, $scope.endDate).then(function (data) {
+            accounting.calculateBill(rooms[0].Id, $scope.startDate, $scope.endDate).then(function (data) {
                 var a = data.data;
                 var b = 0;
             });
