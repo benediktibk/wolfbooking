@@ -13,3 +13,7 @@
 p.dateTitle {
     text-align: center;
 }
+
+#accountingRoomSelection {
+    list-style: none;
+}
