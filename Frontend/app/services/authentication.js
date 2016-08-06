@@ -7,6 +7,27 @@ authentication.factory('authentication', function ($http) {
     var _token = '';
     var _roles = [];
 
+    var getHttpHeaderWithAuthorization = function () {
+        var headers = {};
+
+        if (isAuthenticated())
+            headers.Authorization = 'Bearer ' + _token;
+
+        return headers;
+    }
+
+    var getRolesForUser = function (username) {
+        var httpRequest = $http({
+            method: 'GET',
+            url: 'api/roles/foruser/' + username,
+            headers: getHttpHeaderWithAuthorization()
+        });
+
+        return httpRequest.then(function (data) {
+            return data.data;
+        });
+    }
+
     var login = function (username, password) {
         var data = "grant_type=password&username=" + username + "&password=" + password;
         var httpRequest = $http({
@@ -22,6 +43,10 @@ authentication.factory('authentication', function ($http) {
             _token = response.access_token;
             _username = username;
             _isAuthenticated = true;
+
+            getRolesForUser(username).then(function (roles) {
+                _roles = roles;
+            });
         }).error(function (err, status) {
             logout();
         });
@@ -33,15 +58,7 @@ authentication.factory('authentication', function ($http) {
         _isAuthenticated = false;
         _username = '';
         _token = '';
-    }
-
-    var getHttpHeaderWithAuthorization = function () {
-        var headers = {};
-
-        if (isAuthenticated())
-            headers.Authorization = 'Bearer ' + _token;
-
-        return headers;
+        _roles = [];
     }
 
     var isAuthenticated = function () {
@@ -53,7 +70,7 @@ authentication.factory('authentication', function ($http) {
     }
 
     var isOnlyUser = function () {
-        return ??????????????????????????
+        return _roles.length <= 1 && _roles[0] == 'Users';
     }
 
     authenticationFactory.login = login;
@@ -61,6 +78,7 @@ authentication.factory('authentication', function ($http) {
     authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
     authenticationFactory.isAuthenticated = isAuthenticated;
     authenticationFactory.getUsername = getUsername;
+    authenticationFactory.isOnlyUser = isOnlyUser;
 
     return authenticationFactory;
 });

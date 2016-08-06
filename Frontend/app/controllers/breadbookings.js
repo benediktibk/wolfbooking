@@ -24,6 +24,10 @@
         $scope.availableRooms = data.data;
     });
 
+    $scope.isOnlyUser = function () {
+        return authentication.isOnlyUser();
+    };
+
     $scope.loadAll = function () {
         var username = authentication.getUsername();
         

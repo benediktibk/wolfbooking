@@ -130,6 +130,18 @@ namespace Backend.Facade
             return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
         }
 
+        public bool IsUserAllowedToSeeRolesOfUser(string currentUser, string username)
+        {
+            var user = _userRepository.GetByLogin(currentUser);
+
+            if (user.Login == username)
+                return true;
+
+            var roles = _roleRepository.GetRolesForUser(user.Id);
+            var roleNames = roles.Select(x => x.Name).ToList();
+            return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
+        }
+
         public BreadBookings GetCurrentBreadBookingsForRoom(int id)
         {
             var breadBookings = _breadBookingsRepository.GetCurrentBreadBookingsForRoom(id);
