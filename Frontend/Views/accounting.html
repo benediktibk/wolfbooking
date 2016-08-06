@@ -20,4 +20,7 @@
     </div>
 </div>
 
-<div ui-grid="gridOptions" id="accountingResult" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
+<div id="accountingResults" ng-show="billLoaded">
+    <p>Total: {{billTotal}}€</p>
+    <div ui-grid="gridOptions" id="accountingResult" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
+</div>

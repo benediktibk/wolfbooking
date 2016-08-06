@@ -3,9 +3,9 @@
         { name: 'Room', field: 'Room', type: 'string' },
         { name: 'Bread', field: 'Bread', type: 'string' },
         { name: 'Date', field: 'Date', type: 'string' },
-        { name: 'Price', field: 'Price', type: 'number' },
+        { name: 'Price [€]', field: 'Price', type: 'number' },
         { name: 'Amount', field: 'Amount', type: 'number' },
-        { name: 'Total', field: 'Total', type: 'number' }
+        { name: 'Total [€]', field: 'Total', type: 'number' }
     ]);
 
     if (!authentication.isAuthenticated()) {
@@ -16,6 +16,8 @@
     $scope.availableRooms = [];
     $scope.startDate = new Date();
     $scope.endDate = new Date();
+    $scope.billTotal = 0;
+    $scope.billLoaded = false;
 
     $scope.datePickerOptions = {
         minDate: new Date(),
@@ -65,16 +67,9 @@
                 }
             }
 
-            tableEntries.push({
-                Room: '',
-                Bread: '',
-                Date: '',
-                Price: null,
-                Amount: null,
-                Total: total
-            });
-
             tables.setAllRowsClean($scope, tableEntries);
+            $scope.billTotal = total;
+            $scope.billLoaded = true;
         });
     }
 
@@ -88,7 +83,7 @@
             var availableRooms = data.data;
 
             for (var i = 0; i < availableRooms.Length; ++i)
-                availableRooms[i].Selected = false;
+                availableRooms[i].Selected = true;
 
             $scope.availableRooms = availableRooms;
         });
