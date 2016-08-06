@@ -66,7 +66,10 @@
             });
         }
         else {
-            $scope.loadAllForRoom($scope.selectedRoom);
+            if ($scope.selectedRoom == null)
+                return;
+
+            $scope.loadAllForRoom($scope.selectedRoom.Id);
         }
     };
 
