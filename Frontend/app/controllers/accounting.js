@@ -5,6 +5,13 @@
     }
 
     $scope.availableRooms = [];
+    $scope.startDate = new Date();
+    $scope.endDate = new Date();
+
+    $scope.datePickerOptions = {
+        minDate: new Date(),
+        showWeeks: true
+    };
 
     $scope.loadResult = function () {
         $window.alert($scope.room1);

@@ -1,0 +1,15 @@
+﻿#accountDates {
+    width: 100%;
+}
+
+#accountingStartDate {
+    width: 50%;
+    float: left;
+}
+
+#accountingEndDate {
+}
+
+p.dateTitle {
+    text-align: center;
+}
