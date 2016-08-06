@@ -73,12 +73,17 @@ authentication.factory('authentication', function ($http) {
         return _roles.length <= 1 && _roles[0] == 'Users';
     }
 
+    var isAdministrator = function () {
+        return _roles.indexOf("Administrators") != -1;
+    }
+
     authenticationFactory.login = login;
     authenticationFactory.logout = logout;
     authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
     authenticationFactory.isAuthenticated = isAuthenticated;
     authenticationFactory.getUsername = getUsername;
     authenticationFactory.isOnlyUser = isOnlyUser;
+    authenticationFactory.isAdministrator = isAdministrator;
 
     return authenticationFactory;
 });

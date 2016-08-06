@@ -6,4 +6,12 @@
     $scope.isLoggedIn = function () {
         return authentication.isAuthenticated();
     }
+
+    $scope.isOnlyUser = function () {
+        return authentication.isOnlyUser();
+    }
+
+    $scope.isAdministrator = function () {
+        return authentication.isAdministrator();
+    }
 });
