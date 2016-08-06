@@ -20,9 +20,6 @@
     $scope.availableRooms = [];
     $scope.selectedRoom = null;
 
-    rooms.getAll().then(function (data) {
-        $scope.availableRooms = data.data;
-    });
 
     $scope.isOnlyUser = function () {
         return authentication.isOnlyUser();
@@ -106,6 +103,13 @@
 
     $scope.selectedRoomChanged = function (selectedRoom) {
         $scope.loadAll();
+    }
+
+
+    if (!$scope.isOnlyUser()) {
+        rooms.getAll().then(function (data) {
+            $scope.availableRooms = data.data;
+        });
     }
 
     $scope.loadAll();
