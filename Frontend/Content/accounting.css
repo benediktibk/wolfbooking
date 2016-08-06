@@ -17,3 +17,7 @@ p.dateTitle {
 #accountingRoomSelection {
     list-style: none;
 }
+
+#accountingButtons {
+    height: 40px;
+}

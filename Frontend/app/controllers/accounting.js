@@ -1,4 +1,13 @@
-﻿wolfBookingApp.controller('accountingController', function ($scope, $location, $window, authentication, tables, rooms, accounting) {
+﻿wolfBookingApp.controller('accountingController', function ($scope, $q, $location, $window, authentication, tables, rooms, accounting) {
+    tables.initialize($scope, [
+        { name: 'Room', field: 'Room', type: 'string' },
+        { name: 'Bread', field: 'Bread', type: 'string' },
+        { name: 'Date', field: 'Date', type: 'string' },
+        { name: 'Price', field: 'Price', type: 'number' },
+        { name: 'Amount', field: 'Amount', type: 'number' },
+        { name: 'Total', field: 'Total', type: 'number' }
+    ]);
+
     if (!authentication.isAuthenticated()) {
         $location.path('/login');
         return;
@@ -13,6 +22,8 @@
         showWeeks: true
     };
 
+    $scope.resultData;
+
     $scope.calculateBill = function () {
         var rooms = [];
 
@@ -20,14 +31,56 @@
             if ($scope.availableRooms[i].Selected)
                 rooms.push($scope.availableRooms[i]);
 
-        if (rooms.length <= 0)
+        if (rooms.length <= 0) {
             $window.alert('Please select at least one room')
-        else
-            accounting.calculateBill(rooms[0].Id, $scope.startDate, $scope.endDate).then(function (data) {
-                var a = data.data;
-                var b = 0;
+            return;
+        }
+
+        var requests = [];
+        
+        for (var i = 0; i < rooms.length; ++i) {
+            var request = accounting.calculateBill(rooms[0].Id, $scope.startDate, $scope.endDate);
+            requests.push(request);
+        }
+
+        $q.all(requests).then(function (data) {
+            var allBills = [];
+
+            for (var i = 0; i < data.length; ++i)
+                allBills.push(data[i].data);
+
+            var tableEntries = [];
+            var total = 0;
+
+            for (var i = 0; i < allBills.length; ++i) {
+                var bill = allBills[i];
+                total = total + bill.Total;
+
+                for (var j = 0; j < bill.Entries.length; ++j) {
+                    var entry = bill.Entries[j];
+                    entry.Room = rooms[i].Name;
+                    var date = new Date(entry.Date);
+                    entry.Date = date.toDateString();
+                    tableEntries.push(entry);
+                }
+            }
+
+            tableEntries.push({
+                Room: '',
+                Bread: '',
+                Date: '',
+                Price: null,
+                Amount: null,
+                Total: total
             });
+
+            tables.setAllRowsClean($scope, tableEntries);
+        });
     }
+
+    $scope.calculateTableHeight = function () {
+        return tables.calculateTableHeight($scope);
+    };
 
 
     if (!$scope.isOnlyUser()) {

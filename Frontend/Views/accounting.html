@@ -15,10 +15,9 @@
             <div uib-datepicker ng-model="endDate" class="well well-sm" datepicker-options="options"></div>
         </div>
     </div>
-
-    <button ng-click="calculateBill()" class="tableButton">Calculate Bill</button>
+    <div id="accountingButtons">
+        <button ng-click="calculateBill()" class="tableButton">Calculate Bill</button>
+    </div>
 </div>
 
-<div id="accountingResult">
-
-</div>
+<div ui-grid="gridOptions" id="accountingResult" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
