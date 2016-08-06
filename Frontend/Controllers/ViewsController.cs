@@ -35,6 +35,30 @@ namespace Frontend.Controllers
             return GetIndex();
         }
 
+        [Route("rooms")]
+        public HttpResponseMessage GetRooms()
+        {
+            return GetIndex();
+        }
+
+        [Route("breadbookings")]
+        public HttpResponseMessage GetBreadBookings()
+        {
+            return GetIndex();
+        }
+
+        [Route("accounting")]
+        public HttpResponseMessage GetAccounting()
+        {
+            return GetIndex();
+        }
+
+        [Route("users")]
+        public HttpResponseMessage GetUsers()
+        {
+            return GetIndex();
+        }
+
         [Route("login")]
         public HttpResponseMessage GetLogin()
         {
