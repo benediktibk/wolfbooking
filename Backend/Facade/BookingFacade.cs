@@ -130,7 +130,7 @@ namespace Backend.Facade
             return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
         }
 
-        public bool IsUserAllowedToSeeRolesOfUser(string currentUser, string username)
+        public bool IsUserAllowedToSeeDataOfUser(string currentUser, string username)
         {
             var user = _userRepository.GetByLogin(currentUser);
 
@@ -217,7 +217,7 @@ namespace Backend.Facade
         {
             var businessBreadBookings = _breadBookingsRepository.GetBreadBookingsById(breadBookings.Id);
 
-            if (businessBreadBookings == null)
+            if (businessBreadBookings == null || breadBookings.Room != businessBreadBookings.Room)
                 return false;
 
             businessBreadBookings.UpdateWith(breadBookings);

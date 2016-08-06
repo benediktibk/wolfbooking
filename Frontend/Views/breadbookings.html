@@ -1,5 +1,5 @@
 ﻿<div ng-hide="isOnlyUser()">
-    <select ng-model="selectedRoom" ng-options="x.Name for x in availableRooms"></select>
+    <select ng-model="selectedRoom" ng-options="x.Name for x in availableRooms" ng-change="selectedRoomChanged(selectedRoom)"></select>
 </div>
 <div ui-grid="gridOptions" id="breadBookingsTable" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
 <button ng-click="persistAllChanges()" class="tableButton">Save</button>

@@ -28,38 +28,46 @@
         return authentication.isOnlyUser();
     };
 
-    $scope.loadAll = function () {
-        var username = authentication.getUsername();
-        
-        users.getItemByUserName(username).then(function (data) {
-            var user = data.data;
-            breadbookings.getCurrentByRoom(user.Room).then(function (data) {
-                var bookings = data.data.Bookings;
-                currentBookingMetaData.Id = data.data.Id;
-                currentBookingMetaData.Room = data.data.Room;
-                currentBookingMetaData.Date = data.data.Date;
-                var ids = [];
+    $scope.loadAllForRoom = function (room) {
+        breadbookings.getCurrentByRoom(room).then(function (data) {
+            var bookings = data.data.Bookings;
+            currentBookingMetaData.Id = data.data.Id;
+            currentBookingMetaData.Room = data.data.Room;
+            currentBookingMetaData.Date = data.data.Date;
+            var ids = [];
 
-                for (var i = 0; i < bookings.length; ++i)
-                    ids.push(bookings[i].Bread);
+            for (var i = 0; i < bookings.length; ++i)
+                ids.push(bookings[i].Bread);
 
-                breads.getByIds(ids).then(function (data) {
-                    var breads = data.data;
-                    var breadsById = {};
+            breads.getByIds(ids).then(function (data) {
+                var breads = data.data;
+                var breadsById = {};
 
-                    for (var i = 0; i < breads.length; ++i)
-                        breadsById[breads[i].Id] = breads[i];
+                for (var i = 0; i < breads.length; ++i)
+                    breadsById[breads[i].Id] = breads[i];
 
-                    for (var i = 0; i < bookings.length; ++i) {
-                        var bread = breadsById[bookings[i].Bread];
-                        bookings[i].Name = bread.Name;
-                        bookings[i].Price = bread.Price;
-                    }
+                for (var i = 0; i < bookings.length; ++i) {
+                    var bread = breadsById[bookings[i].Bread];
+                    bookings[i].Name = bread.Name;
+                    bookings[i].Price = bread.Price;
+                }
 
-                    tables.setAllRowsClean($scope, bookings);
-                });
-            })
+                tables.setAllRowsClean($scope, bookings);
+            });
         });
+    };
+
+    $scope.loadAll = function () {
+        if ($scope.isOnlyUser()) {
+            var username = authentication.getUsername();
+            users.getItemByUserName(username).then(function (data) {
+                var user = data.data;
+                $scope.loadAllForRoom(user.Room);
+            });
+        }
+        else {
+            $scope.loadAllForRoom($scope.selectedRoom);
+        }
     };
 
     $scope.calculateTableHeight = function () {
@@ -92,6 +100,10 @@
     $scope.cancelAllChanges = function () {
         $scope.loadAll();
     };
+
+    $scope.selectedRoomChanged = function (selectedRoom) {
+        $scope.loadAll();
+    }
 
     $scope.loadAll();
 });

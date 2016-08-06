@@ -40,11 +40,16 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users/username/{username}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Users")]
         [HttpGet]
         public User GetUserByUsername(string username)
         {
             LogDebug($"fetching user {username}");
+
+            var currentUser = RequestContext.Principal.Identity.Name;
+            if (!_bookingFacade.IsUserAllowedToSeeDataOfUser(currentUser, username))
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+
             var user = _bookingFacade.GetUserByUsername(username);
 
             if (user == null)

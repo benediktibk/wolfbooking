@@ -26,10 +26,7 @@ namespace Frontend.Controllers
             var user = RequestContext.Principal.Identity.Name;
 
             if (!_bookingFacade.IsUserAllowedToSeeRoom(user, id))
-            {
-                LogDebug($"user {user} is not allowed to see this room");
-                return null;
-            }
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
 
             var result = _bookingFacade.GetCurrentBreadBookingsForRoom(id);
 
@@ -48,10 +45,7 @@ namespace Frontend.Controllers
             var user = RequestContext.Principal.Identity.Name;
 
             if (!_bookingFacade.IsUserAllowedToSeeRoom(user, id))
-            {
-                LogDebug($"user {user} is not allowed to see this room");
-                return null;
-            }
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
 
             return _bookingFacade.GetPreviousBreadBookingsForRoom(id);
         }
@@ -69,11 +63,8 @@ namespace Frontend.Controllers
 
             var user = RequestContext.Principal.Identity.Name;
 
-            if (!_bookingFacade.IsUserAllowedToSeeRoom(user, id))
-            {
-                LogDebug($"user {user} is not allowed to see this room");
-                return null;
-            }
+            if (!_bookingFacade.IsUserAllowedToSeeRoom(user, breadBookings.Room))
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
 
             return _bookingFacade.UpdateBreadBookings(breadBookings) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }

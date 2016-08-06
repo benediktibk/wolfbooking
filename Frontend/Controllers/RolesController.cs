@@ -29,7 +29,7 @@ namespace Frontend.Controllers
         {
             var currentUser = RequestContext.Principal.Identity.Name;
 
-            if (!_bookingFacade.IsUserAllowedToSeeRolesOfUser(currentUser, username))
+            if (!_bookingFacade.IsUserAllowedToSeeDataOfUser(currentUser, username))
             {
                 throw new HttpResponseException(System.Net.HttpStatusCode.Forbidden);
             }
