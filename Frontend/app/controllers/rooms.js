@@ -2,8 +2,8 @@
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: ' ', enableCellEdit: false, cellTemplate: '<div id="roomsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteRoom(row)"></i></div>', width: 30 },
-            { name: 'Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Description', field: 'Description', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true }
+            { name: 'Rooms.Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
+            { name: 'Rooms.Description', field: 'Description', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' }
     ]);
 
     if (!authentication.isAuthenticated()) {

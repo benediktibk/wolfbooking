@@ -1,9 +1,9 @@
 ﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users, breads, rooms) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
-            { name: 'Name', field: 'Name', enableCellEdit: false, type: 'string', enableCellEditOnFocus: true },
-            { name: 'Price', field: 'Price', enableCellEdit: false, type: 'number', enableCellEditOnFocus: false },
-            { name: 'Amount', field: 'Amount', enableCellEdit: true, type: 'number', enableCellEditOnFocus: false }
+            { name: 'Breadbookings.Name', field: 'Name', enableCellEdit: false, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
+            { name: 'Breadbookings.Price', field: 'Price', enableCellEdit: false, type: 'number', enableCellEditOnFocus: false, headerCellFilter: 'translate' },
+            { name: 'Breadbookings.Amount', field: 'Amount', enableCellEdit: true, type: 'number', enableCellEditOnFocus: false, headerCellFilter: 'translate' }
     ]);
 
     if (!authentication.isAuthenticated()) {

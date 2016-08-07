@@ -1,4 +1,4 @@
 ﻿<div ui-grid="gridOptions" id="roomsTable" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
-<button ng-click="persistAllChanges()" class="tableButton">Save</button>
-<button ng-click="cancelAllChanges()" class="tableButton">Cancel</button>
-<button ng-click="addRoom()" class="tableButton">Add</button>
+<button ng-click="persistAllChanges()" class="tableButton">{{ 'Rooms.Save' | translate }}</button>
+<button ng-click="cancelAllChanges()" class="tableButton">{{ 'Rooms.Cancel' | translate }}</button>
+<button ng-click="addRoom()" class="tableButton">{{ 'Rooms.Add' | translate }}</button>

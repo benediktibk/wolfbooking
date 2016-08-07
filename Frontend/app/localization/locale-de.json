@@ -10,5 +10,20 @@
     "Name": "Name",
     "Price": "Preis [€]",
     "Save": "Speichern"
+  },
+  "Rooms": {
+    "Add": "Hinzufügen",
+    "Cancel": "Abbrechen",
+    "Name": "Name",
+    "Description": "Beschreibung",
+    "Save": "Speichern"
+  },
+  "Breadbookings": {
+    "Cancel": "Abbrechen",
+    "Name": "Name",
+    "Price": "Preis [€]",
+    "Save": "Speichern",
+    "Amount": "Anzahl",
+    "Selection": "Bitte wählen sie einen Raum"
   }
 }

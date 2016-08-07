@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('breadsController', function ($scope, $q, $location, $translate, i18nService, breads, authentication, tables) {
+﻿wolfBookingApp.controller('breadsController', function ($scope, $q, $location, breads, authentication, tables) {
     tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: ' ', enableCellEdit: false, cellTemplate: '<div id="breadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },

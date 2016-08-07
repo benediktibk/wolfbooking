@@ -10,5 +10,20 @@
     "Name": "Name",
     "Price": "Price [€]",
     "Save": "Save"
+  },
+  "Rooms": {
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Name": "Name",
+    "Description": "Description",
+    "Save": "Save"
+  },
+  "Breadbookings": {
+    "Cancel": "Cancel",
+    "Name": "Name",
+    "Price": "Price [€]",
+    "Save": "Save",
+    "Amount": "Amount",
+    "Selection": "Please select a room"
   }
 }
