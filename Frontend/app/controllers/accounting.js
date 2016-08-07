@@ -78,14 +78,18 @@
     };
 
 
-    if (!$scope.isOnlyUser()) {
-        rooms.getAll().then(function (data) {
-            var availableRooms = data.data;
+    if ($scope.isOnlyUser()) 
+        return;
 
-            for (var i = 0; i < availableRooms.Length; ++i)
-                availableRooms[i].Selected = true;
+    rooms.getAll().then(function (data) {
+        var availableRooms = data.data;
 
-            $scope.availableRooms = availableRooms;
-        });
-    }
+        for (var i = 0; i < availableRooms.length; ++i) {
+            var room = availableRooms[i];
+            room.Selected = true;
+            availableRooms[i] = room;
+        }
+
+        $scope.availableRooms = availableRooms;
+    });
 });
