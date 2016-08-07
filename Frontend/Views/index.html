@@ -22,13 +22,13 @@
                 <a class="navbar-brand" href="/">WolfBooking</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="breads">Breads</a></li>
-                <li ng-show="isLoggedIn() && isAdministrator()"><a href="users">Users</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="rooms">Rooms</a></li>
-                <li ng-show="isLoggedIn()"><a href="breadbookings">Bread Booking</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="accounting">Accounting</a></li>
-                <li ng-show="!isLoggedIn()"><a href="login">Login</a></li>
-                <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">Logout</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="breads">{{'Index.Breads' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && isAdministrator()"><a href="users">{{'Index.Users' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="rooms">{{'Index.Rooms' | translate}}</a></li>
+                <li ng-show="isLoggedIn()"><a href="breadbookings">{{'Index.Breadbooking' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="accounting">{{'Index.Accounting' | translate}}</a></li>
+                <li ng-show="!isLoggedIn()"><a href="login">{{'Index.Login' | translate}}</a></li>
+                <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">{{'Index.Logout' | translate}}</a></li>
             </ul>
         </div>
     </nav>

@@ -40,5 +40,14 @@
     "Totalascolumn": "Gesamt [€]",
     "Selectionerror":  "Bitte wählen sie zumindest einen Raum aus.",
     "Selection":  "Räume"
+  },
+  "Index": {
+    "Breads": "Brote",
+    "Users": "Benutzer",
+    "Rooms": "Räume",
+    "Breadbooking": "Brot Buchungen",
+    "Accounting": "Rechnungen",
+    "Login": "Anmelden",
+    "Logout": "Abmelden"
   }
 }

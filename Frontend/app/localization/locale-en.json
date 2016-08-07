@@ -38,6 +38,15 @@
     "Amount": "Amount",
     "Totalascolumn": "Total [€]",
     "Selectionerror": "Please select at least one room.",
-    "Selection":  "Rooms"
+    "Selection": "Rooms"
+  },
+  "Index": {
+    "Breads": "Breads",
+    "Users": "Users",
+    "Rooms": "Rooms",
+    "Breadbooking": "Bread Booking",
+    "Accounting": "Accounting",
+    "Login": "Login",
+    "Logout": "Logout"
   }
 }
