@@ -9,6 +9,10 @@
     margin: 5px;
 }
 
+.tableButton:disabled {
+    color: lightgray;
+}
+
 .ui-grid-row-dirty .ui-grid-cell {
     color: #6600ff;
     background-color: #ccc;

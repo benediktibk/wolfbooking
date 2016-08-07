@@ -14,7 +14,9 @@ namespace Backend.Facade
             Id = bookings.Id;
             Room = bookings.Room;
             Date = bookings.Date;
+            AlreadyOrdered = bookings.AlreadyOrdered;
             Bookings = new List<BreadBooking>();
+
             foreach (var booking in bookings.Bookings)
                 Bookings.Add(new BreadBooking(booking));
         }
@@ -22,6 +24,7 @@ namespace Backend.Facade
         public int Id { get; set; }
         public int Room { get; set; }
         public DateTime Date { get; set; }
+        public bool AlreadyOrdered { get; set; }
         public List<BreadBooking> Bookings { get; set; }
 
         public override string ToString()

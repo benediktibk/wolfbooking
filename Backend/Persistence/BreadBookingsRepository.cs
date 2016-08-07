@@ -84,6 +84,9 @@ namespace Backend.Persistence
                 if (persistenceBookings == null)
                     throw new ArgumentException("breadBookings", $"bread booking with id {breadBookings.Id} does not exist");
 
+                if (persistenceBookings.AlreadyOrdered)
+                    throw new ArgumentException("breadBookings", $"bread booking with id {breadBookings.Id} has already been ordered");
+
                 context.BreadBookings.Attach(persistenceBookings);
                 persistenceBookings.UpdateWith(breadBookings);
                 persistenceBookings.Room = context.Rooms.Find(breadBookings.Room);

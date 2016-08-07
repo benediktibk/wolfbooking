@@ -11,10 +11,11 @@
         return;
     }
 
-    var currentBookingMetaData = {
+   $scope.currentBookingMetaData = {
         Id: -1,
         Room: -1,
-        Date: 0
+        Date: 0,
+        AlreadyOrdered: false
     };
 
     $scope.availableRooms = [];
@@ -28,9 +29,10 @@
     $scope.loadAllForRoom = function (room) {
         breadbookings.getCurrentByRoom(room).then(function (data) {
             var bookings = data.data.Bookings;
-            currentBookingMetaData.Id = data.data.Id;
-            currentBookingMetaData.Room = data.data.Room;
-            currentBookingMetaData.Date = data.data.Date;
+            $scope.currentBookingMetaData.Id = data.data.Id;
+            $scope.currentBookingMetaData.Room = data.data.Room;
+            $scope.currentBookingMetaData.Date = data.data.Date;
+            $scope.currentBookingMetaData.AlreadyOrdered = data.data.AlreadyOrdered;
             var ids = [];
 
             for (var i = 0; i < bookings.length; ++i)
@@ -78,9 +80,9 @@
         var data = $scope.gridOptions.data;
         var bookings = {
             Bookings: [],
-            Id: currentBookingMetaData.Id,
-            Room: currentBookingMetaData.Room,
-            Date: currentBookingMetaData.Date
+            Id: $scope.currentBookingMetaData.Id,
+            Room: $scope.currentBookingMetaData.Room,
+            Date: $scope.currentBookingMetaData.Date
         };
 
         for (var i = 0; i < data.length; ++i) {

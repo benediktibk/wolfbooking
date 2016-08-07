@@ -217,6 +217,9 @@ namespace Backend.Facade
         {
             var businessBreadBookings = _breadBookingsRepository.GetBreadBookingsById(breadBookings.Id);
 
+            if (businessBreadBookings.AlreadyOrdered)
+                return false;
+
             if (businessBreadBookings == null || breadBookings.Room != businessBreadBookings.Room)
                 return false;
 
