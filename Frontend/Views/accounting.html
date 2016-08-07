@@ -1,5 +1,6 @@
 ﻿<div>
     <form>
+        {{'Accounting.Selection' | translate}}:
         <ul id="accountingRoomSelection">
             <li ng-repeat="room in availableRooms"><input type="checkbox" ng-model="room.Selected">{{room.Name}}</li>
         </ul>
@@ -7,20 +8,20 @@
 
     <div id="accoutingDates">
         <div id="accountingStartDate">
-            <p class="dateTitle">Start Date</p>
+            <p class="dateTitle">{{'Accounting.Startdate' | translate}}</p>
             <div uib-datepicker ng-model="startDate" class="well well-sm" datepicker-options="options"></div>
         </div>
         <div id="accountingEndDate">
-            <p class="dateTitle">End Date</p>
+            <p class="dateTitle">{{'Accounting.Enddate' | translate}}</p>
             <div uib-datepicker ng-model="endDate" class="well well-sm" datepicker-options="options"></div>
         </div>
     </div>
     <div id="accountingButtons">
-        <button ng-click="calculateBill()" class="tableButton">Calculate Bill</button>
+        <button ng-click="calculateBill()" class="tableButton">{{'Accounting.Calculatebill' | translate}}</button>
     </div>
 </div>
 
 <div id="accountingResults" ng-show="billLoaded">
-    <p>Total: {{billTotal}}€</p>
+    <p>{{'Accounting.Total' | translate}}: {{billTotal}}€</p>
     <div ui-grid="gridOptions" id="accountingResult" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
 </div>

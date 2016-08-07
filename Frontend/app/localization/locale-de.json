@@ -25,5 +25,19 @@
     "Save": "Speichern",
     "Amount": "Anzahl",
     "Selection": "Bitte wählen sie einen Raum"
+  },
+  "Accounting": {
+    "Startdate": "Startdatum",
+    "Enddate": "Enddatum",
+    "Calculatebill": "Rechnung erstellen",
+    "Total": "Gesamt",
+    "Room": "Raum",
+    "Bread": "Brot",
+    "Date": "Datum",
+    "Price": "Preis [€]",
+    "Amount": "Anzahl",
+    "Totalascolumn": "Gesamt [€]",
+    "Selectionerror":  "Bitte wählen sie zumindest einen Raum aus.",
+    "Selection":  "Räume"
   }
 }

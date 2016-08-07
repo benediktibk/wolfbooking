@@ -1,6 +1,5 @@
 ﻿{
-  "Login": 
-  {
+  "Login": {
     "Username": "Username",
     "Password": "Password"
   },
@@ -25,5 +24,19 @@
     "Save": "Save",
     "Amount": "Amount",
     "Selection": "Please select a room"
+  },
+  "Accounting": {
+    "Startdate": "Start date",
+    "Enddate": "End date",
+    "Calculatebill": "Calculate bill",
+    "Total": "Total",
+    "Room": "Room",
+    "Bread": "Bread",
+    "Date": "Date",
+    "Price": "Price [€]",
+    "Amount": "Amount",
+    "Totalascolumn": "Total [€]",
+    "Selectionerror": "Please select at least one room.",
+    "Selection":  "Rooms"
   }
 }

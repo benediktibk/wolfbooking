@@ -1,11 +1,11 @@
-﻿wolfBookingApp.controller('accountingController', function ($scope, $q, $location, $window, authentication, tables, rooms, accounting) {
+﻿wolfBookingApp.controller('accountingController', function ($scope, $q, $location, $window, $translate, authentication, tables, rooms, accounting) {
     tables.initialize($scope, [
-        { name: 'Room', field: 'Room', type: 'string' },
-        { name: 'Bread', field: 'Bread', type: 'string' },
-        { name: 'Date', field: 'Date', type: 'string' },
-        { name: 'Price [€]', field: 'Price', type: 'number' },
-        { name: 'Amount', field: 'Amount', type: 'number' },
-        { name: 'Total [€]', field: 'Total', type: 'number' }
+        { name: 'Accounting.Room', field: 'Room', type: 'string', headerCellFilter: 'translate' },
+        { name: 'Accounting.Bread', field: 'Bread', type: 'string', headerCellFilter: 'translate' },
+        { name: 'Accounting.Date', field: 'Date', type: 'string', headerCellFilter: 'translate' },
+        { name: 'Accounting.Price', field: 'Price', type: 'number', headerCellFilter: 'translate' },
+        { name: 'Accounting.Amount', field: 'Amount', type: 'number', headerCellFilter: 'translate' },
+        { name: 'Accounting.Totalascolumn', field: 'Total', type: 'number', headerCellFilter: 'translate' }
     ]);
 
     if (!authentication.isAuthenticated()) {
@@ -34,7 +34,9 @@
                 rooms.push($scope.availableRooms[i]);
 
         if (rooms.length <= 0) {
-            $window.alert('Please select at least one room')
+            $translate('Accounting.Selectionerror').then(function (errorMessage) {
+                $window.alert(errorMessage);
+            });
             return;
         }
 
