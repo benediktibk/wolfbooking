@@ -2,10 +2,11 @@
     'wolfBooking', 
     [
     'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap',
+    'pascalprecht.translate', 'ngSanitize',
     'breads', 'authentication', 'users', 'pagehistory', 'roles', 'tables', 'rooms', 'breadbookings', 'accounting'
     ]);
 
-wolfBookingApp.config(function ($routeProvider, $locationProvider) {
+wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/login',
@@ -37,4 +38,17 @@ wolfBookingApp.config(function ($routeProvider, $locationProvider) {
         });
 
     $locationProvider.html5Mode(true);
-});
+
+    var translationsDe = {
+        BLUB: 'BLUB in de'
+    };
+    var translationsEn = {
+        BLUB: 'BLUB in en'
+    };
+
+    $translateProvider
+        .translations('en', translationsEn)
+        .translations('de', translationsDe)
+        .preferredLanguage('de')
+        .useSanitizeValueStrategy('sanitize');
+}]);
