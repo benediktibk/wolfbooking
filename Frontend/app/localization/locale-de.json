@@ -2,7 +2,8 @@
   "Login": 
   {
     "Username": "Benutzername",
-    "Password": "Passwort"
+    "Password": "Passwort",
+    "Login":  "Anmelden"
   },
   "Breads": {
     "Add": "Hinzufügen",
