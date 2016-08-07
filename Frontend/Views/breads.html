@@ -1,5 +1,4 @@
 ﻿<div ui-grid="gridOptions" id="breadsTable" ui-grid-auto-resize ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
-<button ng-click="persistAllChanges()" class="tableButton">Save</button>
-<button ng-click="cancelAllChanges()" class="tableButton">Cancel</button>
-<button ng-click="addBread()" class="tableButton">Add</button>
-<p>blub: {{blub}}</p>
+<button ng-click="persistAllChanges()" class="tableButton">{{ 'Breads.Save' | translate }}</button>
+<button ng-click="cancelAllChanges()" class="tableButton">{{ 'Breads.Cancel' | translate }}</button>
+<button ng-click="addBread()" class="tableButton">{{ 'Breads.Add' | translate }}</button>

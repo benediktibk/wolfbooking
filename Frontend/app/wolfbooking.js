@@ -40,10 +40,31 @@ wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvide
     $locationProvider.html5Mode(true);
 
     var translationsDe = {
-        BLUB: 'BLUB in de'
+        Login: {
+            Username: 'Benutzername',
+            Password: 'Passwort'
+        },
+        Breads: {
+            Name: 'Name',
+            Price: 'Preis [€]',
+            Save: 'Speichern',
+            Cancel: 'Abbrechen',
+            Add: 'Hinzufügen'
+        }
     };
+
     var translationsEn = {
-        BLUB: 'BLUB in en'
+        Login: {
+            Username: 'Username',
+            Password: 'Password'
+        },
+        Breads: {
+            Name: 'Name',
+            Price: 'Price [€]',
+            Save: 'Save',
+            Cancel: 'Cancel',
+            Add: 'Add'
+        }
     };
 
     $translateProvider
