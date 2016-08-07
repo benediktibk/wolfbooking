@@ -8,12 +8,8 @@
 wolfBookingApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/home',
-            controller: 'homeController'
-        })
-        .when('/home', {
-            templateUrl: 'views/home',
-            controller: 'homeController'
+            templateUrl: 'views/login',
+            controller: 'loginController'
         })
         .when('/breads', {
             templateUrl: 'views/breads',

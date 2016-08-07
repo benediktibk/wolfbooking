@@ -1,11 +1,14 @@
-﻿wolfBookingApp.controller('loginController', function ($scope, $window, authentication, pagehistory) {
+﻿wolfBookingApp.controller('loginController', function ($scope, $window, $location, authentication, pagehistory) {
 
     $scope.login = function () {
         var username = $scope.username;
         var password = $scope.password;
         authentication.login(username, password).
             success(function () {
-                pagehistory.goToPreviousView();
+                if (pagehistory.doesPreviousViewExist())
+                    pagehistory.goToPreviousView();
+                else
+                    $location.path('/breadbookings');
             }).
             error(function () {
                 $window.alert('failed');

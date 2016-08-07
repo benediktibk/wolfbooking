@@ -22,7 +22,6 @@
                 <a class="navbar-brand" href="/">WolfBooking</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="home">Home</a></li>
                 <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="breads">Breads</a></li>
                 <li ng-show="isLoggedIn() && isAdministrator()"><a href="users">Users</a></li>
                 <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="rooms">Rooms</a></li>

@@ -1086,7 +1086,6 @@
     <Content Include="Views\accounting.html" />
     <Content Include="Views\breadbookings.html" />
     <Content Include="Views\breads.html" />
-    <Content Include="Views\home.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\rooms.html" />
     <Content Include="Views\users.html" />

@@ -8,8 +8,16 @@ pagehistory.factory('pagehistory', function ($rootScope, $location) {
         _viewHistory.push($location.$$path);
     });
 
+    var calculatePreviousViewIndex = function () {
+        return _viewHistory.length - 2;
+    }
+
+    var doesPreviousViewExist = function () {
+        return calculatePreviousViewIndex() >= 0;
+    }
+
     var goToPreviousView = function () {
-        var index = _viewHistory.length - 2;
+        var index = calculatePreviousViewIndex();
 
         if (index < 0)
             return;
@@ -18,6 +26,7 @@ pagehistory.factory('pagehistory', function ($rootScope, $location) {
     }
 
     pagehistoryFactory.goToPreviousView = goToPreviousView;
+    pagehistoryFactory.doesPreviousViewExist = doesPreviousViewExist;
 
     return pagehistoryFactory;
 });
