@@ -1,0 +1,14 @@
+﻿{
+  "Login": 
+  {
+    "Username": "Benutzername",
+    "Password": "Passwort"
+  },
+  "Breads": {
+    "Add": "Hinzufügen",
+    "Cancel": "Abbrechen",
+    "Name": "Name",
+    "Price": "Preis [€]",
+    "Save": "Speichern"
+  }
+}

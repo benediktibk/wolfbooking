@@ -39,37 +39,12 @@ wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvide
 
     $locationProvider.html5Mode(true);
 
-    var translationsDe = {
-        Login: {
-            Username: 'Benutzername',
-            Password: 'Passwort'
-        },
-        Breads: {
-            Name: 'Name',
-            Price: 'Preis [€]',
-            Save: 'Speichern',
-            Cancel: 'Abbrechen',
-            Add: 'Hinzufügen'
-        }
-    };
-
-    var translationsEn = {
-        Login: {
-            Username: 'Username',
-            Password: 'Password'
-        },
-        Breads: {
-            Name: 'Name',
-            Price: 'Price [€]',
-            Save: 'Save',
-            Cancel: 'Cancel',
-            Add: 'Add'
-        }
-    };
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'app/localization/locale-',
+        suffix: '.json'
+    });
 
     $translateProvider
-        .translations('en', translationsEn)
-        .translations('de', translationsDe)
         .preferredLanguage('de')
         .useSanitizeValueStrategy('sanitize');
 }]);

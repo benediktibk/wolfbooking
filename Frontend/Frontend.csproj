@@ -269,6 +269,8 @@
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
+    <Content Include="app\localization\locale-de.json" />
+    <Content Include="app\localization\locale-en.json" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -295,6 +297,7 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-translate-loader-static-files.min.js" />
     <Content Include="Scripts\angular-translate.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />

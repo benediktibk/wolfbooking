@@ -1,0 +1,14 @@
+﻿{
+  "Login": 
+  {
+    "Username": "Username",
+    "Password": "Password"
+  },
+  "Breads": {
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Name": "Name",
+    "Price": "Price [€]",
+    "Save": "Save"
+  }
+}
