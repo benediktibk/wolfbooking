@@ -1,7 +1,8 @@
 ﻿{
   "Login": {
     "Username": "Username",
-    "Password": "Password"
+    "Password": "Password",
+    "Login":  "Login"
   },
   "Breads": {
     "Add": "Add",
