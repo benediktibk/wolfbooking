@@ -29,6 +29,7 @@
                 <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="accounting">{{'Index.Accounting' | translate}}</a></li>
                 <li ng-show="!isLoggedIn()"><a href="login">{{'Index.Login' | translate}}</a></li>
                 <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">{{'Index.Logout' | translate}}</a></li>
+                <li ng-click="changeLanguage()"><img src="Content/en_de_flags_small.png" width="50" height="25"></li>
             </ul>
         </div>
     </nav>

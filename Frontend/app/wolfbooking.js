@@ -44,7 +44,12 @@ wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvide
         suffix: '.json'
     });
 
-    $translateProvider
-        .preferredLanguage('de')
-        .useSanitizeValueStrategy('escape');
+    $translateProvider.useSanitizeValueStrategy('escape');
+    var language = window.navigator.userLanguage || window.navigator.language;
+    var languageCode = language.substring(0, 2);
+
+    if (languageCode != 'de')
+        languageCode = 'en';
+
+    $translateProvider.preferredLanguage(languageCode);
 }]);
