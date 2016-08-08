@@ -52,6 +52,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BookingServiceWorker.cs" />
+    <Compile Include="MailSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,10 +8,10 @@ namespace BookingService
         private BookingServiceWorker _worker;
         private Thread _thread;
 
-        public BookingService()
+        public BookingService(MailSettings mailSettings)
         {
             ServiceName = "Wolfbooking";
-            _worker = new BookingServiceWorker();
+            _worker = new BookingServiceWorker(mailSettings);
             _thread = new Thread(_worker.DoWork);
         }
 
