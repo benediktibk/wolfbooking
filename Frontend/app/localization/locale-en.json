@@ -48,5 +48,16 @@
     "Accounting": "Accounting",
     "Login": "Login",
     "Logout": "Logout"
+  },
+  "Users": {
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Save": "Save",
+    "Login": "Login",
+    "Password": "Password",
+    "User": "User",
+    "Manager": "Manager",
+    "Administrator": "Administrator",
+    "Room":  "Room"
   }
 }

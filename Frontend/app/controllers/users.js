@@ -4,12 +4,12 @@
     tables.initialize($scope, [
         { name: 'Id', field: 'Id', visible: false },
         { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
-        { name: 'Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-        { name: 'Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true },
-        { name: 'User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">' },
-        { name: 'Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id" ng-change="grid.appScope.roomSelectionChanged(row.entity.selectedRoom)"></select>' }
+        { name: 'Users.Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
+        { name: 'Users.Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
+        { name: 'Users.User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
+        { name: 'Users.Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
+        { name: 'Users.Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
+        { name: 'Users.Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id" ng-change="grid.appScope.roomSelectionChanged(row.entity.selectedRoom)"></select>', headerCellFilter: 'translate' }
     ]);
 
     if (!authentication.isAuthenticated()) {

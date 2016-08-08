@@ -49,5 +49,16 @@
     "Accounting": "Rechnungen",
     "Login": "Anmelden",
     "Logout": "Abmelden"
+  },
+  "Users": {
+    "Add": "Hinzufügen",
+    "Cancel": "Abbrechen",
+    "Save": "Speichern",
+    "Login": "Benutzername",
+    "Password": "Passwort",
+    "User": "Benutzer",
+    "Manager": "Manager",
+    "Administrator": "Administrator",
+    "Room":  "Raum"
   }
 }
