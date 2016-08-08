@@ -46,5 +46,5 @@ wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvide
 
     $translateProvider
         .preferredLanguage('de')
-        .useSanitizeValueStrategy('sanitize');
+        .useSanitizeValueStrategy('escape');
 }]);
