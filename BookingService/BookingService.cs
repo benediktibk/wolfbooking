@@ -31,6 +31,7 @@ namespace BookingService
                     .StartNow()
                     .WithDailyTimeIntervalSchedule(x => x
                         .OnEveryDay()
+                        .WithIntervalInHours(24)
                         .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(sendingTime.Hour, sendingTime.Minute)))
                     .Build();
             _scheduler = StdSchedulerFactory.GetDefaultScheduler();
