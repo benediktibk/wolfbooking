@@ -12,8 +12,9 @@ namespace BookingService
                 var service = new BookingService();
                 service.StartScheduler();
 
-                Console.WriteLine("press any key to stop");
-                Console.ReadKey();
+                Console.WriteLine("press any q to stop");
+                while (Console.ReadKey().KeyChar != 'q');
+
                 service.Stop();
             }
             else
