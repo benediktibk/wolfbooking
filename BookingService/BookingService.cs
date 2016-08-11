@@ -1,37 +1,68 @@
-﻿using System.ServiceProcess;
-using System.Threading;
+﻿using Quartz.Impl;
+using Quartz;
+using System.ServiceProcess;
+using System;
+using NLog;
 
 namespace BookingService
 {
     class BookingService : ServiceBase
     {
-        private BookingServiceWorker _worker;
-        private Thread _thread;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private IJobDetail _worker;
+        private ITrigger _trigger;
+        private IScheduler _scheduler;
 
-        public BookingService(MailSettings mailSettings)
+        public BookingService()
         {
+            logger.Debug("creating booking service");
             ServiceName = "Wolfbooking";
-            _worker = new BookingServiceWorker(mailSettings);
-            _thread = new Thread(_worker.DoWork);
+            _worker = JobBuilder.Create<BookingServiceWorker>()
+                    .WithIdentity("mailsending", "wolfbooking")
+                    .Build();
+
+
+            logger.Debug("loading time settings");
+            var appSettings = System.Configuration.ConfigurationSettings.AppSettings;
+            var sendingTime = DateTime.Parse(appSettings["sendingtime"]);
+
+            _trigger = TriggerBuilder.Create()
+                    .WithIdentity("daily", "wolfbooking")
+                    .StartNow()
+                    .WithDailyTimeIntervalSchedule(x => x
+                        .OnEveryDay()
+                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(sendingTime.Hour, sendingTime.Minute)))
+                    .Build();
+            _scheduler = StdSchedulerFactory.GetDefaultScheduler();
         }
 
-        public void Run()
+        public void StartScheduler()
         {
-            _thread.Start();
+            logger.Debug("starting scheduler");
+            _scheduler.Start();
+            _scheduler.ScheduleJob(_worker, _trigger);
         }
 
         protected override void OnStart(string[] args)
         {
-            _thread.Start();
+            logger.Debug("start of service requested");
+            try
+            {
+                StartScheduler();
+            }
+            catch (Exception)
+            {
+                logger.Fatal("start of service failed, stopping again");
+                Stop();
+            }
+            logger.Debug("service started");
         }
 
         protected override void OnStop()
         {
-            _worker.Stop();
-
-            // wait 3 seconds for the thread to stop
-            if (!_thread.Join(3000))
-                _thread.Abort();
+            logger.Debug("stop of service requested");
+            _scheduler.Shutdown();
+            logger.Debug("service stopped");
         }
     }
 }
