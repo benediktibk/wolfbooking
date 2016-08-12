@@ -148,6 +148,24 @@ namespace Backend.Facade
             return breadBookings == null ? null : new BreadBookings(breadBookings);
         }
 
+        public IList<BreadBookings> GetCurrentBreadBookingsForAllRooms()
+        {
+            var result = new List<BreadBookings>();
+            var rooms = GetCurrentAvailableRooms();
+
+            foreach (var room in rooms)
+            {
+                var breadBookings = _breadBookingsRepository.GetCurrentBreadBookingsForRoom(room.Id);
+
+                if (breadBookings == null)
+                    throw new Exception($"couldn't load bread bookings for room {room.Id}");
+
+                result.Add(new BreadBookings(breadBookings));
+            }
+
+            return result;
+        }
+
         public Bill CalculateBill(int room, DateTime startDate, DateTime endDate)
         {
             var bill = _breadBookingsRepository.GetBreadBookingsForRoomBetween(room, startDate, endDate);
@@ -217,10 +235,23 @@ namespace Backend.Facade
         {
             var businessBreadBookings = _breadBookingsRepository.GetBreadBookingsById(breadBookings.Id);
 
-            if (businessBreadBookings.AlreadyOrdered)
+            if (businessBreadBookings == null || 
+                breadBookings.Room != businessBreadBookings.Room || 
+                businessBreadBookings.AlreadyOrdered)
                 return false;
 
-            if (businessBreadBookings == null || breadBookings.Room != businessBreadBookings.Room)
+            businessBreadBookings.UpdateWith(breadBookings);
+            _breadBookingsRepository.Update(businessBreadBookings);
+            return true;
+        }
+
+        public bool UpdateBreadBookingsAndSetAsOrdered(BreadBookings breadBookings)
+        {
+            var businessBreadBookings = _breadBookingsRepository.GetBreadBookingsById(breadBookings.Id);
+            businessBreadBookings.MarkAsOrdered();
+
+            if (businessBreadBookings == null || 
+                breadBookings.Room != businessBreadBookings.Room)
                 return false;
 
             businessBreadBookings.UpdateWith(breadBookings);
