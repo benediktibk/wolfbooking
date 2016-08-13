@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using Backend.Persistence;
+using System.Data.Entity;
+using System.Web;
 using System.Web.Http;
 
 namespace Frontend
@@ -7,6 +9,7 @@ namespace Frontend
     {
         protected void Application_Start()
         {
+            Database.SetInitializer(new WolfBookingInitializer());
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

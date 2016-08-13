@@ -92,6 +92,7 @@
     <Compile Include="Persistence\UserRepository.cs" />
     <Compile Include="Persistence\WolfBookingContextFactory.cs" />
     <Compile Include="Persistence\WolfBookingContext.cs" />
+    <Compile Include="Persistence\WolfBookingInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
