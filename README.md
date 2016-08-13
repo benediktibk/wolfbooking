@@ -1,6 +1,7 @@
 # README #
 
 This project contains of three parts:
+
 * Backend
 * Frontend: Webfrontend based on Angular which can be used to administer the application
 * BookingService: Windows-Service, which automatically orders breads by mail
