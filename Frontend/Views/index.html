@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="wolfBooking">
+<html ng-app="WolfBooking">
 <head>
     <base href="/">
     <meta charset="utf-8" />
@@ -15,20 +15,20 @@
     <link rel="stylesheet" href="Content/accounting.css" />
     <link rel="stylesheet" href="Content/common.css" />
 </head>
-<body ng-controller="homeController">
+<body ng-controller="HomeCtrl">
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">WolfBooking</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="breads">{{'Index.Breads' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && isAdministrator()"><a href="users">{{'Index.Users' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="rooms">{{'Index.Rooms' | translate}}</a></li>
-                <li ng-show="isLoggedIn()"><a href="breadbookings">{{'Index.Breadbooking' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="accounting">{{'Index.Accounting' | translate}}</a></li>
-                <li ng-show="!isLoggedIn()"><a href="login">{{'Index.Login' | translate}}</a></li>
-                <li ng-show="isLoggedIn()" ng-click="logout()"><a href="login">{{'Index.Logout' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Breads">{{'Index.Breads' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && isAdministrator()"><a href="Users">{{'Index.Users' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Rooms">{{'Index.Rooms' | translate}}</a></li>
+                <li ng-show="isLoggedIn()"><a href="Breadbookings">{{'Index.Breadbooking' | translate}}</a></li>
+                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Accounting">{{'Index.Accounting' | translate}}</a></li>
+                <li ng-show="!isLoggedIn()"><a href="Login">{{'Index.Login' | translate}}</a></li>
+                <li ng-show="isLoggedIn()" ng-click="logout()"><a href="Login">{{'Index.Logout' | translate}}</a></li>
                 <li ng-click="changeLanguage()"><img src="Content/en_de_flags_small.png" width="50" height="25"></li>
             </ul>
         </div>
@@ -49,26 +49,26 @@
     <script src="Scripts/ui-bootstrap-tpls-2.0.1.min.js"></script>
 
     <!-- Services -->
-    <script src="app/services/breads.js"></script>
-    <script src="app/services/authentication.js"></script>
-    <script src="app/services/users.js"></script>
-    <script src="app/services/pagehistory.js"></script>
-    <script src="app/services/roles.js"></script>
-    <script src="app/services/tables.js"></script>
-    <script src="app/services/rooms.js"></script>
-    <script src="app/services/breadbookings.js"></script>
-    <script src="app/services/accounting.js"></script>
+    <script src="app/services/Breads.js"></script>
+    <script src="app/services/Authentication.js"></script>
+    <script src="app/services/Users.js"></script>
+    <script src="app/services/PageHistory.js"></script>
+    <script src="app/services/Roles.js"></script>
+    <script src="app/services/Tables.js"></script>
+    <script src="app/services/Rooms.js"></script>
+    <script src="app/services/Breadbookings.js"></script>
+    <script src="app/services/Accounting.js"></script>
 
     <!-- Main script -->
-    <script src="app/wolfbooking.js"></script>
+    <script src="app/Wolfbooking.js"></script>
 
     <!-- Controllers -->
-    <script src="app/controllers/home.js"></script>
-    <script src="app/controllers/breads.js"></script>
-    <script src="app/controllers/login.js"></script>
-    <script src="app/controllers/users.js"></script>
-    <script src="app/controllers/rooms.js"></script>
-    <script src="app/controllers/breadbookings.js"></script>
-    <script src="app/controllers/accounting.js"></script>
+    <script src="app/controllers/HomeCtrl.js"></script>
+    <script src="app/controllers/BreadsCtrl.js"></script>
+    <script src="app/controllers/LoginCtrl.js"></script>
+    <script src="app/controllers/UsersCtrl.js"></script>
+    <script src="app/controllers/RoomsCtrl.js"></script>
+    <script src="app/controllers/BreadbookingsCtrl.js"></script>
+    <script src="app/controllers/AccountingCtrl.js"></script>
 </body>
 </html>

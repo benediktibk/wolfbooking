@@ -1,6 +1,6 @@
-﻿var users = angular.module('tables', []);
-users.factory('tables', function ($q) {
-    var tablesFactory = {};
+﻿var Users = angular.module('Tables', []);
+Users.factory('Tables', function ($q) {
+    var TablesFactory = {};
 
     var initialize = function (scope, columnDefinitions) {
         scope.deleted = [];
@@ -86,14 +86,14 @@ users.factory('tables', function ($q) {
         scope.gridApi.rowEdit.setRowsDirty([row.entity]);
     }
 
-    tablesFactory.setAllRowsClean = setAllRowsClean
-    tablesFactory.calculateTableHeight = calculateTableHeight;
-    tablesFactory.persistAllChanges = persistAllChanges;
-    tablesFactory.initialize = initialize;
-    tablesFactory.deleteRow = deleteRow;
-    tablesFactory.addRow = addRow;
-    tablesFactory.markAsDirty = markAsDirty;
-    tablesFactory.addColumnDefinition = addColumnDefinition;
+    TablesFactory.setAllRowsClean = setAllRowsClean
+    TablesFactory.calculateTableHeight = calculateTableHeight;
+    TablesFactory.persistAllChanges = persistAllChanges;
+    TablesFactory.initialize = initialize;
+    TablesFactory.deleteRow = deleteRow;
+    TablesFactory.addRow = addRow;
+    TablesFactory.markAsDirty = markAsDirty;
+    TablesFactory.addColumnDefinition = addColumnDefinition;
 
-    return tablesFactory;
+    return TablesFactory;
 });

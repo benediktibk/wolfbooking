@@ -1,5 +1,5 @@
-﻿wolfBookingApp.controller('accountingController', function ($scope, $q, $location, $window, $translate, authentication, tables, rooms, accounting) {
-    tables.initialize($scope, [
+﻿wolfBookingApp.controller('AccountingCtrl', function ($scope, $q, $location, $window, $translate, Authentication, Tables, Rooms, Accounting) {
+    Tables.initialize($scope, [
         { name: 'Accounting.Room', field: 'Room', type: 'string', headerCellFilter: 'translate' },
         { name: 'Accounting.Bread', field: 'Bread', type: 'string', headerCellFilter: 'translate' },
         { name: 'Accounting.Date', field: 'Date', type: 'string', headerCellFilter: 'translate' },
@@ -8,8 +8,8 @@
         { name: 'Accounting.Totalascolumn', field: 'Total', type: 'number', headerCellFilter: 'translate' }
     ]);
 
-    if (!authentication.isAuthenticated()) {
-        $location.path('/login');
+    if (!Authentication.isAuthenticated()) {
+        $location.path('/Login');
         return;
     }
 
@@ -27,13 +27,13 @@
     $scope.resultData;
 
     $scope.calculateBill = function () {
-        var rooms = [];
+        var Rooms = [];
 
         for (var i = 0; i < $scope.availableRooms.length; ++i)
             if ($scope.availableRooms[i].Selected)
-                rooms.push($scope.availableRooms[i]);
+                Rooms.push($scope.availableRooms[i]);
 
-        if (rooms.length <= 0) {
+        if (Rooms.length <= 0) {
             $translate('Accounting.Selectionerror').then(function (errorMessage) {
                 $window.alert(errorMessage);
             });
@@ -42,8 +42,8 @@
 
         var requests = [];
         
-        for (var i = 0; i < rooms.length; ++i) {
-            var request = accounting.calculateBill(rooms[0].Id, $scope.startDate, $scope.endDate);
+        for (var i = 0; i < Rooms.length; ++i) {
+            var request = Accounting.calculateBill(Rooms[0].Id, $scope.startDate, $scope.endDate);
             requests.push(request);
         }
 
@@ -62,28 +62,28 @@
 
                 for (var j = 0; j < bill.Entries.length; ++j) {
                     var entry = bill.Entries[j];
-                    entry.Room = rooms[i].Name;
+                    entry.Room = Rooms[i].Name;
                     var date = new Date(entry.Date);
                     entry.Date = date.toDateString();
                     tableEntries.push(entry);
                 }
             }
 
-            tables.setAllRowsClean($scope, tableEntries);
+            Tables.setAllRowsClean($scope, tableEntries);
             $scope.billTotal = total;
             $scope.billLoaded = true;
         });
     }
 
     $scope.calculateTableHeight = function () {
-        return tables.calculateTableHeight($scope);
+        return Tables.calculateTableHeight($scope);
     };
 
 
     if ($scope.isOnlyUser()) 
         return;
 
-    rooms.getAll().then(function (data) {
+    Rooms.getAll().then(function (data) {
         var availableRooms = data.data;
 
         for (var i = 0; i < availableRooms.length; ++i) {

@@ -1,11 +1,11 @@
-﻿var authentication = angular.module('authentication', []);
-authentication.factory('authentication', function ($http) {
-    var authenticationFactory = {};
+﻿var Authentication = angular.module('Authentication', []);
+Authentication.factory('Authentication', function ($http) {
+    var AuthenticationFactory = {};
 
     var _isAuthenticated = false;
     var _username = '';
     var _token = '';
-    var _roles = [];
+    var _Roles = [];
 
     var getHttpHeaderWithAuthorization = function () {
         var headers = {};
@@ -19,7 +19,7 @@ authentication.factory('authentication', function ($http) {
     var getRolesForUser = function (username) {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/roles/foruser/' + username,
+            url: 'api/Roles/foruser/' + username,
             headers: getHttpHeaderWithAuthorization()
         });
 
@@ -44,8 +44,8 @@ authentication.factory('authentication', function ($http) {
             _username = username;
             _isAuthenticated = true;
 
-            getRolesForUser(username).then(function (roles) {
-                _roles = roles;
+            getRolesForUser(username).then(function (Roles) {
+                _Roles = Roles;
             });
         }).error(function (err, status) {
             logout();
@@ -58,7 +58,7 @@ authentication.factory('authentication', function ($http) {
         _isAuthenticated = false;
         _username = '';
         _token = '';
-        _roles = [];
+        _Roles = [];
     }
 
     var isAuthenticated = function () {
@@ -70,20 +70,20 @@ authentication.factory('authentication', function ($http) {
     }
 
     var isOnlyUser = function () {
-        return _roles.length <= 1 && _roles[0] == 'Users';
+        return _Roles.length <= 1 && _Roles[0] == 'Users';
     }
 
     var isAdministrator = function () {
-        return _roles.indexOf("Administrators") != -1;
+        return _Roles.indexOf("Administrators") != -1;
     }
 
-    authenticationFactory.login = login;
-    authenticationFactory.logout = logout;
-    authenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
-    authenticationFactory.isAuthenticated = isAuthenticated;
-    authenticationFactory.getUsername = getUsername;
-    authenticationFactory.isOnlyUser = isOnlyUser;
-    authenticationFactory.isAdministrator = isAdministrator;
+    AuthenticationFactory.login = login;
+    AuthenticationFactory.logout = logout;
+    AuthenticationFactory.getHttpHeaderWithAuthorization = getHttpHeaderWithAuthorization;
+    AuthenticationFactory.isAuthenticated = isAuthenticated;
+    AuthenticationFactory.getUsername = getUsername;
+    AuthenticationFactory.isOnlyUser = isOnlyUser;
+    AuthenticationFactory.isAdministrator = isAdministrator;
 
-    return authenticationFactory;
+    return AuthenticationFactory;
 });

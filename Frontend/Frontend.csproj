@@ -237,13 +237,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\controllers\accounting.js" />
-    <Content Include="app\controllers\breadbookings.js" />
-    <Content Include="app\controllers\rooms.js" />
-    <Content Include="app\services\accounting.js" />
-    <Content Include="app\services\breadbookings.js" />
-    <Content Include="app\services\rooms.js" />
-    <Content Include="app\services\tables.js" />
+    <Content Include="app\controllers\AccountingCtrl.js" />
+    <Content Include="app\controllers\BreadbookingsCtrl.js" />
+    <Content Include="app\controllers\RoomsCtrl.js" />
+    <Content Include="app\services\Accounting.js" />
+    <Content Include="app\services\Breadbookings.js" />
+    <Content Include="app\services\Rooms.js" />
+    <Content Include="app\services\Tables.js" />
     <Content Include="Content\accounting.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -321,10 +321,10 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="app\controllers\breads.js" />
-    <Content Include="app\controllers\home.js" />
-    <Content Include="app\controllers\login.js" />
-    <Content Include="app\controllers\users.js" />
+    <Content Include="app\controllers\BreadsCtrl.js" />
+    <Content Include="app\controllers\HomeCtrl.js" />
+    <Content Include="app\controllers\LoginCtrl.js" />
+    <Content Include="app\controllers\UsersCtrl.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1096,12 +1096,12 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="app\services\authentication.js" />
-    <Content Include="app\services\breads.js" />
-    <Content Include="app\services\pagehistory.js" />
-    <Content Include="app\services\roles.js" />
-    <Content Include="app\services\users.js" />
-    <Content Include="app\wolfbooking.js" />
+    <Content Include="app\services\Authentication.js" />
+    <Content Include="app\services\Breads.js" />
+    <Content Include="app\services\PageHistory.js" />
+    <Content Include="app\services\Roles.js" />
+    <Content Include="app\services\Users.js" />
+    <Content Include="app\WolfBooking.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-2.0.1.min.js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />

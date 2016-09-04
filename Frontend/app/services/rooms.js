@@ -1,12 +1,12 @@
-﻿var rooms = angular.module('rooms', []);
-rooms.factory('rooms', function ($http, authentication) {
-    var roomsFactory = {};
+﻿var Rooms = angular.module('Rooms', []);
+Rooms.factory('Rooms', function ($http, Authentication) {
+    var RoomsFactory = {};
 
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/rooms/all',
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Rooms/all',
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
@@ -15,8 +15,8 @@ rooms.factory('rooms', function ($http, authentication) {
     var updateItem = function (room) {
         var httpRequest = $http({
             method: 'PUT',
-            url: 'api/rooms/item/' + room.Id,
-            headers: authentication.getHttpHeaderWithAuthorization(),
+            url: 'api/Rooms/item/' + room.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization(),
             data: room
         });
 
@@ -26,8 +26,8 @@ rooms.factory('rooms', function ($http, authentication) {
     var createItem = function (room) {
         var httpRequest = $http({
             method: 'POST',
-            url: 'api/rooms',
-            headers: authentication.getHttpHeaderWithAuthorization(),
+            url: 'api/Rooms',
+            headers: Authentication.getHttpHeaderWithAuthorization(),
             data: room
         });
 
@@ -37,8 +37,8 @@ rooms.factory('rooms', function ($http, authentication) {
     var deleteItem = function (room) {
         var httpRequest = $http({
             method: 'DELETE',
-            url: 'api/rooms/item/' + room.Id,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Rooms/item/' + room.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
@@ -47,18 +47,18 @@ rooms.factory('rooms', function ($http, authentication) {
     var isInUse = function (room) {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/rooms/inuse/' + room.Id,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Rooms/inuse/' + room.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
     }
 
-    roomsFactory.getAll = getAll;
-    roomsFactory.updateItem = updateItem;
-    roomsFactory.createItem = createItem;
-    roomsFactory.deleteItem = deleteItem;
-    roomsFactory.isInUse = isInUse;
+    RoomsFactory.getAll = getAll;
+    RoomsFactory.updateItem = updateItem;
+    RoomsFactory.createItem = createItem;
+    RoomsFactory.deleteItem = deleteItem;
+    RoomsFactory.isInUse = isInUse;
 
-    return roomsFactory;
+    return RoomsFactory;
 });

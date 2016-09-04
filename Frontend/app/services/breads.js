@@ -1,19 +1,19 @@
-﻿var breads = angular.module('breads', []);
-breads.factory('breads', function ($http, authentication) {
-    var breadsFactory = {};
+﻿var Breads = angular.module('Breads', []);
+Breads.factory('Breads', function ($http, Authentication) {
+    var BreadsFactory = {};
 
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/breads/all',
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Breads/all',
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
     }
 
     var getByIds = function (ids) {
-        var url = 'api/breads/items'
+        var url = 'api/Breads/items'
 
         for (var i = 0; i < ids.length; ++i) {
             var separator = '';
@@ -28,7 +28,7 @@ breads.factory('breads', function ($http, authentication) {
         var httpRequest = $http({
             method: 'GET',
             url: url,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
@@ -37,8 +37,8 @@ breads.factory('breads', function ($http, authentication) {
     var updateItem = function (bread) {
         var httpRequest = $http({
             method: 'PUT',
-            url: 'api/breads/item/' + bread.Id,
-            headers: authentication.getHttpHeaderWithAuthorization(),
+            url: 'api/Breads/item/' + bread.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization(),
             data: bread
         });
 
@@ -48,8 +48,8 @@ breads.factory('breads', function ($http, authentication) {
     var createItem = function (bread) {
         var httpRequest = $http({
             method: 'POST',
-            url: 'api/breads',
-            headers: authentication.getHttpHeaderWithAuthorization(),
+            url: 'api/Breads',
+            headers: Authentication.getHttpHeaderWithAuthorization(),
             data: bread
         });
 
@@ -59,18 +59,18 @@ breads.factory('breads', function ($http, authentication) {
     var deleteItem = function (bread) {
         var httpRequest = $http({
             method: 'DELETE',
-            url: 'api/breads/item/' + bread.Id,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Breads/item/' + bread.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
     }
 
-    breadsFactory.getAll = getAll;
-    breadsFactory.updateItem = updateItem;
-    breadsFactory.createItem = createItem;
-    breadsFactory.deleteItem = deleteItem;
-    breadsFactory.getByIds = getByIds;
+    BreadsFactory.getAll = getAll;
+    BreadsFactory.updateItem = updateItem;
+    BreadsFactory.createItem = createItem;
+    BreadsFactory.deleteItem = deleteItem;
+    BreadsFactory.getByIds = getByIds;
 
-    return breadsFactory;
+    return BreadsFactory;
 });

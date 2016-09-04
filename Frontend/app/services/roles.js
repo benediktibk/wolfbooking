@@ -1,12 +1,12 @@
-﻿var roles = angular.module('roles', []);
-roles.factory('roles', function ($http, authentication) {
-    var rolesFactory = {};
+﻿var Roles = angular.module('Roles', []);
+Roles.factory('Roles', function ($http, Authentication) {
+    var RolesFactory = {};
 
     var getAllRoles = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/roles/all',
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Roles/all',
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest.then(function (data) {
@@ -17,33 +17,33 @@ roles.factory('roles', function ($http, authentication) {
     var getRolesDictionary = function () {
         var allRoles = getAllRoles();
         return allRoles.then(function (allRoles) {
-            var rolesDictionary = [];
+            var RolesDictionary = [];
 
             for (var i = 0; i < allRoles.length; ++i) {
                 var currentRole = allRoles[i];
-                rolesDictionary[currentRole.Id] = currentRole.Name;
+                RolesDictionary[currentRole.Id] = currentRole.Name;
             }
 
-            return rolesDictionary;
+            return RolesDictionary;
         });
     }
 
     var getRolesDictionaryInvers = function () {
         var allRoles = getAllRoles();
         return allRoles.then(function (allRoles) {
-            var rolesDictionary = {};
+            var RolesDictionary = {};
 
             for (var i = 0; i < allRoles.length; ++i) {
                 var currentRole = allRoles[i];
-                rolesDictionary[currentRole.Name] = currentRole.Id;
+                RolesDictionary[currentRole.Name] = currentRole.Id;
             }
 
-            return rolesDictionary;
+            return RolesDictionary;
         });
     }
 
-    rolesFactory.getRolesDictionary = getRolesDictionary;
-    rolesFactory.getRolesDictionaryInvers = getRolesDictionaryInvers;
+    RolesFactory.getRolesDictionary = getRolesDictionary;
+    RolesFactory.getRolesDictionaryInvers = getRolesDictionaryInvers;
 
-    return rolesFactory;
+    return RolesFactory;
 });

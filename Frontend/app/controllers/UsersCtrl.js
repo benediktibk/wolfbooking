@@ -1,9 +1,9 @@
-﻿wolfBookingApp.controller('usersController', function ($scope, $q, $location, users, authentication, tables) {
+﻿wolfBookingApp.controller('UsersCtrl', function ($scope, $q, $location, Users, Authentication, Tables) {
     $scope.availableRooms = [];
 
-    tables.initialize($scope, [
+    Tables.initialize($scope, [
         { name: 'Id', field: 'Id', visible: false },
-        { name: ' ', enableCellEdit: false, cellTemplate: '<div id="usersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
+        { name: ' ', enableCellEdit: false, cellTemplate: '<div id="UsersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
         { name: 'Users.Login', field: 'Login', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
         { name: 'Users.Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
         { name: 'Users.User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
@@ -12,35 +12,35 @@
         { name: 'Users.Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id" ng-change="grid.appScope.roomSelectionChanged(row.entity.selectedRoom)"></select>', headerCellFilter: 'translate' }
     ]);
 
-    if (!authentication.isAuthenticated()) {
-        $location.path('/login');
+    if (!Authentication.isAuthenticated()) {
+        $location.path('/Login');
         return;
     }
 
     $scope.loadAll = function () {
-        users.getAll().then(function (data) {
-            tables.setAllRowsClean($scope, data.data);
+        Users.getAll().then(function (data) {
+            Tables.setAllRowsClean($scope, data.data);
         });
     };
 
     $scope.calculateTableHeight = function () {
-        return tables.calculateTableHeight($scope);
+        return Tables.calculateTableHeight($scope);
     };
 
     $scope.persistUpdate = function (rowEntity) {
-        return users.updateItem(rowEntity);
+        return Users.updateItem(rowEntity);
     };
 
     $scope.persistCreate = function (rowEntity) {
-        return users.createItem(rowEntity);
+        return Users.createItem(rowEntity);
     };
 
     $scope.persistDelete = function (rowEntity) {
-        return users.deleteItem(rowEntity);
+        return Users.deleteItem(rowEntity);
     }
 
     $scope.persistAllChanges = function () {
-        tables.persistAllChanges($scope);
+        Tables.persistAllChanges($scope);
     };
 
     $scope.cancelAllChanges = function () {
@@ -56,17 +56,17 @@
             Manager: false,
             Administrator: false
         };
-        users.fillNewUserWithAvailableRooms(user).then(function (user) {
-            tables.addRow($scope, user);
+        Users.fillNewUserWithAvailableRooms(user).then(function (user) {
+            Tables.addRow($scope, user);
         });
     };
 
     $scope.deleteUser = function (row) {
-        tables.deleteRow($scope, row);
+        Tables.deleteRow($scope, row);
     };
 
     $scope.markAsDirty = function (row) {
-        tables.markAsDirty($scope, row);
+        Tables.markAsDirty($scope, row);
     }
 
     $scope.roomSelectionChanged = function (selectedItem) {
@@ -78,7 +78,7 @@
             var rowEntity = row.entity;
 
             if (rowEntity.Id == user.Id) {
-                tables.markAsDirty($scope, row);
+                Tables.markAsDirty($scope, row);
                 return;
             }
         }

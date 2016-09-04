@@ -1,18 +1,18 @@
-﻿wolfBookingApp.controller('homeController', function ($scope, $translate, pagehistory, authentication) {
+﻿wolfBookingApp.controller('HomeCtrl', function ($scope, $translate, PageHistory, Authentication) {
     $scope.logout = function () {
-        authentication.logout();
+        Authentication.logout();
     }
 
     $scope.isLoggedIn = function () {
-        return authentication.isAuthenticated();
+        return Authentication.isAuthenticated();
     }
 
     $scope.isOnlyUser = function () {
-        return authentication.isOnlyUser();
+        return Authentication.isOnlyUser();
     }
 
     $scope.isAdministrator = function () {
-        return authentication.isAdministrator();
+        return Authentication.isAdministrator();
     }
 
     $scope.changeLanguage = function () {

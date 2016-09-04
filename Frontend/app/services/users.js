@@ -1,16 +1,16 @@
-﻿var users = angular.module('users', []);
-users.factory('users', function ($http, authentication, roles, rooms) {
-    var usersFactory = {};
+﻿var Users = angular.module('Users', []);
+Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
+    var UsersFactory = {};
 
-    var addRoleVariablesToUser = function (user, rolesDictonary) {
-        var roles = user.Roles;
+    var addRoleVariablesToUser = function (user, RolesDictonary) {
+        var Roles = user.Roles;
         user.isAdministrator = false;
         user.isManager = false;
         user.isUser = false;
 
-        for (var j = 0; j < roles.length; ++j) {
-            var role = roles[j];
-            var roleTranslated = rolesDictonary[role];
+        for (var j = 0; j < Roles.length; ++j) {
+            var role = Roles[j];
+            var roleTranslated = RolesDictonary[role];
             switch (roleTranslated) {
                 case 'Administrators':
                     user.isAdministrator = true;
@@ -28,12 +28,12 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     }
 
     var addRoleVariablesToData = function (data) {
-        var rolesDictonaryRequest = roles.getRolesDictionary();
+        var RolesDictonaryRequest = Roles.getRolesDictionary();
 
-        return rolesDictonaryRequest.then(function (rolesDictonary) {
+        return RolesDictonaryRequest.then(function (RolesDictonary) {
             for (var i = 0; i < data.data.length; ++i) {
                 var user = data.data[i];
-                user = addRoleVariablesToUser(user, rolesDictonary);
+                user = addRoleVariablesToUser(user, RolesDictonary);
             }
 
             return data;
@@ -41,23 +41,23 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     }
 
     var addRolesToUser = function (user) {
-        var rolesDictonaryRequest = roles.getRolesDictionaryInvers();
+        var RolesDictonaryRequest = Roles.getRolesDictionaryInvers();
 
-        return rolesDictonaryRequest.then(function (rolesDictionary) {
+        return RolesDictonaryRequest.then(function (RolesDictionary) {
             user.Roles = [];
 
             if (user.isUser) {
-                var roleId = rolesDictionary["Users"];
+                var roleId = RolesDictionary["Users"];
                 user.Roles.push(roleId);
             }
 
             if (user.isManager) {
-                var roleId = rolesDictionary["Managers"];
+                var roleId = RolesDictionary["Managers"];
                 user.Roles.push(roleId);
             }
 
             if (user.isAdministrator) {
-                var roleId = rolesDictionary["Administrators"];
+                var roleId = RolesDictionary["Administrators"];
                 user.Roles.push(roleId);
             }
 
@@ -65,26 +65,26 @@ users.factory('users', function ($http, authentication, roles, rooms) {
         })
     }
 
-    var addParentUserToRooms = function (rooms, user) {
-        var roomsWithParentUsers = [];
+    var addParentUserToRooms = function (Rooms, user) {
+        var RoomsWithParentUsers = [];
 
-        for (var i = 0; i < rooms.length; ++i) {
-            var oldRoom = rooms[i];
+        for (var i = 0; i < Rooms.length; ++i) {
+            var oldRoom = Rooms[i];
             var newRoom = {
                 Id: oldRoom.Id,
                 Name: oldRoom.Name,
                 ParentUser: user
             };
-            roomsWithParentUsers.splice(i, 0, newRoom);
+            RoomsWithParentUsers.splice(i, 0, newRoom);
         }
 
-        return roomsWithParentUsers;
+        return RoomsWithParentUsers;
     }
 
     var addAvailableRoomsToData = function (data) {
-        var roomsRequest = rooms.getAll();
+        var RoomsRequest = Rooms.getAll();
 
-        return roomsRequest.then(function (availableRooms) {
+        return RoomsRequest.then(function (availableRooms) {
             availableRooms.data.splice(0, 0, { Id: -1, Name: 'None' });
             for (var i = 0; i < data.data.length; ++i) {
                 var user = data.data[i];
@@ -125,9 +125,9 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     }
 
     var fillNewUserWithAvailableRooms = function (user) {
-        var roomsRequest = rooms.getAll();
+        var RoomsRequest = Rooms.getAll();
 
-        return roomsRequest.then(function (availableRooms) {
+        return RoomsRequest.then(function (availableRooms) {
             availableRooms.data.splice(0, 0, { Id: -1, Name: 'None' });
             user.availableRooms = addParentUserToRooms(availableRooms.data, user);
             return addSelectedRoomToUser(user);
@@ -137,8 +137,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     var getAll = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/users/all',
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Users/all',
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest.then(function (data) {
@@ -153,8 +153,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     var getItemByUserName = function (username) {
         var httpRequest = $http({
             metho: 'GET',
-            url: 'api/users/username/' + username,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Users/username/' + username,
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
@@ -167,8 +167,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
             delete userWithRoomSet.availableRooms;
             var httpRequest = $http({
                 method: 'PUT',
-                url: 'api/users/item/' + user.Id,
-                headers: authentication.getHttpHeaderWithAuthorization(),
+                url: 'api/Users/item/' + user.Id,
+                headers: Authentication.getHttpHeaderWithAuthorization(),
                 data: userWithRoomSet
             });
 
@@ -183,8 +183,8 @@ users.factory('users', function ($http, authentication, roles, rooms) {
             delete userWithRoomSet.availableRooms;
             var httpRequest = $http({
                 method: 'POST',
-                url: 'api/users',
-                headers: authentication.getHttpHeaderWithAuthorization(),
+                url: 'api/Users',
+                headers: Authentication.getHttpHeaderWithAuthorization(),
                 data: userWithRoomSet
             });
 
@@ -197,19 +197,19 @@ users.factory('users', function ($http, authentication, roles, rooms) {
     var deleteItem = function (user) {
         var httpRequest = $http({
             method: 'DELETE',
-            url: 'api/users/item/' + user.Id,
-            headers: authentication.getHttpHeaderWithAuthorization()
+            url: 'api/Users/item/' + user.Id,
+            headers: Authentication.getHttpHeaderWithAuthorization()
         });
 
         return httpRequest;
     }
 
-    usersFactory.getAll = getAll;
-    usersFactory.updateItem = updateItem;
-    usersFactory.createItem = createItem;
-    usersFactory.deleteItem = deleteItem;
-    usersFactory.fillNewUserWithAvailableRooms = fillNewUserWithAvailableRooms;
-    usersFactory.getItemByUserName = getItemByUserName;
+    UsersFactory.getAll = getAll;
+    UsersFactory.updateItem = updateItem;
+    UsersFactory.createItem = createItem;
+    UsersFactory.deleteItem = deleteItem;
+    UsersFactory.fillNewUserWithAvailableRooms = fillNewUserWithAvailableRooms;
+    UsersFactory.getItemByUserName = getItemByUserName;
 
-    return usersFactory;
+    return UsersFactory;
 });

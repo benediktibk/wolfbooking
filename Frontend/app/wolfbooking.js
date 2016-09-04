@@ -1,40 +1,40 @@
 ﻿var wolfBookingApp = angular.module(
-    'wolfBooking', 
+    'WolfBooking', 
     [
     'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap',
     'pascalprecht.translate', 'ngSanitize',
-    'breads', 'authentication', 'users', 'pagehistory', 'roles', 'tables', 'rooms', 'breadbookings', 'accounting'
+    'Breads', 'Authentication', 'Users', 'PageHistory', 'Roles', 'Tables', 'Rooms', 'Breadbookings', 'Accounting'
     ]);
 
 wolfBookingApp.config(['$routeProvider', '$locationProvider', '$translateProvider', function ($routeProvider, $locationProvider, $translateProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/login',
-            controller: 'loginController'
+            controller: 'LoginCtrl'
         })
-        .when('/breads', {
-            templateUrl: 'views/breads',
-            controller: 'breadsController'
+        .when('/Breads', {
+            templateUrl: 'views/Breads',
+            controller: 'BreadsCtrl'
         })
-        .when('/login', {
+        .when('/Login', {
             templateUrl: 'views/login',
-            controller: 'loginController'
+            controller: 'LoginCtrl'
         })
-        .when('/users', {
-            templateUrl: 'views/users',
-            controller: 'usersController'
+        .when('/Users', {
+            templateUrl: 'views/Users',
+            controller: 'UsersCtrl'
         })
-        .when('/rooms', {
-            templateUrl: 'views/rooms',
-            controller: 'roomsController'
+        .when('/Rooms', {
+            templateUrl: 'views/Rooms',
+            controller: 'RoomsCtrl'
         })
-        .when('/breadbookings', {
-            templateUrl: 'views/breadbookings',
-            controller: 'breadBookingsController'
+        .when('/Breadbookings', {
+            templateUrl: 'views/Breadbookings',
+            controller: 'BreadbookingsCtrl'
         })
-        .when('/accounting', {
-            templateUrl: 'views/accounting',
-            controller: 'accountingController'
+        .when('/Accounting', {
+            templateUrl: 'views/Accounting',
+            controller: 'AccountingCtrl'
         });
 
     $locationProvider.html5Mode(true);

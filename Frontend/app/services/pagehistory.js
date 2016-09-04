@@ -1,6 +1,6 @@
-﻿var pagehistory = angular.module('pagehistory', []);
-pagehistory.factory('pagehistory', function ($rootScope, $location) {
-    var pagehistoryFactory = {};
+﻿var PageHistory = angular.module('PageHistory', []);
+PageHistory.factory('PageHistory', function ($rootScope, $location) {
+    var PageHistoryFactory = {};
 
     var _viewHistory = [];
 
@@ -25,8 +25,8 @@ pagehistory.factory('pagehistory', function ($rootScope, $location) {
         return $location.path(_viewHistory[index]);
     }
 
-    pagehistoryFactory.goToPreviousView = goToPreviousView;
-    pagehistoryFactory.doesPreviousViewExist = doesPreviousViewExist;
+    PageHistoryFactory.goToPreviousView = goToPreviousView;
+    PageHistoryFactory.doesPreviousViewExist = doesPreviousViewExist;
 
-    return pagehistoryFactory;
+    return PageHistoryFactory;
 });

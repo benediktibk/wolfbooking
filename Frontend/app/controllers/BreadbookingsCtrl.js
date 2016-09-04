@@ -1,13 +1,13 @@
-﻿wolfBookingApp.controller('breadBookingsController', function ($scope, $q, $location, breadbookings, authentication, tables, users, breads, rooms) {
-    tables.initialize($scope, [
+﻿wolfBookingApp.controller('BreadbookingsCtrl', function ($scope, $q, $location, Breadbookings, Authentication, Tables, Users, Breads, Rooms) {
+    Tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
             { name: 'Breadbookings.Name', field: 'Name', enableCellEdit: false, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
             { name: 'Breadbookings.Price', field: 'Price', enableCellEdit: false, type: 'number', enableCellEditOnFocus: false, headerCellFilter: 'translate' },
             { name: 'Breadbookings.Amount', field: 'Amount', enableCellEdit: true, type: 'number', enableCellEditOnFocus: false, headerCellFilter: 'translate' }
     ]);
 
-    if (!authentication.isAuthenticated()) {
-        $location.path('/login');
+    if (!Authentication.isAuthenticated()) {
+        $location.path('/Login');
         return;
     }
 
@@ -23,11 +23,11 @@
 
 
     $scope.isOnlyUser = function () {
-        return authentication.isOnlyUser();
+        return Authentication.isOnlyUser();
     };
 
     $scope.loadAllForRoom = function (room) {
-        breadbookings.getCurrentByRoom(room).then(function (data) {
+        Breadbookings.getCurrentByRoom(room).then(function (data) {
             var bookings = data.data.Bookings;
             $scope.currentBookingMetaData.Id = data.data.Id;
             $scope.currentBookingMetaData.Room = data.data.Room;
@@ -38,28 +38,28 @@
             for (var i = 0; i < bookings.length; ++i)
                 ids.push(bookings[i].Bread);
 
-            breads.getByIds(ids).then(function (data) {
-                var breads = data.data;
-                var breadsById = {};
+            Breads.getByIds(ids).then(function (data) {
+                var Breads = data.data;
+                var BreadsById = {};
 
-                for (var i = 0; i < breads.length; ++i)
-                    breadsById[breads[i].Id] = breads[i];
+                for (var i = 0; i < Breads.length; ++i)
+                    BreadsById[Breads[i].Id] = Breads[i];
 
                 for (var i = 0; i < bookings.length; ++i) {
-                    var bread = breadsById[bookings[i].Bread];
+                    var bread = BreadsById[bookings[i].Bread];
                     bookings[i].Name = bread.Name;
                     bookings[i].Price = bread.Price;
                 }
 
-                tables.setAllRowsClean($scope, bookings);
+                Tables.setAllRowsClean($scope, bookings);
             });
         });
     };
 
     $scope.loadAll = function () {
         if ($scope.isOnlyUser()) {
-            var username = authentication.getUsername();
-            users.getItemByUserName(username).then(function (data) {
+            var username = Authentication.getUsername();
+            Users.getItemByUserName(username).then(function (data) {
                 var user = data.data;
                 $scope.loadAllForRoom(user.Room);
             });
@@ -73,7 +73,7 @@
     };
 
     $scope.calculateTableHeight = function () {
-        return tables.calculateTableHeight($scope);
+        return Tables.calculateTableHeight($scope);
     };
 
     $scope.persistAllChanges = function () {
@@ -94,7 +94,7 @@
             });
         }
 
-        breadbookings.updateItem(bookings).then(function () {
+        Breadbookings.updateItem(bookings).then(function () {
             $scope.loadAll();
         });
     };
@@ -109,7 +109,7 @@
 
 
     if (!$scope.isOnlyUser()) {
-        rooms.getAll().then(function (data) {
+        Rooms.getAll().then(function (data) {
             $scope.availableRooms = data.data;
         });
     }
