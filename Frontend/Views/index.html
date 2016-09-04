@@ -22,12 +22,12 @@
                 <a class="navbar-brand" href="/">WolfBooking</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Breads">{{'Index.Breads' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && isAdministrator()"><a href="Users">{{'Index.Users' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Rooms">{{'Index.Rooms' | translate}}</a></li>
+                <li ng-show="isMoreThanUser()"><a href="Breads">{{'Index.Breads' | translate}}</a></li>
+                <li ng-show="isAdministrator()"><a href="Users">{{'Index.Users' | translate}}</a></li>
+                <li ng-show="isMoreThanUser()"><a href="Rooms">{{'Index.Rooms' | translate}}</a></li>
                 <li ng-show="isLoggedIn()"><a href="Breadbookings">{{'Index.Breadbooking' | translate}}</a></li>
-                <li ng-show="isLoggedIn() && !isOnlyUser()"><a href="Accounting">{{'Index.Accounting' | translate}}</a></li>
-                <li ng-show="!isLoggedIn()"><a href="Login">{{'Index.Login' | translate}}</a></li>
+                <li ng-show="isMoreThanUser()"><a href="Accounting">{{'Index.Accounting' | translate}}</a></li>
+                <li ng-show="isNotLoggedIn()"><a href="Login">{{'Index.Login' | translate}}</a></li>
                 <li ng-show="isLoggedIn()" ng-click="logout()"><a href="Login">{{'Index.Logout' | translate}}</a></li>
                 <li ng-click="changeLanguage()"><img src="Content/en_de_flags_small.png" width="50" height="25"></li>
             </ul>
@@ -45,6 +45,7 @@
     <script src="Scripts/angular-sanitize.min.js"></script>
     <script src="Scripts/angular-translate.min.js"></script>
     <script src="Scripts/angular-translate-loader-static-files.min.js"></script>
+    <script src="Scripts/angular-cookies.min.js"></script>
     <script src="Scripts/ui-grid.min.js"></script>
     <script src="Scripts/ui-bootstrap-tpls-2.0.1.min.js"></script>
 

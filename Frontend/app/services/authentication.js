@@ -1,11 +1,11 @@
-﻿var Authentication = angular.module('Authentication', []);
-Authentication.factory('Authentication', function ($http) {
+﻿var Authentication = angular.module('Authentication', ['ngCookies']);
+Authentication.factory('Authentication', function ($http, $cookies) {
     var AuthenticationFactory = {};
 
     var _isAuthenticated = false;
     var _username = '';
     var _token = '';
-    var _Roles = [];
+    var _roles = [];
 
     var getHttpHeaderWithAuthorization = function () {
         var headers = {};
@@ -14,6 +14,13 @@ Authentication.factory('Authentication', function ($http) {
             headers.Authorization = 'Bearer ' + _token;
 
         return headers;
+    }
+
+    var copyLoginValuesToCookies = function () {
+        $cookies.put('loginToken', _token);
+        $cookies.put('loginUsername', _username);
+        $cookies.put('loginRoles', _roles);
+        $cookies.put('loginIsAuthenticated', _isAuthenticated);
     }
 
     var getRolesForUser = function (username) {
@@ -45,7 +52,8 @@ Authentication.factory('Authentication', function ($http) {
             _isAuthenticated = true;
 
             getRolesForUser(username).then(function (Roles) {
-                _Roles = Roles;
+                _roles = Roles;
+                copyLoginValuesToCookies();
             });
         }).error(function (err, status) {
             logout();
@@ -58,11 +66,25 @@ Authentication.factory('Authentication', function ($http) {
         _isAuthenticated = false;
         _username = '';
         _token = '';
-        _Roles = [];
+        _roles = [];
+        copyLoginValuesToCookies();
     }
 
     var isAuthenticated = function () {
-        return _isAuthenticated;
+        if (_isAuthenticated)
+            return true;
+
+        isAuthenticatedCookie = $cookies.get('loginIsAuthenticated');
+        _isAuthenticated = isAuthenticatedCookie == 'true';
+
+        if (!_isAuthenticated)
+            return false;
+
+        _token = $cookies.get('loginToken');
+        _username = $cookies.get('loginUsername');
+        _roles = $cookies.get('loginRoles');
+
+        return true;
     }
 
     var getUsername = function () {
@@ -70,11 +92,11 @@ Authentication.factory('Authentication', function ($http) {
     }
 
     var isOnlyUser = function () {
-        return _Roles.length <= 1 && _Roles[0] == 'Users';
+        return _roles.length <= 1 && _roles[0] == 'Users';
     }
 
     var isAdministrator = function () {
-        return _Roles.indexOf("Administrators") != -1;
+        return _roles.indexOf("Administrators") != -1;
     }
 
     AuthenticationFactory.login = login;

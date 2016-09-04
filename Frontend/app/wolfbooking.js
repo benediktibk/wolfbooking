@@ -2,7 +2,7 @@
     'WolfBooking', 
     [
     'ngRoute', 'ngAnimate', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.bootstrap',
-    'pascalprecht.translate', 'ngSanitize',
+    'pascalprecht.translate', 'ngSanitize', 'ngCookies',
     'Breads', 'Authentication', 'Users', 'PageHistory', 'Roles', 'Tables', 'Rooms', 'Breadbookings', 'Accounting'
     ]);
 

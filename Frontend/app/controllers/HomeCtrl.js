@@ -7,12 +7,16 @@
         return Authentication.isAuthenticated();
     }
 
-    $scope.isOnlyUser = function () {
-        return Authentication.isOnlyUser();
+    $scope.isAdministrator = function () {
+        return Authentication.isAuthenticated() && Authentication.isAdministrator();
     }
 
-    $scope.isAdministrator = function () {
-        return Authentication.isAdministrator();
+    $scope.isMoreThanUser = function () {
+        return Authentication.isAuthenticated() && !Authentication.isOnlyUser();
+    }
+
+    $scope.isNotLoggedIn = function () {
+        return !Authentication.isAuthenticated();
     }
 
     $scope.changeLanguage = function () {
