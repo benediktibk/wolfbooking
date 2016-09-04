@@ -67,7 +67,23 @@ namespace Backend.Persistence
                 if (loginAlreadyInUse)
                     return -1;
 
+                persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
+
                 context.Users.Add(persistenceUser);
+                context.SaveChanges();
+
+                persistenceUser.Roles = new List<Role>();
+
+                foreach (var role in user.Roles)
+                {
+                    var persistenceRole = context.Roles.Find(role);
+
+                    if (persistenceRole == null)
+                        throw new ArgumentException("user", $"contains invalid role {role}");
+
+                    persistenceUser.Roles.Add(persistenceRole);
+                }
+                context.Entry(persistenceUser).State = EntityState.Modified;
                 context.SaveChanges();
             }
 

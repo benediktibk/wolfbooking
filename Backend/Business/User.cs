@@ -24,6 +24,7 @@ namespace Backend.Business
             Password = user.Password;
             Deleted = DateTime.MaxValue;
             Room = user.Room;
+            _roles = user.Roles.ToList();
         }
 
         public int Id { get; private set; }

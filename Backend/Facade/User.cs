@@ -27,7 +27,10 @@ namespace Backend.Facade
 
         public override string ToString()
         {
-            return $"Id: {Id}, Login: {Login}, Roles: {Roles.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}")}, Room: {Room}";
+            if (Roles.Count > 0)
+                return $"Id: {Id}, Login: {Login}, Roles: {Roles.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}")}, Room: {Room}";
+            else
+                return $"Id: {Id}, Login: {Login}, Roles: none, Room: {Room}";
         }
     }
 }

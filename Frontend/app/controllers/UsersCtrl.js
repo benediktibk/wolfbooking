@@ -1,4 +1,4 @@
-﻿wolfBookingApp.controller('UsersCtrl', function ($scope, $q, $location, Users, Authentication, Tables) {
+﻿wolfBookingApp.controller('UsersCtrl', function ($scope, $q, $location, $window, Users, Authentication, Tables) {
     $scope.availableRooms = [];
 
     Tables.initialize($scope, [
@@ -40,7 +40,29 @@
     }
 
     $scope.persistAllChanges = function () {
-        Tables.persistAllChanges($scope);
+        var data = $scope.gridOptions.data;
+        var validationErrors = [];
+
+        for (var i = 0; i < data.length; ++i) {
+            var current = data[i];
+
+            if (current.Login == '')
+                validationErrors.push('invalid login');
+
+            if (current.NewlyAdded && current.Password == '')
+                validationErrors.push('user ' + current.Login + ' has an empty password');
+        }
+
+        if (validationErrors.length == 0)
+            Tables.persistAllChanges($scope);
+        else {
+            var message = 'cannot save the changes because of the following errors:';
+
+            for (var i = 0; i < validationErrors.length; ++i)
+                message += '\n' + validationErrors[i];
+
+            $window.alert(message);
+        }
     };
 
     $scope.cancelAllChanges = function () {
@@ -52,11 +74,13 @@
             Id: 0,
             Login: '',
             Password: '',
-            User: false,
-            Manager: false,
-            Administrator: false
+            isUser: false,
+            isManager: false,
+            isAdministrator: false,
+            NewlyAdded: true
         };
         Users.fillNewUserWithAvailableRooms(user).then(function (user) {
+            user.selectedRoom = user.availableRooms[0];
             Tables.addRow($scope, user);
         });
     };

@@ -11,7 +11,7 @@
                     $location.path('/Breadbookings');
             }).
             error(function () {
-                $window.alert('failed');
+                $window.alert('login failed');
             });
     };
 });
