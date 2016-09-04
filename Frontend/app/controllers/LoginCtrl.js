@@ -1,4 +1,8 @@
 ﻿wolfBookingApp.controller('LoginCtrl', function ($scope, $window, $location, Authentication, PageHistory) {
+    if (Authentication.isAuthenticated()) {
+        $location.path('/Breadbookings');
+        return;
+    }
 
     $scope.login = function () {
         var username = $scope.username;
