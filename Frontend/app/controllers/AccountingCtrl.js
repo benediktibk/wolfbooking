@@ -80,7 +80,7 @@
     };
 
 
-    if ($scope.isOnlyUser()) 
+    if (Authentication.isOnlyUser()) 
         return;
 
     Rooms.getAll().then(function (data) {
