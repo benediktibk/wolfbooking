@@ -23,7 +23,10 @@ namespace Backend
                 if (_databaseConnectionString == null)
                 {
                     var hostName = Environment.MachineName;
-                    _databaseConnectionString = ConfigurationManager.ConnectionStrings[hostName].ConnectionString;
+                    _databaseConnectionString = ConfigurationManager.ConnectionStrings[hostName]?.ConnectionString;
+
+                    if (_databaseConnectionString == null)
+                        _databaseConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                 }
 
                 return _databaseConnectionString;

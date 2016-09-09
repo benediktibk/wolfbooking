@@ -22,7 +22,7 @@ namespace Backend.Business
         {
             Login = user.Login;
             Password = user.Password;
-            Deleted = DateTime.MaxValue;
+            Deleted = DateTimeHelper.MaxValue;
             Room = user.Room;
             _roles = user.Roles.ToList();
         }

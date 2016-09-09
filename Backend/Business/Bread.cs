@@ -16,7 +16,7 @@ namespace Backend.Business
         {
             Name = bread.Name;
             Price = bread.Price;
-            Deleted = DateTime.MaxValue;
+            Deleted = DateTimeHelper.MaxValue;
         }
 
         public int Id { get; private set; }

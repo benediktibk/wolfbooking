@@ -15,7 +15,7 @@ namespace Backend.Persistence
             {
                 Login = "admin",
                 Password = "1234",
-                Deleted = DateTime.MaxValue
+                Deleted = DateTimeHelper.MaxValue
             };
             var usersRole = new Role
             {
