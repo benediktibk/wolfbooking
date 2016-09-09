@@ -260,6 +260,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\breads.css" />
     <Content Include="Content\common.css" />
+    <Content Include="Content\en_de_flags.png" />
+    <Content Include="Content\en_de_flags_small.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\login.css" />
@@ -295,6 +297,7 @@
     <Content Include="Content\ui-grid.eot" />
     <Content Include="app\localization\locale-de.json" />
     <Content Include="app\localization\locale-en.json" />
+    <None Include="Properties\PublishProfiles\wolfbooking.pubxml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1168,6 +1171,9 @@
       <Project>{cdada60e-212b-41eb-9fe0-d874d492974a}</Project>
       <Name>Backend</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
