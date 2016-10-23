@@ -221,6 +221,7 @@
     <Compile Include="BookingServiceWorker.cs" />
     <Compile Include="Controllers\AccountingController.cs" />
     <Compile Include="Controllers\BreadBookingsController.cs" />
+    <Compile Include="Controllers\ExceptionMessageHandler.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
