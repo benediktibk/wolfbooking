@@ -18,4 +18,3 @@ Release/**
 *.etl
 .vs/**
 Frontend/logs
-Frontend/_bin_deployableAssemblies
