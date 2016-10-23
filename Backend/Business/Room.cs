@@ -16,7 +16,7 @@ namespace Backend.Business
         {
             Name = room.Name;
             Description = room.Description;
-            Deleted = DateTimeHelper.MaxValue;
+            Deleted = DateTime.MaxValue;
         }
 
         public int Id { get; private set; }
