@@ -50,10 +50,10 @@ namespace Backend.Persistence
             using (var context = CreateContext())
             {
                 var queryResult = context.Breads.Where(x => ids.Contains(x.Id));
-                breads = queryResult.ToList(); 
+                breads = queryResult?.ToList(); 
             }
 
-            return breads.Select(x => new Business.Bread(x)).ToList();
+            return breads?.Select(x => new Business.Bread(x)).ToList();
         }
 
         public Business.Bread Get(int id)

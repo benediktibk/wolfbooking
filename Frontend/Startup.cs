@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
+using System.Web.Optimization;
 
 [assembly: OwinStartup(typeof(Frontend.Startup))]
 

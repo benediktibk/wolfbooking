@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization
+@inherits System.Web.Mvc.WebViewPage
+
+<!DOCTYPE html>
 <html ng-app="WolfBooking">
 <head>
     <base href="/">
@@ -38,38 +41,11 @@
         <div ng-view></div>
     </div>
 
-    <!-- 3rd party libraries -->
-    <script src="Scripts/angular.min.js"></script>
-    <script src="Scripts/angular-route.min.js"></script>
-    <script src="Scripts/angular-animate.min.js"></script>
-    <script src="Scripts/angular-sanitize.min.js"></script>
-    <script src="Scripts/angular-translate.min.js"></script>
-    <script src="Scripts/angular-translate-loader-static-files.min.js"></script>
-    <script src="Scripts/angular-cookies.min.js"></script>
-    <script src="Scripts/ui-grid.min.js"></script>
-    <script src="Scripts/ui-bootstrap-tpls-2.0.1.min.js"></script>
-
-    <!-- Services -->
-    <script src="app/services/Breads.js"></script>
-    <script src="app/services/Authentication.js"></script>
-    <script src="app/services/Users.js"></script>
-    <script src="app/services/PageHistory.js"></script>
-    <script src="app/services/Roles.js"></script>
-    <script src="app/services/Tables.js"></script>
-    <script src="app/services/Rooms.js"></script>
-    <script src="app/services/Breadbookings.js"></script>
-    <script src="app/services/Accounting.js"></script>
-
-    <!-- Main script -->
-    <script src="app/Wolfbooking.js"></script>
-
-    <!-- Controllers -->
-    <script src="app/controllers/HomeCtrl.js"></script>
-    <script src="app/controllers/BreadsCtrl.js"></script>
-    <script src="app/controllers/LoginCtrl.js"></script>
-    <script src="app/controllers/UsersCtrl.js"></script>
-    <script src="app/controllers/RoomsCtrl.js"></script>
-    <script src="app/controllers/BreadbookingsCtrl.js"></script>
-    <script src="app/controllers/AccountingCtrl.js"></script>
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/uiGrid")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/services")
+    @Scripts.Render("~/bundles/wolfBooking")
+    @Scripts.Render("~/bundles/controllers")
 </body>
 </html>

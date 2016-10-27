@@ -17,7 +17,6 @@ namespace Frontend.Controllers
             return CreateResponseMessageFromFile($"~/Views/{view}.html");
         }
 
-        [Route("")]
         public HttpResponseMessage GetIndex()
         {
             return CreateResponseMessageFromFile($"~/Views/index.html");
