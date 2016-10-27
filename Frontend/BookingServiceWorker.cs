@@ -80,22 +80,23 @@ namespace Frontend
                     breadAmountsById[booking.Bread] += booking.Amount;
             }
 
-            stringBuilder.AppendLine("Für morgen bitten wir Sie um eine Lieferung von folgenden Mengen:");
+            stringBuilder.AppendLine($"Hallo Reini,<br/><br/>ich möchte Dich gerne für morgen, den {DateTime.UtcNow.AddDays(1):dd.MM.yyyy}, um folgende Lieferung bitten:<br/>");
             stringBuilder.AppendLine("<table>");
-            stringBuilder.AppendLine("\t<tr>");
-            stringBuilder.AppendLine("\t\t<td>Brot</td>");
+            stringBuilder.AppendLine("\t<th>");
             stringBuilder.AppendLine("\t\t<td>Menge</td>");
-            stringBuilder.AppendLine("\t</tr>");
+            stringBuilder.AppendLine("\t\t<td>Brot</td>");
+            stringBuilder.AppendLine("\t</th>");
 
             foreach (var bread in breads)
             {
                 stringBuilder.AppendLine("\t<tr>");
-                stringBuilder.AppendLine($"\t\t<td>{bread.Name}</td>");
                 stringBuilder.AppendLine($"\t\t<td>{breadAmountsById[bread.Id]}</td>");
+                stringBuilder.AppendLine($"\t\t<td>{bread.Name}</td>");
                 stringBuilder.AppendLine("\t</tr>");
             }
 
             stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<br/>Danke &amp; liebe Grüße aus Ladis<br/>Familie Doris und Georg Wolf");
             return stringBuilder.ToString();
         }
 
