@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Backend.Persistence
 {
@@ -11,39 +13,50 @@ namespace Backend.Persistence
         {
             base.Seed(context);
 
-            var adminUser = new User
-            {
-                Login = "admin",
-                Password = "1234",
-                Deleted = DateTime.MaxValue
-            };
-            var usersRole = new Role
-            {
-                Name = "Users"
-            };
-            var managersRole = new Role
-            {
-                Name = "Managers"
-            };
-            var adminsRole = new Role
-            {
-                Name = "Administrators"
-            };
+            CreateRoleIfNotExistent(context, "User");
+            CreateRoleIfNotExistent(context, "Manager");
+            CreateRoleIfNotExistent(context, "Admin");
 
-            context.Users.Add(adminUser);
-            context.Roles.Add(usersRole);
-            context.Roles.Add(managersRole);
-            context.Roles.Add(adminsRole);
+            if (!(context.Users.Any(u => u.UserName == "admin")))
+            {
+                var userStore = new UserStore<User>(context);
+                var manager = new UserManager<User>(userStore);
+                var user = new User {UserName = "admin"};
+                var result = manager.Create(user, "Einstieg00");
+                if (!result.Succeeded)
+                    throw new Exception(result.ToString());
 
-            context.SaveChanges();
+                manager.AddToRole(user.Id, "Admin");
 
-            adminUser = context.Users.FirstOrDefault(x => x.Login == "admin");
-            adminUser.Roles = new List<Role>();
-            var roles = context.Roles.Where(x => true);
-            foreach (var role in roles)
-                adminUser.Roles.Add(role);
+            }
+
+            // TODO: role management
+            //context.Users.Add(adminUser);
+            //context.Roles.Add(usersRole);
+            //context.Roles.Add(managersRole);
+            //context.Roles.Add(adminsRole);
 
             context.SaveChanges();
+
+            var adminUser = context.Users.Single(x => x.UserName == "admin");
+            //adminUser.Roles = new List<Role>();
+            //var roles = context.Roles.Where(x => true);
+            //foreach (var role in roles)
+            //    adminUser.Roles.Add(role);
+
+            context.SaveChanges();
+        }
+
+        private void CreateRoleIfNotExistent(WolfBookingContext context, string roleName)
+        {
+            if (!context.Roles.Any(r => r.Name == roleName))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = roleName };
+
+                manager.Create(role);
+            }
         }
     }
 }

@@ -10,12 +10,13 @@ namespace Backend.Business
 
         public User(Persistence.User user)
         {
-            Id = user.Id;
-            Login = user.Login;
-            Password = user.Password;
-            Deleted = user.Deleted;
-            Room = user.Room?.Id ?? -1;
-            _roles = user.Roles.Select(x => x.Id).ToList();
+            // TODO
+            //Id = user.Id;
+            //Login = user.Login;
+            //Password = user.Password;
+            //Deleted = user.Deleted;
+            //Room = user.Room?.Id ?? -1;
+            //_roles = user.Roles.Select(x => x.Id).ToList();
         }
 
         public User(Facade.User user)

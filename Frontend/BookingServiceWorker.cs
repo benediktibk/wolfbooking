@@ -96,7 +96,7 @@ namespace Frontend
             }
 
             stringBuilder.AppendLine("</table>");
-            stringBuilder.AppendLine("<br/>Danke &amp; liebe Grüße aus Ladis<br/>Familie Doris und Georg Wolf");
+            stringBuilder.AppendLine("<br/><br/>Danke &amp; liebe Grüße aus Ladis<br/><br/>Familie Doris und Georg Wolf");
             return stringBuilder.ToString();
         }
 

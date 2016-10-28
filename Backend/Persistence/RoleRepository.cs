@@ -14,33 +14,37 @@ namespace Backend.Persistence
 
         public List<Business.Role> GetRolesForUser(int userId)
         {
-            IList<Role> result;
+            // TODO
+            return null;
+            //IList<Role> result;
 
-            using (var context = CreateContext())
-            {
-                var queryResult = from role in context.Roles
-                                  where role.Users.Any(u => u.Id == userId)
-                                  select role;
+            //using (var context = CreateContext())
+            //{
+            //    var queryResult = from role in context.Roles
+            //                      where role.Users.Any(u => u.Id == userId)
+            //                      select role;
 
-                result = queryResult.ToList();
-            }
+            //    result = queryResult.ToList();
+            //}
 
-            return result.Select(x => new Business.Role(x)).ToList();
+            //return result.Select(x => new Business.Role(x)).ToList();
         }
 
         public List<Business.Role> GetAllRoles()
         {
-            IList<Role> result;
+            // TODO
+            //IList<Role> result;
 
-            using (var context = CreateContext())
-            {
-                var queryResult = from role in context.Roles
-                                  select role;
+            //using (var context = CreateContext())
+            //{
+            //    var queryResult = from role in context.Roles
+            //                      select role;
 
-                result = queryResult.ToList();
-            }
+            //    result = queryResult.ToList();
+            //}
 
-            return result.Select(x => new Business.Role(x)).ToList();
+            //return result.Select(x => new Business.Role(x)).ToList();
+            return null;
         }
 
         private WolfBookingContext CreateContext()

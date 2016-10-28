@@ -22,7 +22,7 @@ namespace Backend.Persistence
             using (var context = CreateContext())
             {
                 var queryResult = from user in context.Users.Include(x => x.Roles).Include(x => x.Room)
-                                  where user.Login == login && user.Deleted > now
+                                  where user.UserName == login && user.Deleted > now
                                   select user;
 
                 if (queryResult.Count() > 1)
@@ -36,58 +36,62 @@ namespace Backend.Persistence
 
         public Business.User Get(int id)
         {
-            User result;
+            // TODO: fix this
+            //User result;
 
-            using (var context = CreateContext())
-            {
-                var queryResult = from user in context.Users.Include(x => x.Roles).Include(x => x.Room)
-                                  where user.Id == id
-                                  select user;
+            //using (var context = CreateContext())
+            //{
+            //    var queryResult = from user in context.Users.Include(x => x.Roles).Include(x => x.Room)
+            //                      where user.Id == id
+            //                      select user;
 
-                result = queryResult.FirstOrDefault();
-            }
+            //    result = queryResult.FirstOrDefault();
+            //}
 
-            return result != null ? new Business.User(result) : null;
+            //return result != null ? new Business.User(result) : null;
+            return null;
         }
 
         public int Add(Business.User user)
         {
-            var now = DateTime.Now;
-            User persistenceUser;
+            // TODO: fix this
+            //var now = DateTime.Now;
+            //User persistenceUser;
             
-            using (var context = CreateContext())
-            {
-                persistenceUser = new User();
-                persistenceUser.UpdateWith(user);
-                var loginAlreadyInUse = 
-                    (from databaseUser in context.Users
-                    where databaseUser.Login == persistenceUser.Login && databaseUser.Deleted > now
-                    select databaseUser).Count() > 0;
+            //using (var context = CreateContext())
+            //{
+            //    persistenceUser = new User();
+            //    persistenceUser.UpdateWith(user);
+            //    var loginAlreadyInUse = 
+            //        (from databaseUser in context.Users
+            //        where databaseUser.Login == persistenceUser.Login && databaseUser.Deleted > now
+            //        select databaseUser).Count() > 0;
 
-                if (loginAlreadyInUse)
-                    return -1;
+            //    if (loginAlreadyInUse)
+            //        return -1;
 
-                persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
+            //    persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
 
-                context.Users.Add(persistenceUser);
-                context.SaveChanges();
+            //    context.Users.Add(persistenceUser);
+            //    context.SaveChanges();
 
-                persistenceUser.Roles = new List<Role>();
+            //    persistenceUser.Roles = new List<Role>();
 
-                foreach (var role in user.Roles)
-                {
-                    var persistenceRole = context.Roles.Find(role);
+            //    foreach (var role in user.Roles)
+            //    {
+            //        var persistenceRole = context.Roles.Find(role);
 
-                    if (persistenceRole == null)
-                        throw new ArgumentException("user", $"contains invalid role {role}");
+            //        if (persistenceRole == null)
+            //            throw new ArgumentException("user", $"contains invalid role {role}");
 
-                    persistenceUser.Roles.Add(persistenceRole);
-                }
-                context.Entry(persistenceUser).State = EntityState.Modified;
-                context.SaveChanges();
-            }
+            //        persistenceUser.Roles.Add(persistenceRole);
+            //    }
+            //    context.Entry(persistenceUser).State = EntityState.Modified;
+            //    context.SaveChanges();
+            //}
 
-            return persistenceUser.Id;
+            //return persistenceUser.Id;
+            return - 1;
         }
 
         public IList<Business.User> GetCurrentAvailableUsers()
@@ -112,31 +116,32 @@ namespace Backend.Persistence
 
         public void Update(Business.User user)
         {
-            using (var context = CreateContext())
-            {
-                var persistenceUser = context.Users.Include(x => x.Room).SingleOrDefault(x => x.Id == user.Id);
+            // TODO
+            //using (var context = CreateContext())
+            //{
+            //    var persistenceUser = context.Users.Include(x => x.Room).SingleOrDefault(x => x.Id == user.Id);
 
-                if (persistenceUser == null)
-                    throw new ArgumentException("user", $"user with id {user.Id} does not exist");
+            //    if (persistenceUser == null)
+            //        throw new ArgumentException("user", $"user with id {user.Id} does not exist");
 
-                context.Users.Attach(persistenceUser);
-                persistenceUser.UpdateWith(user);
-                persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
-                persistenceUser.Roles.Clear();
+            //    context.Users.Attach(persistenceUser);
+            //    persistenceUser.UpdateWith(user);
+            //    persistenceUser.Room = user.Room >= 0 ? context.Rooms.Find(user.Room) : null;
+            //    persistenceUser.Roles.Clear();
 
-                foreach (var role in user.Roles)
-                {
-                    var persistenceRole = context.Roles.Find(role);
+            //    foreach (var role in user.Roles)
+            //    {
+            //        var persistenceRole = context.Roles.Find(role);
 
-                    if (persistenceRole == null)
-                        throw new ArgumentException("user", $"contains invalid role {role}");
+            //        if (persistenceRole == null)
+            //            throw new ArgumentException("user", $"contains invalid role {role}");
 
-                    persistenceUser.Roles.Add(persistenceRole);
-                }
+            //        persistenceUser.Roles.Add(persistenceRole);
+            //    }
 
-                context.Entry(persistenceUser).State = EntityState.Modified;
-                context.SaveChanges();
-            }
+            //    context.Entry(persistenceUser).State = EntityState.Modified;
+            //    context.SaveChanges();
+            //}
         }
 
         private WolfBookingContext CreateContext()
