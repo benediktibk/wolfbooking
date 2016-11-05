@@ -1,6 +1,6 @@
 # README #
 
-This project contains of three parts:
+This project contains of two parts:
 
 * Backend
 * Frontend: Webfrontend based on Angular which can be used to administer the application
