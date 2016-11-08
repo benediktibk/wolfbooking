@@ -264,6 +264,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\breads.css" />
     <Content Include="Content\common.css" />
+    <Content Include="Content\en_de_flags.png" />
+    <Content Include="Content\en_de_flags_small.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\login.css" />
