@@ -7,7 +7,7 @@ using System.Net.Http;
 
 namespace Frontend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoomsController : Controller
     {
         private BookingFacade _bookingFacade;

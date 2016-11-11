@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Backend.Persistence
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<int, WolfBookingUserLogin, WolfBookingUserRole, WolfBookingUserClaim>
     {
         public User()
         { }
@@ -18,15 +18,12 @@ namespace Backend.Persistence
         public DateTime Deleted { get; set; } = DateTime.MaxValue;     
         public virtual Room Room { get; set; }
 
-        public void UpdateWith(Business.User user)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(WolfBookingUserManager manager)
         {
-            // TODO update these lines
-            //Login = user.Login;
-
-            //if (!string.IsNullOrEmpty(user.Password))
-            //    Password = user.Password;
-
-            //Deleted = user.Deleted;
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
         }
     }
 }

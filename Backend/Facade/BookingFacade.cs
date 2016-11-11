@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Backend.Facade
 {
@@ -11,7 +13,6 @@ namespace Backend.Facade
 
         private readonly BreadRepository _breadRepository;
         private readonly UserRepository _userRepository;
-        private readonly RoleRepository _roleRepository;
         private readonly RoomRepository _roomRepository;
         private readonly BreadBookingsRepository _breadBookingsRepository;
 
@@ -19,11 +20,10 @@ namespace Backend.Facade
 
         #region constructor
 
-        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoleRepository roleRepository, RoomRepository roomRepository, BreadBookingsRepository breadBookingsRepository)
+        public BookingFacade(BreadRepository breadRepository, UserRepository userRepository, RoomRepository roomRepository, BreadBookingsRepository breadBookingsRepository)
         {
             _breadRepository = breadRepository;
             _userRepository = userRepository;
-            _roleRepository = roleRepository;
             _roomRepository = roomRepository;
             _breadBookingsRepository = breadBookingsRepository;
         }
@@ -35,16 +35,6 @@ namespace Backend.Facade
         public IList<Room> GetCurrentAvailableRooms()
         {
             return _roomRepository.GetCurrentAvailableRooms().Select(x => new Room(x)).ToList();
-        }
-
-        public IList<User> GetCurrentAvailableUsersWithoutPasswords()
-        {
-            var users = _userRepository.GetCurrentAvailableUsers().Select(x => new User(x)).ToList();
-
-            foreach (var user in users)
-                user.Password = "";
-
-            return users;
         }
 
         public IList<Bread> GetCurrentAvailableBreads()
@@ -82,30 +72,28 @@ namespace Backend.Facade
             return bread == null ? null : new Bread(bread);
         }
 
-        public List<string> GetRolesForUser(string login)
+        public IEnumerable<WolfBookingRole> GetAllRoles()
         {
-            var user = _userRepository.GetByLogin(login);
-
-            if (user == null)
-                return new List<string>();
-
-            var roles = _roleRepository.GetRolesForUser(user.Id);
-            return roles.Select(role => role.Name).ToList();
+            return _userRepository.GetAllRoles();
         }
 
-        public List<Role> GetAllRoles()
+        public SignInStatus IsLoginValid(string login, string password)
         {
-            return _roleRepository.GetAllRoles().Select(x => new Role(x)).ToList();
-        }
-
-        public bool IsLoginValid(string login, string password)
-        {
-            var user = _userRepository.GetByLogin(login);
-
-            if (user == null)
-                return false;
-
-            return user.Password == password;
+            return _userRepository.Login(login, password);
+            
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Invalid login attempt.");
+            //        return View(model);
+            //}
         }
 
         public bool IsRoomInUse(int id)
@@ -125,20 +113,18 @@ namespace Backend.Facade
             if (user.Room == roomId)
                 return true;
 
-            var roles = _roleRepository.GetRolesForUser(user.Id);
-            var roleNames = roles.Select(x => x.Name).ToList();
-            return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
+            var roleNames = _userRepository.GetUserRoleNamesForUserName(login);
+            return roleNames.Contains("Admin") || roleNames.Contains("Manager");
         }
 
         public bool IsUserAllowedToSeeDataOfUser(string currentUser, string username)
         {
             var user = _userRepository.GetByLogin(currentUser);
 
-            if (user.Login == username)
+            if (user.UserName == username)
                 return true;
 
-            var roles = _roleRepository.GetRolesForUser(user.Id);
-            var roleNames = roles.Select(x => x.Name).ToList();
+            var roleNames = _userRepository.GetUserRoleNamesForUserName(user.UserName);
             return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
         }
 
@@ -181,9 +167,9 @@ namespace Backend.Facade
             return _roomRepository.Add(new Business.Room(room));
         }
 
-        public int AddUser(User user)
+        public int AddUser(User user, string password)
         {
-            return _userRepository.Add(new Business.User(user));
+            return _userRepository.Add(new Business.User(user), password);
         }
 
         public int AddBread(Bread bread)
@@ -303,5 +289,15 @@ namespace Backend.Facade
         }
 
         #endregion
+
+        public IEnumerable<string> GetRoleNamesForUser(string contextUserName)
+        {
+            return _userRepository.GetUserRoleNamesForUserName(contextUserName);
+        }
+
+        public IList<User> GetAllUsers()
+        {
+            return _userRepository.GetAvailableUsers(DateTime.Now).Select(x => new User(x)).ToList();
+        }
     }
 }

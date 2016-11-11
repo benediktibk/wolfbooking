@@ -19,30 +19,15 @@ namespace Backend.Persistence
 
             if (!(context.Users.Any(u => u.UserName == "admin")))
             {
-                var userStore = new UserStore<User>(context);
-                var manager = new UserManager<User>(userStore);
+                var userStore = new WolfBookingUserStore(context);
+                var manager = new WolfBookingUserManager(userStore);
                 var user = new User {UserName = "admin"};
                 var result = manager.Create(user, "Einstieg00");
                 if (!result.Succeeded)
                     throw new Exception(result.ToString());
 
                 manager.AddToRole(user.Id, "Admin");
-
             }
-
-            // TODO: role management
-            //context.Users.Add(adminUser);
-            //context.Roles.Add(usersRole);
-            //context.Roles.Add(managersRole);
-            //context.Roles.Add(adminsRole);
-
-            context.SaveChanges();
-
-            var adminUser = context.Users.Single(x => x.UserName == "admin");
-            //adminUser.Roles = new List<Role>();
-            //var roles = context.Roles.Where(x => true);
-            //foreach (var role in roles)
-            //    adminUser.Roles.Add(role);
 
             context.SaveChanges();
         }
@@ -51,9 +36,9 @@ namespace Backend.Persistence
         {
             if (!context.Roles.Any(r => r.Name == roleName))
             {
-                var store = new RoleStore<IdentityRole>(context);
-                var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = roleName };
+                var store = new WolfBookingRoleStore(context);
+                var manager = new RoleManager<WolfBookingRole, int>(store);
+                var role = new WolfBookingRole { Name = roleName };
 
                 manager.Create(role);
             }

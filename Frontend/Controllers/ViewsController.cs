@@ -6,18 +6,18 @@ using System.Web.Http;
 
 namespace Frontend.Controllers
 {
+    [Authorize]
     public class ViewsController : Controller
     {
-        public ViewsController()
-        { }
 
         [Route("views/{view}")]
+        [AllowAnonymous]
         public HttpResponseMessage GetView(string view)
         {
             return CreateResponseMessageFromFile($"~/Views/{view}.html");
         }
 
-        public HttpResponseMessage GetIndex()
+        private HttpResponseMessage GetIndex()
         {
             return CreateResponseMessageFromFile($"~/Views/index.html");
         }
@@ -59,9 +59,12 @@ namespace Frontend.Controllers
         }
 
         [Route("login")]
+        [AllowAnonymous]
         public HttpResponseMessage GetLogin()
         {
-            return GetIndex();
+            //return GetIndex();
+            return CreateResponseMessageFromFile($"~/Views/Home/Index.cshtml");
+
         }
 
         private HttpResponseMessage CreateResponseMessageFromFile(string fileName)

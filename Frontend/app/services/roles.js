@@ -5,7 +5,7 @@ Roles.factory('Roles', function ($http, Authentication) {
     var getAllRoles = function () {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/Roles/all',
+            url: 'api/roles/',
             headers: Authentication.getHttpHeaderWithAuthorization()
         });
 

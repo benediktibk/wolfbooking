@@ -10,7 +10,7 @@ namespace Frontend.Controllers
     [Authorize]
     public class BreadBookingsController : Controller
     {
-        private BookingFacade _bookingFacade;
+        private readonly BookingFacade _bookingFacade;
 
         public BreadBookingsController()
         {
@@ -18,7 +18,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breadbookings/currentbyroom/{id}")]
-        [Authorize(Roles = "Users")]
         [HttpGet]
         public BreadBookings GetCurrentBreadBookingsByRoomId(int id)
         {
@@ -37,7 +36,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breadbookings/item/{id}")]
-        [Authorize(Roles = "Users")]
         [HttpPut]
         public HttpResponseMessage UpdateBreadBookings(int id, [FromBody]BreadBookings breadBookings)
         {

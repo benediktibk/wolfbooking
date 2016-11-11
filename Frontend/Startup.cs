@@ -16,20 +16,5 @@ namespace Frontend
         {
             ConfigureAuth(app);
         }
-
-        public void ConfigureAuth(IAppBuilder app)
-        {
-            var OAuthServerOptions = new OAuthAuthorizationServerOptions()
-            {
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new AuthorizationServerProvider(Factory.BookingFacade)
-            };
-            
-            app.UseOAuthAuthorizationServer(OAuthServerOptions);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-        }
     }
 }

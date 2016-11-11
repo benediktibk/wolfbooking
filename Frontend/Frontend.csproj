@@ -231,7 +231,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BookingServiceWorker.cs" />
     <Compile Include="Controllers\AccountingController.cs" />
@@ -241,7 +243,6 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\AuthorizationServerProvider.cs" />
     <Compile Include="Controllers\BreadsController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\LoggingMessageHandler.cs" />
@@ -251,6 +252,7 @@
     </Compile>
     <Compile Include="MailSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1155,7 +1157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Providers\" />
     <Folder Include="Results\" />
   </ItemGroup>
   <ItemGroup>

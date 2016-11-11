@@ -26,7 +26,7 @@ Authentication.factory('Authentication', function ($http, $cookies) {
     var getRolesForUser = function (username) {
         var httpRequest = $http({
             method: 'GET',
-            url: 'api/Roles/foruser/' + username,
+            url: 'api/roles/' + username,
             headers: getHttpHeaderWithAuthorization()
         });
 

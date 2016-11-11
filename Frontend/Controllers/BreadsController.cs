@@ -18,7 +18,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads/all")]
-        [Authorize(Roles = "Users")]
         [HttpGet]
         public IList<Bread> GetAllBreads()
         {
@@ -27,7 +26,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads/items")]
-        [Authorize(Roles = "Users")]
         [HttpGet]
         public IList<Bread> GetBreadsById([FromUri] List<int> ids)
         {
@@ -36,7 +34,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads/item/{id}")]
-        [Authorize(Roles = "Users")]
         [HttpGet]
         public Bread GetBreadById(int id)
         {
@@ -50,7 +47,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost]
         public HttpResponseMessage CreateBread([FromBody]Bread bread)
         {
@@ -65,7 +62,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads/item/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut]
         public HttpResponseMessage UpdateBread(int id, [FromBody]Bread bread)
         {
@@ -78,7 +75,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/breads/item/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpDelete]
         public HttpResponseMessage DeleteBread(int id)
         {

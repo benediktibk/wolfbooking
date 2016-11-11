@@ -6,60 +6,48 @@ namespace Backend.Persistence
 {
     public class BreadRepository
     {
-        private WolfBookingContextFactory _contextFactory;
+        private readonly WolfBookingContext _dbContext;
 
-        public BreadRepository(WolfBookingContextFactory contextFactory)
+        public BreadRepository(WolfBookingContext dbContext)
         {
-            _contextFactory = contextFactory;
+            _dbContext = dbContext;
         }
 
         public int Add(Business.Bread bread)
         {
-            Bread persistenceBread;
-
-            using (var context = CreateContext())
-            {
-                persistenceBread = new Bread();
-                persistenceBread.UpdateWith(bread);
-                context.Breads.Add(persistenceBread);
-                context.SaveChanges();
-            }
+            var persistenceBread = new Bread();
+            persistenceBread.UpdateWith(bread);
+            _dbContext.Breads.Add(persistenceBread);
+            _dbContext.SaveChanges();
 
             return persistenceBread.Id;
         }
 
         public void Update(Business.Bread bread)
         {
-            using (var context = CreateContext())
-            {
-                var persistenceBread = context.Breads.Find(bread.Id);
+            var persistenceBread = _dbContext.Breads.Find(bread.Id);
 
-                if (persistenceBread == null)
-                    throw new ArgumentException("bread", $"bread with id {bread.Id} does not exist");
+            if (persistenceBread == null)
+                throw new ArgumentException("bread", $"bread with id {bread.Id} does not exist");
 
-                context.Breads.Attach(persistenceBread);
-                persistenceBread.UpdateWith(bread);
-                context.SaveChanges();
-            }
+            _dbContext.Breads.Attach(persistenceBread);
+            persistenceBread.UpdateWith(bread);
+            _dbContext.SaveChanges();
         }
 
         public IList<Business.Bread> Get(IEnumerable<int> ids)
         {
             IList<Bread> breads;
-
-            using (var context = CreateContext())
-            {
-                var queryResult = context.Breads.Where(x => ids.Contains(x.Id));
-                breads = queryResult?.ToList(); 
-            }
+           
+            var queryResult = _dbContext.Breads.Where(x => ids.Contains(x.Id));
+            breads = queryResult?.ToList(); 
 
             return breads?.Select(x => new Business.Bread(x)).ToList();
         }
 
         public Business.Bread Get(int id)
         {
-            using (var context = CreateContext())
-                return new Business.Bread(context.Breads.Find(id));
+            return new Business.Bread(_dbContext.Breads.Find(id));
         }
 
         public IList<Business.Bread> GetCurrentAvailableBreads()
@@ -71,21 +59,13 @@ namespace Backend.Persistence
         {
             IList<Bread> result;
 
-            using (var context = CreateContext())
-            {
-                var queryResult = from bread in context.Breads
-                                  where bread.Deleted > dateTime
-                                  select bread;
+            var queryResult = from bread in _dbContext.Breads
+                                where bread.Deleted > dateTime
+                                select bread;
 
-                result = queryResult.ToList();
-            }
+            result = queryResult.ToList();
 
             return result.Select(x => new Business.Bread(x)).ToList();
-        }
-
-        private WolfBookingContext CreateContext()
-        {
-            return _contextFactory.Create();
         }
     }
 }

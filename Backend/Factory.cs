@@ -2,19 +2,19 @@
 using System.Configuration;
 using Backend.Persistence;
 using Backend.Facade;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace Backend
 {
     public static class Factory
     {
         private static string _databaseConnectionString;
-        private static WolfBookingContextFactory _contextFactory;
-        private static BreadRepository _breadRepository;
-        private static UserRepository _userRepository;
-        private static RoleRepository _roleRepository;
-        private static RoomRepository _roomRepository;
-        private static BreadBookingsRepository _breadBookingsRepository;
-        private static BookingFacade _bookingFacade;
 
         public static string DatabaseConnectionString
         {
@@ -31,81 +31,18 @@ namespace Backend
             }
         }
 
-        public static WolfBookingContextFactory WolfBookingContextFactory
-        {
-            get
-            {
-                if (_contextFactory == null)
-                    _contextFactory = new WolfBookingContextFactory(DatabaseConnectionString);
+        public static WolfBookingSignInManager SignInManager => HttpContext.Current.GetOwinContext().Get<WolfBookingSignInManager>();
+        public static WolfBookingUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<WolfBookingUserManager>();
+        public static WolfBookingContext DbContext => HttpContext.Current.GetOwinContext().Get<WolfBookingContext>();
 
-                return _contextFactory;
-            }
-        }
+        public static RoleManager<WolfBookingRole, int> RoleManager => new RoleManager<WolfBookingRole, int>(new WolfBookingRoleStore(DbContext));
 
-        public static BreadRepository BreadRepository
-        {
-            get
-            {
-                if (_breadRepository == null)        
-                    _breadRepository = new BreadRepository(WolfBookingContextFactory);
 
-                return _breadRepository;
-            }
-        }
+        public static BreadRepository BreadRepository => new BreadRepository(DbContext);
+        public static UserRepository UserRepository => new UserRepository(SignInManager, UserManager, DbContext);
+        public static RoomRepository RoomRepository => new RoomRepository(DbContext);
+        public static BreadBookingsRepository BreadBookingsRepository => new BreadBookingsRepository(DbContext);
 
-        public static UserRepository UserRepository
-        {
-            get
-            {
-                if (_userRepository == null)
-                    _userRepository = new UserRepository(WolfBookingContextFactory);
-
-                return _userRepository;
-            }
-        }
-
-        public static RoleRepository RoleRepository
-        {
-            get
-            {
-                if (_roleRepository == null)
-                    _roleRepository = new RoleRepository(WolfBookingContextFactory);
-
-                return _roleRepository;
-            }
-        }
-
-        public static RoomRepository RoomRepository
-        {
-            get
-            {
-                if (_roomRepository == null)
-                    _roomRepository = new RoomRepository(WolfBookingContextFactory);
-
-                return _roomRepository;
-            }
-        }
-
-        public static BreadBookingsRepository BreadBookingsRepository
-        {
-            get
-            {
-                if (_breadBookingsRepository == null)
-                    _breadBookingsRepository = new BreadBookingsRepository(WolfBookingContextFactory);
-
-                return _breadBookingsRepository;
-            }
-        }
-
-        public static BookingFacade BookingFacade
-        {
-            get
-            {
-                if (_bookingFacade == null)
-                    _bookingFacade = new BookingFacade(BreadRepository, UserRepository, RoleRepository, RoomRepository, BreadBookingsRepository);
-
-                return _bookingFacade;
-            }
-        }
+        public static BookingFacade BookingFacade => new BookingFacade(BreadRepository, UserRepository, RoomRepository, BreadBookingsRepository);
     }
 }

@@ -1,50 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Backend.Persistence;
+using Microsoft.AspNet.Identity;
 
 namespace Backend.Business
 {
     public class User
     {
-        private List<int> _roles;
+        private IEnumerable<WolfBookingRole> _roles;
 
         public User(Persistence.User user)
         {
-            // TODO
-            //Id = user.Id;
-            //Login = user.Login;
-            //Password = user.Password;
-            //Deleted = user.Deleted;
-            //Room = user.Room?.Id ?? -1;
-            //_roles = user.Roles.Select(x => x.Id).ToList();
+            Id = user.Id;
+            UserName = user.UserName;
+            Deleted = user.Deleted;
+            Room = user.Room?.Id ?? -1;
+
+            var roleManager = Factory.RoleManager;
+            _roles = user.Roles.Select(r => new WolfBookingRole(roleManager.FindById(r.RoleId).Name));
         }
 
         public User(Facade.User user)
         {
-            Login = user.Login;
-            Password = user.Password;
+            UserName = user.Login;
             Deleted = DateTime.MaxValue;
             Room = user.Room;
-            _roles = user.Roles.ToList();
+            _roles = user.Roles;
         }
 
         public int Id { get; private set; }
-        public string Login { get; private set; }
-        public string Password { get; private set; }
+        public string UserName { get; private set; }
         public DateTime Deleted { get; private set; }
         public int Room { get; private set; }
 
-        public IReadOnlyList<int> Roles => _roles;
+        public IEnumerable<WolfBookingRole> Roles => _roles;
 
         public void UpdateWith(Facade.User user)
         {
             if (user.Id != Id)
-                throw new ArgumentException("user", "wrong id");
+                throw new ArgumentException("wrong id", "user.Id");
 
-            Login = user.Login;
-            Password = user.Password;
+            UserName = user.Login;
             Room = user.Room;
-            _roles = user.Roles.ToList();
+            _roles = user.Roles;
         }
 
         public void MarkAsDeleted()

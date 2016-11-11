@@ -7,21 +7,21 @@ namespace Backend.Persistence
 {
     public class BreadBookingsRepository
     {
-        private WolfBookingContextFactory _contextFactory;
+        private readonly WolfBookingContext _dbContext;
 
-        public BreadBookingsRepository(WolfBookingContextFactory contextFactory)
+        public BreadBookingsRepository(WolfBookingContext dbContext)
         {
-            _contextFactory = contextFactory;
+            _dbContext = dbContext;
         }
 
         public Business.BreadBookings GetBreadBookingsById(int id)
         {
             BreadBookings result;
 
-            using (var context = CreateContext())
-            {
-                result = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).FirstOrDefault(x => x.Id == id);  
-            }
+            result =
+                _dbContext.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread))
+                    .Include(x => x.Room)
+                    .FirstOrDefault(x => x.Id == id);
 
             return result == null ? null : new Business.BreadBookings(result);
         }
@@ -32,29 +32,34 @@ namespace Backend.Persistence
             BreadBookings result;
             var tomorrow = CalculateTomorrow();
 
-            using (var context = CreateContext())
+            result =
+                _dbContext.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread))
+                    .Include(x => x.Room)
+                    .FirstOrDefault(x => x.Date.Equals(tomorrow) && x.Room.Id == room);
+
+            if (result == null)
             {
-                result = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).FirstOrDefault(x => x.Date.Equals(tomorrow) && x.Room.Id == room);
+                var persistenceRoom = _dbContext.Rooms.FirstOrDefault(x => x.Deleted > now && x.Id == room);
 
-                if (result == null)
+                if (persistenceRoom == null)
+                    return null;
+
+                result = new BreadBookings
                 {
-                    var persistenceRoom = context.Rooms.FirstOrDefault(x => x.Deleted > now && x.Id == room);
+                    Room = persistenceRoom,
+                    Date = tomorrow,
+                    Bookings = new List<BreadBooking>()
+                };
+                var allBreads = _dbContext.Breads.Where(x => x.Deleted > now);
 
-                    if (persistenceRoom == null)
-                        return null;
-
-                    result = new BreadBookings { Room = persistenceRoom, Date = tomorrow, Bookings = new List<BreadBooking>() };
-                    var allBreads = context.Breads.Where(x => x.Deleted > now);
-
-                    foreach (var bread in allBreads)
-                    {
-                        var breadBooking = new BreadBooking() { Bread = bread, Amount = 0 };
-                        context.BreadBooking.Add(breadBooking);
-                        result.Bookings.Add(breadBooking);
-                    }
-                    context.BreadBookings.Add(result);
-                    context.SaveChanges();
+                foreach (var bread in allBreads)
+                {
+                    var breadBooking = new BreadBooking() {Bread = bread, Amount = 0};
+                    _dbContext.BreadBooking.Add(breadBooking);
+                    result.Bookings.Add(breadBooking);
                 }
+                _dbContext.BreadBookings.Add(result);
+                _dbContext.SaveChanges();
             }
 
             return new Business.BreadBookings(result);
@@ -64,11 +69,14 @@ namespace Backend.Persistence
         {
             List<BreadBookings> result;
 
-            using (var context = CreateContext())
-            {
-                var queryResult = context.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread)).Include(x => x.Room).Where(x => DateTime.Compare(x.Date, start) >= 0 && DateTime.Compare(x.Date, end) <= 0 && x.Room.Id == room);
-                result = queryResult.ToList();
-            }
+            var queryResult =
+                _dbContext.BreadBookings.Include(x => x.Bookings.Select(y => y.Bread))
+                    .Include(x => x.Room)
+                    .Where(
+                        x =>
+                            DateTime.Compare(x.Date, start) >= 0 && DateTime.Compare(x.Date, end) <= 0 &&
+                            x.Room.Id == room);
+            result = queryResult.ToList();
 
             return new Business.Bill(result);
         }
@@ -77,47 +85,43 @@ namespace Backend.Persistence
         {
             var now = DateTime.Now;
 
-            using (var context = CreateContext())
+            var persistenceBookings =
+                _dbContext.BreadBookings.Include(x => x.Room)
+                    .Include(x => x.Bookings)
+                    .SingleOrDefault(x => x.Id == breadBookings.Id);
+
+            if (persistenceBookings == null)
+                throw new ArgumentException("breadBookings", $"bread booking with id {breadBookings.Id} does not exist");
+
+            if (persistenceBookings.AlreadyOrdered)
+                throw new ArgumentException("breadBookings",
+                    $"bread booking with id {breadBookings.Id} has already been ordered");
+
+            _dbContext.BreadBookings.Attach(persistenceBookings);
+            persistenceBookings.UpdateWith(breadBookings);
+            persistenceBookings.Room = _dbContext.Rooms.Find(breadBookings.Room);
+            persistenceBookings.Bookings.Clear();
+
+            foreach (var booking in breadBookings.Bookings)
             {
-                var persistenceBookings = context.BreadBookings.Include(x => x.Room).Include(x => x.Bookings).SingleOrDefault(x => x.Id == breadBookings.Id);
+                var persistenceBooking = _dbContext.BreadBooking.Find(booking.Id);
 
-                if (persistenceBookings == null)
-                    throw new ArgumentException("breadBookings", $"bread booking with id {breadBookings.Id} does not exist");
-
-                if (persistenceBookings.AlreadyOrdered)
-                    throw new ArgumentException("breadBookings", $"bread booking with id {breadBookings.Id} has already been ordered");
-
-                context.BreadBookings.Attach(persistenceBookings);
-                persistenceBookings.UpdateWith(breadBookings);
-                persistenceBookings.Room = context.Rooms.Find(breadBookings.Room);
-                persistenceBookings.Bookings.Clear();
-
-                foreach (var booking in breadBookings.Bookings)
+                if (persistenceBooking == null)
                 {
-                    var persistenceBooking = context.BreadBooking.Find(booking.Id);
-
-                    if (persistenceBooking == null)
-                    {
-                        persistenceBooking = new BreadBooking();
-                        context.BreadBooking.Add(persistenceBooking);
-                    }
-
-                    persistenceBooking.UpdateWith(booking);
-                    persistenceBookings.Bookings.Add(persistenceBooking);
+                    persistenceBooking = new BreadBooking();
+                    _dbContext.BreadBooking.Add(persistenceBooking);
                 }
 
-                context.SaveChanges();
+                persistenceBooking.UpdateWith(booking);
+                persistenceBookings.Bookings.Add(persistenceBooking);
             }
+
+            _dbContext.SaveChanges();
         }
 
         private static DateTime CalculateTomorrow()
         {
             return DateTime.Today.AddDays(1);
-        }
-
-        private WolfBookingContext CreateContext()
-        {
-            return _contextFactory.Create();
         }
     }
 }

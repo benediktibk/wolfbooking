@@ -1,10 +1,14 @@
 ﻿using Backend;
 using Backend.Facade;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
+using Backend.Persistence;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Frontend.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private BookingFacade _bookingFacade;
@@ -14,15 +18,15 @@ namespace Frontend.Controllers
             _bookingFacade = Factory.BookingFacade;
         }
 
-        [Route("api/roles/all")]
+        [Route("api/roles/")]
         [HttpGet]
-        public IList<Role> GetAllRoles()
+        public IList<WolfBookingRole> GetAllRoles()
         {
             LogDebug("fetching all currently available roles");
-            return _bookingFacade.GetAllRoles();
+            return _bookingFacade.GetAllRoles().ToList();
         }
 
-        [Route("api/roles/foruser/{username}")]
+        [Route("api/roles/{username}")]
         [HttpGet]
         [Authorize(Roles = "Users")]
         public IList<string> GetRolesForUser(string username)
@@ -34,7 +38,7 @@ namespace Frontend.Controllers
                 throw new HttpResponseException(System.Net.HttpStatusCode.Forbidden);
             }
 
-            return _bookingFacade.GetRolesForUser(username);
+            return _bookingFacade.GetRoleNamesForUser(username).ToList();
         }
     }
 }

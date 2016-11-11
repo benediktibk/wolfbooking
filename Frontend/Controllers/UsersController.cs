@@ -7,14 +7,10 @@ using System.Web.Http;
 
 namespace Frontend.Controllers
 {
+    [Authorize(Roles = "Manager,Admin")]
     public class UsersController : Controller
     {
-        private BookingFacade _bookingFacade;
-
-        public UsersController()
-        {
-            _bookingFacade = Factory.BookingFacade;
-        }
+        private readonly BookingFacade _bookingFacade = Factory.BookingFacade;
 
         [Route("api/users/all")]
         [Authorize(Roles = "Administrators")]
@@ -22,7 +18,7 @@ namespace Frontend.Controllers
         public IList<User> GetAllUsers()
         {
             LogDebug("fetching all currently available users");
-            return _bookingFacade.GetCurrentAvailableUsersWithoutPasswords();
+            return _bookingFacade.GetAllUsers();
         }
 
         [Route("api/users/item/{id}")]
@@ -61,13 +57,13 @@ namespace Frontend.Controllers
         [Route("api/users")]
         [Authorize(Roles = "Administrators")]
         [HttpPost]
-        public HttpResponseMessage CreateUser([FromBody]User user)
+        public HttpResponseMessage CreateUser([FromBody]User user, [FromBody]string password)
         {
             if (user == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             LogDebug($"creating user {{{user}}}");
-            var id = _bookingFacade.AddUser(user);
+            var id = _bookingFacade.AddUser(user, password);
 
             if (id < 0)
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict };

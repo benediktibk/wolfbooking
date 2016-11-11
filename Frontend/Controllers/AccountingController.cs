@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace Frontend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Manager,Admin")]
     public class AccountingController : Controller
     {
         private BookingFacade _bookingFacade;
@@ -17,9 +17,8 @@ namespace Frontend.Controllers
             _bookingFacade = Factory.BookingFacade;
         }
 
-        [Route("api/accounting/calculatebill/{room}")]
-        [Authorize(Roles = "Managers")]
         [HttpGet]
+        [Route("api/accounting/calculatebill/{room}")]
         public Bill CalculateBill(int room, [FromUri] DateTime startDate, [FromUri] DateTime endDate)
         {
             LogDebug($"calculating bill for room with id {room}");
