@@ -21,7 +21,7 @@ namespace Frontend.Controllers
         [Route("api/accounting/calculatebill/{room}")]
         public Bill CalculateBill(int room, [FromUri] DateTime startDate, [FromUri] DateTime endDate)
         {
-            LogDebug($"calculating bill for room with id {room}");
+            LogInfo($"calculating bill for room with id {room}");
 
             var result = _bookingFacade.CalculateBill(room, startDate, endDate);
 

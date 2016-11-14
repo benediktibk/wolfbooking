@@ -22,7 +22,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public IList<Room> GetAllRooms()
         {
-            LogDebug("fetching all currently available rooms");
+            LogInfo("fetching all currently available rooms");
             return _bookingFacade.GetCurrentAvailableRooms();
         }
 
@@ -31,7 +31,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public Room GetRoomById(int id)
         {
-            LogDebug($"fetching room with id {id}");
+            LogInfo($"fetching room with id {id}");
             var room = _bookingFacade.GetRoom(id);
 
             if (room == null)
@@ -45,7 +45,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public bool GetInUseById(int id)
         {
-            LogDebug($"checking if room with id {id} is in use");
+            LogInfo($"checking if room with id {id} is in use");
             return _bookingFacade.IsRoomInUse(id);
         }
 
@@ -57,7 +57,7 @@ namespace Frontend.Controllers
             if (room == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-            LogDebug($"creating room {{{room}}}");
+            LogInfo($"creating room {{{room}}}");
             var id = _bookingFacade.AddRoom(room);
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
             response.Headers.Location = CreateCompleteUri($"api/rooms/item/{id}");
@@ -73,7 +73,7 @@ namespace Frontend.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             room.Id = id;
-            LogDebug($"updating room {{{room}}}");
+            LogInfo($"updating room {{{room}}}");
             return _bookingFacade.UpdateRoom(room) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
@@ -82,7 +82,7 @@ namespace Frontend.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteRoom(int id)
         {
-            LogDebug($"deleting room with id {id}");
+            LogInfo($"deleting room with id {id}");
             return _bookingFacade.DeleteRoom(id) ? new HttpResponseMessage(HttpStatusCode.OK) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }

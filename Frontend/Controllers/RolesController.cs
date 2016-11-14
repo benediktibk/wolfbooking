@@ -22,7 +22,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public IList<WolfBookingRole> GetAllRoles()
         {
-            LogDebug("fetching all currently available roles");
+            LogInfo("fetching all currently available roles");
             return _bookingFacade.GetAllRoles().ToList();
         }
 

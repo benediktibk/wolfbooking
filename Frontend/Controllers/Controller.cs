@@ -20,9 +20,9 @@ namespace Frontend.Controllers
             return new System.Uri(completeUrl);
         }
 
-        public void LogDebug(string message)
+        public void LogInfo(string message)
         {
-            logger.Debug(message);
+            logger.Info(message);
         }
     }
 }

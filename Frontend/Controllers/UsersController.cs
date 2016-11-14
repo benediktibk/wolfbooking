@@ -17,7 +17,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public IList<User> GetAllUsers()
         {
-            LogDebug("fetching all currently available users");
+            LogInfo("fetching all currently available users");
             return _bookingFacade.GetAllUsers();
         }
 
@@ -26,7 +26,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public User GetUserById(int id)
         {
-            LogDebug($"fetching user with id {id}");
+            LogInfo($"fetching user with id {id}");
             var user = _bookingFacade.GetUser(id);
 
             if (user == null)
@@ -40,7 +40,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public User GetUserByUsername(string username)
         {
-            LogDebug($"fetching user {username}");
+            LogInfo($"fetching user {username}");
 
             var currentUser = RequestContext.Principal.Identity.Name;
             if (!_bookingFacade.IsUserAllowedToSeeDataOfUser(currentUser, username))
@@ -62,7 +62,7 @@ namespace Frontend.Controllers
             if (user == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-            LogDebug($"creating user {{{user}}}");
+            LogInfo($"creating user {{{user}}}");
             var id = _bookingFacade.AddUser(user, password);
 
             if (id < 0)
@@ -82,7 +82,7 @@ namespace Frontend.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             user.Id = id;
-            LogDebug($"updating user {{{user}}}");
+            LogInfo($"updating user {{{user}}}");
             return _bookingFacade.UpdateUser(user) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
@@ -91,7 +91,7 @@ namespace Frontend.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteUser(int id)
         {
-            LogDebug($"deleting user with id {id}");
+            LogInfo($"deleting user with id {id}");
             return _bookingFacade.DeleteUser(id) ? new HttpResponseMessage(HttpStatusCode.OK) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
