@@ -155,7 +155,6 @@
     <Compile Include="Facade\BreadBookings.cs" />
     <Compile Include="Facade\Room.cs" />
     <Compile Include="Facade\User.cs" />
-    <Compile Include="Factory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\Bread.cs" />
     <Compile Include="Persistence\BreadBooking.cs" />

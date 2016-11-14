@@ -13,23 +13,42 @@ namespace Backend.Persistence
         {
             base.Seed(context);
 
-            CreateRoleIfNotExistent(context, "User");
-            CreateRoleIfNotExistent(context, "Manager");
-            CreateRoleIfNotExistent(context, "Admin");
+            SeedRoles(context);
+            SeedUsers(context);
+            SeedRooms(context);
 
+            context.SaveChanges();
+        }
+
+        private void SeedRooms(WolfBookingContext context)
+        {
+            for (var i = 1; i <= 3; i++)
+            {
+                var room = new Room() { Name = $"Fw{i}", Description = $"Ferienwohnung {i}", Deleted = DateTime.MaxValue};
+                context.Rooms.Add(room);
+            }
+        }
+
+        private void SeedUsers(WolfBookingContext context)
+        {
             if (!(context.Users.Any(u => u.UserName == "admin")))
             {
                 var userStore = new WolfBookingUserStore(context);
                 var manager = new WolfBookingUserManager(userStore, null);
-                var user = new User {UserName = "admin", Email = "info@wolf.tirol"};
+                var user = new User { UserName = "admin", Email = "info@wolf.tirol" };
                 var result = manager.Create(user, "Einstieg1!");
                 if (!result.Succeeded)
                     throw new Exception(result.ToString());
 
                 manager.AddToRole(user.Id, "Admin");
             }
+        }
 
-            context.SaveChanges();
+        private void SeedRoles(WolfBookingContext context)
+        {
+            CreateRoleIfNotExistent(context, "User");
+            CreateRoleIfNotExistent(context, "Manager");
+            CreateRoleIfNotExistent(context, "Admin");
         }
 
         private void CreateRoleIfNotExistent(WolfBookingContext context, string roleName)

@@ -10,8 +10,6 @@ namespace Backend.Business
     {
         private IEnumerable<WolfBookingRole> _roles;
 
-        private static RoleManager<WolfBookingRole, int> _roleManager;
-
         public User(Persistence.User user, RoleManager<WolfBookingRole, int> roleManager)
         {
             Id = user.Id;
