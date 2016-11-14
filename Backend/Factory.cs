@@ -9,11 +9,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using NLog;
 
 namespace Backend
 {
     public static class Factory
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private static string _databaseConnectionString;
 
         public static string DatabaseConnectionString
@@ -23,7 +25,9 @@ namespace Backend
                 if (_databaseConnectionString == null)
                 {
                     var hostName = Environment.MachineName;
+                    logger.Info($"loading connection string for machine {hostName}");
                     _databaseConnectionString = ConfigurationManager.ConnectionStrings[hostName].ConnectionString;
+                    logger.Info($"successfully loaded connection string for machine {hostName}");
                 }
 
                 return _databaseConnectionString;
