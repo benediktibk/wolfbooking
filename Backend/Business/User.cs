@@ -10,14 +10,14 @@ namespace Backend.Business
     {
         private IEnumerable<WolfBookingRole> _roles;
 
-        public User(Persistence.User user)
+        private static RoleManager<WolfBookingRole, int> _roleManager;
+
+        public User(Persistence.User user, RoleManager<WolfBookingRole, int> roleManager)
         {
             Id = user.Id;
             UserName = user.UserName;
             Deleted = user.Deleted;
             Room = user.Room?.Id ?? -1;
-
-            var roleManager = Factory.RoleManager;
             _roles = user.Roles.Select(r => new WolfBookingRole(roleManager.FindById(r.RoleId).Name));
         }
 

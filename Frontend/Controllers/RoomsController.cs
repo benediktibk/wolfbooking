@@ -12,9 +12,9 @@ namespace Frontend.Controllers
     {
         private BookingFacade _bookingFacade;
 
-        public RoomsController()
+        public RoomsController(BookingFacade bookingFacade)
         {
-            _bookingFacade = Factory.BookingFacade;
+            _bookingFacade = bookingFacade;
         }
 
         [Route("api/rooms/all")]

@@ -12,9 +12,9 @@ namespace Frontend.Controllers
     {
         private BookingFacade _bookingFacade;
 
-        public AccountingController()
+        public AccountingController(BookingFacade bookingFacade)
         {
-            _bookingFacade = Factory.BookingFacade;
+            _bookingFacade = bookingFacade;
         }
 
         [HttpGet]

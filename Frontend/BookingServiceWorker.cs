@@ -16,7 +16,7 @@ namespace Frontend
         private MailSettings _mailSettings;
         private BookingFacade _bookingFacade;
 
-        public BookingServiceWorker()
+        public BookingServiceWorker(BookingFacade bookingFacade)
         {
             logger.Debug("loading mail settings");
             var appSettings = System.Configuration.ConfigurationSettings.AppSettings;
@@ -31,7 +31,7 @@ namespace Frontend
                 Username = appSettings["username"],
                 Password = appSettings["password"]
             };
-            _bookingFacade = Factory.BookingFacade;
+            _bookingFacade = bookingFacade;
         }
 
         public void Execute(IJobExecutionContext context)

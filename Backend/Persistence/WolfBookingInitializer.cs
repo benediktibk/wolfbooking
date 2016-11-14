@@ -20,9 +20,9 @@ namespace Backend.Persistence
             if (!(context.Users.Any(u => u.UserName == "admin")))
             {
                 var userStore = new WolfBookingUserStore(context);
-                var manager = new WolfBookingUserManager(userStore);
-                var user = new User {UserName = "admin"};
-                var result = manager.Create(user, "Einstieg00");
+                var manager = new WolfBookingUserManager(userStore, null);
+                var user = new User {UserName = "admin", Email = "info@wolf.tirol"};
+                var result = manager.Create(user, "Einstieg1!");
                 if (!result.Succeeded)
                     throw new Exception(result.ToString());
 

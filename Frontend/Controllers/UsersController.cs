@@ -10,7 +10,12 @@ namespace Frontend.Controllers
     [Authorize(Roles = "Manager,Admin")]
     public class UsersController : Controller
     {
-        private readonly BookingFacade _bookingFacade = Factory.BookingFacade;
+        private readonly BookingFacade _bookingFacade;
+
+        public UsersController(BookingFacade bookingFacade)
+        {
+            _bookingFacade = bookingFacade;
+        }
 
         [Route("api/users/all")]
         [Authorize(Roles = "Administrators")]

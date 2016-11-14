@@ -15,9 +15,9 @@ namespace Backend.Persistence
         public DbSet<BreadBooking> BreadBooking { get; set; }
         public DbSet<BreadBookings> BreadBookings { get; set; }
 
-        public static WolfBookingContext Create()
-        {
-            return new WolfBookingContext(Factory.DatabaseConnectionString);
-        }
+        //public static WolfBookingContext Create()
+        //{
+        //    return new WolfBookingContext(Factory.DatabaseConnectionString);
+        //}
     }
 }

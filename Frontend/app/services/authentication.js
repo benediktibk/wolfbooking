@@ -39,7 +39,7 @@ Authentication.factory('Authentication', function ($http, $cookies) {
         var data = "grant_type=password&username=" + username + "&password=" + password;
         var httpRequest = $http({
             method: 'POST',
-            url: 'token',
+            url: '/Token',
             data: data,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

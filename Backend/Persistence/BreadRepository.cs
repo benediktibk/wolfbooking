@@ -37,10 +37,8 @@ namespace Backend.Persistence
 
         public IList<Business.Bread> Get(IEnumerable<int> ids)
         {
-            IList<Bread> breads;
-           
             var queryResult = _dbContext.Breads.Where(x => ids.Contains(x.Id));
-            breads = queryResult?.ToList(); 
+            IList<Bread> breads = queryResult?.ToList(); 
 
             return breads?.Select(x => new Business.Bread(x)).ToList();
         }
@@ -57,13 +55,10 @@ namespace Backend.Persistence
 
         public IList<Business.Bread> GetAvailableBreads(DateTime dateTime)
         {
-            IList<Bread> result;
+            var result = from bread in _dbContext.Breads
+                where bread.Deleted > dateTime
+                select bread;
 
-            var queryResult = from bread in _dbContext.Breads
-                                where bread.Deleted > dateTime
-                                select bread;
-
-            result = queryResult.ToList();
 
             return result.Select(x => new Business.Bread(x)).ToList();
         }

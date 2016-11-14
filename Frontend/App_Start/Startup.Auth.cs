@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Web;
+using Backend;
+using Backend.Facade;
 using Backend.Persistence;
+using Frontend.App_Start;
+using Frontend.Controllers;
 using Frontend.Providers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -8,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using User = Backend.Persistence.User;
 
 namespace Frontend
 {
@@ -17,15 +22,6 @@ namespace Frontend
         static Startup()
         {
             PublicClientId = "web";
-
-            OAuthOptions = new OAuthAuthorizationServerOptions
-            {
-                TokenEndpointPath = new PathString("/Token"),
-                AuthorizeEndpointPath = new PathString("/Account/Authorize"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                AllowInsecureHttp = true
-            };
         }
 
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
@@ -36,9 +32,9 @@ namespace Frontend
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(WolfBookingContext.Create);
-            app.CreatePerOwinContext<WolfBookingUserManager>(WolfBookingUserManager.Create);
-            app.CreatePerOwinContext<WolfBookingSignInManager>(WolfBookingSignInManager.Create);
+            //app.CreatePerOwinContext(WolfBookingContext.Create);
+            //app.CreatePerOwinContext<WolfBookingUserManager>(WolfBookingUserManager.Create);
+            //app.CreatePerOwinContext<WolfBookingSignInManager>(WolfBookingSignInManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -67,7 +63,16 @@ namespace Frontend
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Enable the application to use bearer tokens to authenticate users
+            OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/Token"),
+                AuthorizeEndpointPath = new PathString("/Account/Authorize"),
+                Provider = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<AuthorizationServerProvider>(), //new AuthorizationServerProvider(StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<BookingFacade>()),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AllowInsecureHttp = true
+            };
             app.UseOAuthBearerTokens(OAuthOptions);
+
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(

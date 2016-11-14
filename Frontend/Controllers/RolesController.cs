@@ -13,9 +13,9 @@ namespace Frontend.Controllers
     {
         private BookingFacade _bookingFacade;
 
-        public RolesController()
+        public RolesController(BookingFacade bookingFacade)
         {
-            _bookingFacade = Factory.BookingFacade;
+            _bookingFacade = bookingFacade;
         }
 
         [Route("api/roles/")]

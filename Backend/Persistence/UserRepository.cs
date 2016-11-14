@@ -15,13 +15,15 @@ namespace Backend.Persistence
         private readonly WolfBookingSignInManager _signInManager;
         private readonly WolfBookingUserManager _userManager;
         private readonly WolfBookingContext _dbContext;
+        private readonly RoleManager<WolfBookingRole, int> _roleManager;
 
         public UserRepository(WolfBookingSignInManager signInManager, WolfBookingUserManager userManager,
-            WolfBookingContext dbContext)
+            WolfBookingContext dbContext, RoleManager<WolfBookingRole, int> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _dbContext = dbContext;
+            _roleManager = roleManager;
         }
 
         public Business.User GetByLogin(string login)
@@ -37,14 +39,14 @@ namespace Backend.Persistence
 
             var result = queryResult.FirstOrDefault();
 
-            return result != null ? new Business.User(result) : null;
+            return result != null ? new Business.User(result, _roleManager) : null;
         }
 
         public Business.User Get(int id)
         {
             var persistenceUser = _userManager.FindById(id);
 
-            return persistenceUser != null ? new Business.User(persistenceUser) : null;
+            return persistenceUser != null ? new Business.User(persistenceUser, _roleManager) : null;
         }
 
         public int Add(Business.User user, string password)
@@ -93,15 +95,12 @@ namespace Backend.Persistence
                 where user.Deleted > dateTime
                 select user;
 
-            return queryResult.Select(x => new Business.User(x)).ToList();
+            return queryResult.Select(x => new Business.User(x, _roleManager)).ToList();
         }
 
         public void Update(Business.User user)
         {
-            var userStore = new WolfBookingUserStore(_dbContext);
-            var userManager = new WolfBookingUserManager(userStore);
-
-            var persistenceUser = userManager.FindById(user.Id);
+            var persistenceUser = _userManager.FindById(user.Id);
 
             if (persistenceUser == null)
                 throw new ArgumentException($"user with id {user.Id} does not exist", nameof(user));
@@ -112,9 +111,7 @@ namespace Backend.Persistence
 
         public IEnumerable<WolfBookingRole> GetAllRoles()
         {
-            var store = new RoleStore<IdentityRole>(_dbContext);
-            var manager = new RoleManager<IdentityRole>(store);
-            return manager.Roles.Select(x => new WolfBookingRole(x.Name));
+            return _roleManager.Roles.Select(x => new WolfBookingRole(x.Name));
         }
 
         public ICollection<WolfBookingUserRole> GetRolesForUserName(string userName)
@@ -124,16 +121,11 @@ namespace Backend.Persistence
 
         public IEnumerable<string> GetUserRoleNamesForUserName(string username)
         {
-            var store = new WolfBookingUserStore(_dbContext);
-            var manager = new WolfBookingUserManager(store);
-            var roleStore = new WolfBookingRoleStore(_dbContext);
-            var roleManager = new RoleManager<WolfBookingRole, int>(roleStore);
-
-            var roles = manager.FindByName(username)?.Roles;
+            var roles = _userManager.FindByName(username)?.Roles;
 
             foreach (var role in roles)
             {
-                var rolename = roleManager.FindById(role.RoleId).Name;
+                var rolename = _roleManager.FindById(role.RoleId).Name;
                 yield return rolename;
             }
         }
