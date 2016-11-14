@@ -24,7 +24,6 @@ namespace Backend
                 {
                     var hostName = Environment.MachineName;
                     _databaseConnectionString = ConfigurationManager.ConnectionStrings[hostName].ConnectionString;
-                    //_databaseConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                 }
 
                 return _databaseConnectionString;
