@@ -21,7 +21,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public BreadBookings GetCurrentBreadBookingsByRoomId(int id)
         {
-            LogDebug($"fetching current bread bookings for room {id}");
+            LogInfo($"fetching current bread bookings for room {id}");
             var user = RequestContext.Principal.Identity.Name;
 
             if (!_bookingFacade.IsUserAllowedToSeeRoom(user, id))
@@ -43,7 +43,7 @@ namespace Frontend.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             breadBookings.Id = id;
-            LogDebug($"updating bread booking list {{{breadBookings}}}");
+            LogInfo($"updating bread booking list {{{breadBookings}}}");
 
             var user = RequestContext.Principal.Identity.Name;
 

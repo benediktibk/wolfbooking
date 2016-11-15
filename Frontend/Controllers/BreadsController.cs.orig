@@ -21,7 +21,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public IList<Bread> GetAllBreads()
         {
-            LogInfo("fetching all currently available breads");
+            LogDebug("fetching all currently available breads");
             return _bookingFacade.GetCurrentAvailableBreads();
         }
 
@@ -29,7 +29,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public IList<Bread> GetBreadsById([FromUri] List<int> ids)
         {
-            LogInfo($"fetching breads with ids {ids}");
+            LogDebug($"fetching breads with ids {ids}");
             if (ids == null)
                 return _bookingFacade.GetAllBreads();
             else
@@ -40,7 +40,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public Bread GetBreadById(int id)
         {
-            LogInfo($"fetching bread with id {id}");
+            LogDebug($"fetching bread with id {id}");
             var bread = _bookingFacade.GetBread(id);
 
             if (bread == null)
@@ -57,7 +57,7 @@ namespace Frontend.Controllers
             if (bread == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-            LogInfo($"creating bread {{{bread}}}");
+            LogDebug($"creating bread {{{bread}}}");
             var id = _bookingFacade.AddBread(bread);
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
             response.Headers.Location = CreateCompleteUri($"api/breads/item/{id}");
@@ -73,7 +73,7 @@ namespace Frontend.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             bread.Id = id;
-            LogInfo($"updating bread {{{bread}}}");
+            LogDebug($"updating bread {{{bread}}}");
             return _bookingFacade.UpdateBread(bread) ? new HttpResponseMessage(HttpStatusCode.NoContent) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
@@ -82,7 +82,7 @@ namespace Frontend.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteBread(int id)
         {
-            LogInfo($"deleting bread with id {id}");
+            LogDebug($"deleting bread with id {id}");
             return _bookingFacade.DeleteBread(id) ? new HttpResponseMessage(HttpStatusCode.OK) : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
