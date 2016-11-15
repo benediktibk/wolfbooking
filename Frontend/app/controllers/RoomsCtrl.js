@@ -1,7 +1,7 @@
 ﻿wolfBookingApp.controller('RoomsCtrl', function ($scope, $q, $location, Rooms, Authentication, Tables) {
     Tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="RoomsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteRoom(row)"></i></div>', width: 30 },
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="RoomsDeleteButton"><i class="fa fa-trash-o fa-lg" ng-click="grid.appScope.deleteRoom(row)"></i></div>', width: 30 },
             { name: 'Rooms.Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
             { name: 'Rooms.Description', field: 'Description', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' }
     ]);
@@ -52,7 +52,7 @@
     $scope.deleteRoom = function (row) {
         Rooms.isInUse(row.entity).then(function (data) {
             if (data.data)
-                window.alert("You cannot delete this room, it is still assigned to an user.");
+                window.alert("You cannot delete this room, it is still assigned to a user.");
             else
                 Tables.deleteRow($scope, row);
         });
