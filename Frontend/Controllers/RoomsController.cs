@@ -18,7 +18,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms/all")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public IList<Room> GetAllRooms()
         {
@@ -27,7 +27,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms/item/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public Room GetRoomById(int id)
         {
@@ -41,7 +41,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms/inuse/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public bool GetInUseById(int id)
         {
@@ -50,7 +50,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost]
         public HttpResponseMessage CreateRoom([FromBody]Room room)
         {
@@ -65,7 +65,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms/item/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPut]
         public HttpResponseMessage UpdateRoom(int id, [FromBody]Room room)
         {
@@ -78,7 +78,7 @@ namespace Frontend.Controllers
         }
 
         [Route("api/rooms/item/{id}")]
-        [Authorize(Roles = "Managers")]
+        [Authorize(Roles = "Manager,Admin")]
         [HttpDelete]
         public HttpResponseMessage DeleteRoom(int id)
         {

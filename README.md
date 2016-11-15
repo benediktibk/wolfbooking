@@ -7,4 +7,4 @@ This project contains of two parts:
 
 ## Configuration ##
 The database connection string for the Frontend is configured in the Web.config. For the BookingService this parameter must be set in the App.config.
-The default user is "admin" with the password "1234"
+The default user is `admin` with the password `Einstieg1!`

@@ -38,7 +38,7 @@ namespace Backend.Persistence
         public IList<Business.Bread> Get(IEnumerable<int> ids)
         {
             var queryResult = _dbContext.Breads.Where(x => ids.Contains(x.Id));
-            IList<Bread> breads = queryResult?.ToList(); 
+            IList<Bread> breads = queryResult.ToList(); 
 
             return breads?.Select(x => new Business.Bread(x)).ToList();
         }
@@ -60,7 +60,7 @@ namespace Backend.Persistence
                 select bread;
 
 
-            return result.Select(x => new Business.Bread(x)).ToList();
+            return result.ToList().Select(x => new Business.Bread(x)).ToList();
         }
     }
 }

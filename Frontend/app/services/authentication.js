@@ -92,11 +92,11 @@ Authentication.factory('Authentication', function ($http, $cookies) {
     }
 
     var isOnlyUser = function () {
-        return _roles.length <= 1 && _roles[0] == 'Users';
+        return _roles.length <= 1 && _roles[0] == 'User';
     }
 
     var isAdministrator = function () {
-        return _roles.indexOf("Administrators") != -1;
+        return _roles.indexOf("Admin") != -1;
     }
 
     AuthenticationFactory.login = login;

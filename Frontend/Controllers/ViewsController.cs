@@ -11,6 +11,7 @@ namespace Frontend.Controllers
     public class ViewsController : Controller
     {
 
+        // TODO: filter anonymous access!!!
         [Route("views/{view}")]
         [AllowAnonymous]
         public HttpResponseMessage GetView(string view)

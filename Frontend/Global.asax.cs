@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -27,6 +28,10 @@ namespace Frontend
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ConfigureMailSchedule();
+
+            // wep api structuremap setup aso http://stackoverflow.com/a/24597695
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Services.Replace(typeof(IHttpControllerActivator), new ServiceActivator(config));
         }
 
         private void ConfigureMailSchedule()

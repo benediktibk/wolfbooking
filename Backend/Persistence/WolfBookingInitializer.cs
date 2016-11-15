@@ -41,6 +41,7 @@ namespace Backend.Persistence
                     throw new Exception(result.ToString());
 
                 manager.AddToRole(user.Id, "Admin");
+                manager.AddToRole(user.Id, "Manager");
             }
         }
 
