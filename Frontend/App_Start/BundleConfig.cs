@@ -72,7 +72,12 @@ namespace Frontend
             bundles.Add(controllersBundle);
 
             var styleBundle = (new StyleBundle("~/Content/css").Include(
-                "~/Content/site.css",
+                "~/Content/Site.css",
+                "~/Content/accounting.css",
+                "~/Content/breads.css",
+                "~/Content/common.css",
+                "~/Content/login.css",
+                "~/Content/users.css",
                 "~/Content/themes/base/jquery.ui.core.css"));
             bundles.Add(styleBundle);
 

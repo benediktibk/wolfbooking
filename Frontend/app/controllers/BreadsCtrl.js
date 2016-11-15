@@ -1,7 +1,7 @@
 ﻿wolfBookingApp.controller('BreadsCtrl', function ($scope, $q, $location, Breads, Authentication, Tables) {
     Tables.initialize($scope, [
             { name: 'Id', field: 'Id', visible: false },
-            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="BreadsDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
+            { name: ' ', enableCellEdit: false, cellTemplate: '<div id="BreadsDeleteButton"><i class="fa fa-trash-o fa-lg" ng-click="grid.appScope.deleteBread(row)"></i></div>', width: 30 },
             { name: 'Breads.Name', field: 'Name', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
             { name: 'Breads.Price', field: 'Price', enableCellEdit: true, type: 'number', enableCellEditOnFocus: true, headerCellFilter: 'translate' }
     ]);
