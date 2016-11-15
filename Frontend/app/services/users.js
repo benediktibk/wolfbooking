@@ -12,10 +12,10 @@ Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
             var role = Roles[j];
             var roleTranslated = RolesDictonary[role];
             switch (roleTranslated) {
-                case 'Administrators':
+                case 'Administrator':
                     user.isAdministrator = true;
                     break;
-                case 'Managers':
+                case 'Manager':
                     user.isManager = true;
                     break;
                 case 'Users':
@@ -47,17 +47,17 @@ Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
             user.Roles = [];
 
             if (user.isUser) {
-                var roleId = RolesDictionary["Users"];
+                var roleId = RolesDictionary["User"];
                 user.Roles.push(roleId);
             }
 
             if (user.isManager) {
-                var roleId = RolesDictionary["Managers"];
+                var roleId = RolesDictionary["Manager"];
                 user.Roles.push(roleId);
             }
 
             if (user.isAdministrator) {
-                var roleId = RolesDictionary["Administrators"];
+                var roleId = RolesDictionary["Administrator"];
                 user.Roles.push(roleId);
             }
 

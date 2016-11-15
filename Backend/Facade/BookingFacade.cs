@@ -131,7 +131,7 @@ namespace Backend.Facade
                 return true;
 
             var roleNames = _userRepository.GetUserRoleNamesForUserName(user.UserName);
-            return roleNames.Contains("Administrators") || roleNames.Contains("Managers");
+            return roleNames.Contains("Administrator") || roleNames.Contains("Manager");
         }
 
         public BreadBookings GetCurrentBreadBookingsForRoom(int id)

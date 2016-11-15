@@ -28,7 +28,7 @@ namespace Frontend.Controllers
 
         [Route("api/roles/{username}")]
         [HttpGet]
-        [Authorize(Roles = "Users")]
+        [Authorize(Roles = "User")]
         public IList<string> GetRolesForUser(string username)
         {
             var currentUser = RequestContext.Principal.Identity.Name;
