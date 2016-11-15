@@ -60,6 +60,12 @@ namespace Backend.Facade
             return user == null ? null : new User(user);
         }
 
+        public IList<Bread> GetAllBreads()
+        {
+            var breads = _breadRepository.GetAll();
+            return breads.Select(x => new Bread(x)).ToList();
+        }
+
         public IList<Bread> GetBreads(IEnumerable<int> ids)
         {
             var breads = _breadRepository.Get(ids);

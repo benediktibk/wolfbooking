@@ -111,6 +111,10 @@
     if (!$scope.isOnlyUser()) {
         Rooms.getAll().then(function (data) {
             $scope.availableRooms = data.data;
+            if ($scope.availableRooms !== null || $scope.availableRooms.length<=0) {
+                $scope.selectedRoom = $scope.availableRooms[0];
+                $scope.loadAll();
+            }
         });
     }
 

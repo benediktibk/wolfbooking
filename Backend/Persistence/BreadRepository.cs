@@ -62,5 +62,10 @@ namespace Backend.Persistence
 
             return result.ToList().Select(x => new Business.Bread(x)).ToList();
         }
+
+        public IList<Business.Bread> GetAll()
+        {
+            return _dbContext.Breads.Select(x => new Business.Bread(x)).ToList();
+        }
     }
 }

@@ -30,7 +30,10 @@ namespace Frontend.Controllers
         public IList<Bread> GetBreadsById([FromUri] List<int> ids)
         {
             LogDebug($"fetching breads with ids {ids}");
-            return _bookingFacade.GetBreads(ids);
+            if (ids == null)
+                return _bookingFacade.GetAllBreads();
+            else
+                return _bookingFacade.GetBreads(ids);
         }
 
         [Route("api/breads/item/{id}")]
