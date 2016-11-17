@@ -9,14 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WolfBooking</title>
 
-    <link rel="stylesheet" href="Content/bootstrap.min.css" />
-    <link rel="stylesheet" href="Content/ui-grid.min.css" />
-    <link rel="stylesheet" href="Content/font-awesome.min.css" />
-    <link rel="stylesheet" href="Content/breads.css" />
-    <link rel="stylesheet" href="Content/login.css" />
-    <link rel="stylesheet" href="Content/users.css" />
-    <link rel="stylesheet" href="Content/accounting.css" />
-    <link rel="stylesheet" href="Content/common.css" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/other_css")
 </head>
 <body ng-controller="HomeCtrl">
     <nav class="navbar navbar-dark bg-inverse">

@@ -95,7 +95,7 @@ namespace Backend.Persistence
                 where user.Deleted > dateTime
                 select user;
 
-            return queryResult.Select(x => new Business.User(x, _roleManager)).ToList();
+            return queryResult.ToList().Select(x => new Business.User(x, _roleManager)).ToList();
         }
 
         public void Update(Business.User user)
@@ -111,7 +111,7 @@ namespace Backend.Persistence
 
         public IEnumerable<WolfBookingRole> GetAllRoles()
         {
-            return _roleManager.Roles.Select(x => new WolfBookingRole(x.Name));
+            return _roleManager.Roles.ToList().Select(x => new WolfBookingRole(x.Name));
         }
 
         public ICollection<WolfBookingUserRole> GetRolesForUserName(string userName)

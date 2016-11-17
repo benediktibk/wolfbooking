@@ -12,13 +12,13 @@ Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
             var role = Roles[j];
             var roleTranslated = RolesDictonary[role];
             switch (roleTranslated) {
-                case 'Administrator':
+                case 'Admin':
                     user.isAdministrator = true;
                     break;
                 case 'Manager':
                     user.isManager = true;
                     break;
-                case 'Users':
+                case 'User':
                     user.isUser = true;
                     break;
             }
@@ -176,22 +176,21 @@ Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
         });
     }
 
-    var createItem = function (user) {
-        return addRolesToUser(user).then(function (user) {
-            var userWithRoomSet = setIdOfSelectedRoom(user);
-            delete userWithRoomSet.selectedRoom;
-            delete userWithRoomSet.availableRooms;
-            var httpRequest = $http({
-                method: 'POST',
-                url: 'api/Users',
-                headers: Authentication.getHttpHeaderWithAuthorization(),
-                data: userWithRoomSet
+    var createItem = function(user) {
+        return addRolesToUser(user)
+            .then(function(user) {
+                var userWithRoomSet = setIdOfSelectedRoom(user);
+                delete userWithRoomSet.selectedRoom;
+                delete userWithRoomSet.availableRooms;
+                var httpRequest = $http({
+                    method: 'POST',
+                    url: 'api/Users',
+                    headers: Authentication.getHttpHeaderWithAuthorization(),
+                    data: userWithRoomSet
+                });
+
+                return httpRequest;
             });
-
-            return httpRequest;
-        });
-
-        return httpRequest;
     }
 
     var deleteItem = function (user) {

@@ -77,9 +77,15 @@ namespace Frontend
                 "~/Content/breads.css",
                 "~/Content/common.css",
                 "~/Content/login.css",
-                "~/Content/users.css",
-                "~/Content/themes/base/jquery.ui.core.css"));
+                "~/Content/users.css"));
             bundles.Add(styleBundle);
+
+            var thirdPartyStyles = (new StyleBundle("~/Content/other_css").Include(
+                "~/Content/themes/base/jquery.ui.core.css",
+                "~/Content/bootstrap.css",
+                "~/Content/ui-grid.css",
+                "~/Content/font-awesome.css"));
+            bundles.Add(thirdPartyStyles);
 
             // necessary to exclude these from minification, otherwise the SPA is unable to load correctly :/
             var excludeFromMinification = new [] { controllersBundle, servicesBundle };

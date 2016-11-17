@@ -12,9 +12,10 @@
     }
 
     $scope.loadAll = function () {
-        Breads.getAll().then(function (data) {
-            Tables.setAllRowsClean($scope, data.data);
-        })
+        Breads.getAll()
+            .then(function(data) {
+                Tables.setAllRowsClean($scope, data.data);
+            });
     };
 
     $scope.calculateTableHeight = function () {

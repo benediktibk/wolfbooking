@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace Frontend.Controllers
 {
-    [Authorize(Roles = "Manager,Admin")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly BookingFacade _bookingFacade;
@@ -18,7 +18,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users/all")]
-        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public IList<User> GetAllUsers()
         {
@@ -27,7 +26,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users/item/{id}")]
-        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public User GetUserById(int id)
         {
@@ -60,7 +58,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users")]
-        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public HttpResponseMessage CreateUser([FromBody]User user, [FromBody]string password)
         {
@@ -79,7 +76,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users/item/{id}")]
-        [Authorize(Roles = "Administrator")]
         [HttpPut]
         public HttpResponseMessage UpdateUser(int id, [FromBody]User user)
         {
@@ -92,7 +88,6 @@ namespace Frontend.Controllers
         }
 
         [Route("api/users/item/{id}")]
-        [Authorize(Roles = "Administrator")]
         [HttpDelete]
         public HttpResponseMessage DeleteUser(int id)
         {

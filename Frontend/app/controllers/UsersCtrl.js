@@ -3,10 +3,10 @@
 
     Tables.initialize($scope, [
         { name: 'Id', field: 'Id', visible: false },
-        { name: ' ', enableCellEdit: false, cellTemplate: '<div id="UsersDeleteButton"><i class="fa fa-times fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
+        { name: ' ', enableCellEdit: false, cellTemplate: '<div id="UsersDeleteButton"><i class="fa fa-trash-o fa-lg" ng-click="grid.appScope.deleteUser(row)"></i></div>', width: 30 },
         { name: 'Users.Login', field: 'UserName', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
         { name: 'Users.Password', field: 'Password', enableCellEdit: true, type: 'string', enableCellEditOnFocus: true, headerCellFilter: 'translate' },
-        { name: 'Users.User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
+        { name: 'Users.User', field: 'isUser', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isUser" ng-click="grid.appScope.markAsDirty(row)" checked>', headerCellFilter: 'translate' },
         { name: 'Users.Manager', field: 'isManager', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isManager" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
         { name: 'Users.Administrator', field: 'isAdministrator', enableCellEdit: false, cellTemplate: '<input type="checkbox" ng-model="row.entity.isAdministrator" ng-click="grid.appScope.markAsDirty(row)">', headerCellFilter: 'translate' },
         { name: 'Users.Room', field: 'Room', enableCellEdit: false, cellTemplate: '<select ng-model="row.entity.selectedRoom" ng-options="room.Name for room in row.entity.availableRooms track by room.Id" ng-change="grid.appScope.roomSelectionChanged(row.entity.selectedRoom)"></select>', headerCellFilter: 'translate' }
@@ -46,10 +46,10 @@
         for (var i = 0; i < data.length; ++i) {
             var current = data[i];
 
-            if (current.Login == '')
+            if (!current.Login)
                 validationErrors.push('invalid login');
 
-            if (current.NewlyAdded && current.Password == '')
+            if (current.NewlyAdded && !current.Password)
                 validationErrors.push('user ' + current.Login + ' has an empty password');
         }
 
