@@ -28,11 +28,12 @@ namespace Frontend
 
 
             var uiGridBundle = new ScriptBundle("~/bundles/uiGrid").Include(
+                "~/Scripts/ui-bootstrap-tpls-2.0.1.min.js",
                 "~/Scripts/ui-grid.min.js");
             bundles.Add(uiGridBundle);
 
             var bootstrapBundle = (new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/ui-bootstrap-tpls-2.0.1.min.js"));
+                "~/Scripts/bootstrap.js"));
             bundles.Add(bootstrapBundle);
 
             var angularBundle = (new ScriptBundle("~/bundles/angular").Include(

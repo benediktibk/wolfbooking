@@ -1,4 +1,5 @@
-﻿using Backend;
+﻿using System;
+using Backend;
 using Backend.Facade;
 using System.Collections.Generic;
 using System.Net;
@@ -59,20 +60,21 @@ namespace Frontend.Controllers
 
         [Route("api/users")]
         [HttpPost]
-        public HttpResponseMessage CreateUser([FromBody]User user, [FromBody]string password)
+        public HttpResponseMessage CreateUser([FromBody]UserTempDto user, [FromBody]string password)
         {
             if (user == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-            LogInfo($"creating user {{{user}}}");
-            var id = _bookingFacade.AddUser(user, password);
+            throw new NotImplementedException();
+            //LogInfo($"creating user {{{user}}}");
+            //var id = _bookingFacade.AddUser(user, password);
 
-            if (id < 0)
-                return new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict };
+            //if (id < 0)
+            //    return new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict };
 
-            var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
-            response.Headers.Location = CreateCompleteUri($"api/users/item/{id}");
-            return response;
+            //var response = new HttpResponseMessage { StatusCode = HttpStatusCode.Created };
+            //response.Headers.Location = CreateCompleteUri($"api/users/item/{id}");
+            //return response;
         }
 
         [Route("api/users/item/{id}")]

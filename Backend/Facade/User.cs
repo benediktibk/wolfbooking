@@ -35,4 +35,11 @@ namespace Backend.Facade
                 return $"Id: {Id}, UserName: {Login}, Roles: none, Room: {Room}";
         }
     }
+    public class UserTempDto
+    {
+        public int Id { get; set; }
+        public string Login { get; set; }
+        public IEnumerable<int> Roles { get; set; }
+        public int Room { get; set; }
+    }
 }
