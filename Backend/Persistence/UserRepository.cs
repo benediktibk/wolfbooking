@@ -111,7 +111,7 @@ namespace Backend.Persistence
 
         public IEnumerable<WolfBookingRole> GetAllRoles()
         {
-            return _roleManager.Roles.ToList().Select(x => new WolfBookingRole(x.Name));
+            return _roleManager.Roles.ToList();
         }
 
         public ICollection<WolfBookingUserRole> GetRolesForUserName(string userName)

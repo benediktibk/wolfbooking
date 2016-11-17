@@ -303,7 +303,8 @@ namespace Backend.Facade
 
         public IList<User> GetAllUsers()
         {
-            return _userRepository.GetAvailableUsers(DateTime.Now).Select(x => new User(x)).ToList();
+            var ret = _userRepository.GetAvailableUsers(DateTime.Now).Select(x => new User(x)).ToList();
+            return ret;
         }
     }
 }

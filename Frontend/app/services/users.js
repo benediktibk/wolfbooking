@@ -3,15 +3,14 @@ Users.factory('Users', function ($http, Authentication, Roles, Rooms) {
     var UsersFactory = {};
 
     var addRoleVariablesToUser = function (user, RolesDictonary) {
-        var Roles = user.Roles;
+        var roles = user.Roles;
         user.isAdministrator = false;
         user.isManager = false;
         user.isUser = false;
 
-        for (var j = 0; j < Roles.length; ++j) {
-            var role = Roles[j];
-            var roleTranslated = RolesDictonary[role];
-            switch (roleTranslated) {
+        for (var j = 0; j < roles.length; ++j) {
+            var role = roles[j];
+            switch (role.Name) {
                 case 'Admin':
                     user.isAdministrator = true;
                     break;
