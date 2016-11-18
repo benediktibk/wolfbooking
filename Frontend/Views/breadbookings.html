@@ -1,5 +1,15 @@
 ﻿<div ng-hide="isOnlyUser()">
-    {{ 'Breadbookings.Selection' | translate }}: <select ng-model="selectedRoom" ng-options="x.Name for x in availableRooms" ng-change="selectedRoomChanged(selectedRoom)"></select>
+    {{ 'Breadbookings.Selection' | translate }}: 
+    <select ng-model="selectedRoom" ng-options="x.Name for x in availableRooms" ng-change="selectedRoomChanged(selectedRoom)"></select>
+    
+    <div class="btn-group" uib-dropdown is-open="status.isopen">
+        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+            Select Room <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li role="menuitem" ng-repeat="room in availableRooms">{{room.Name}}</li>
+        </ul>
+    </div>
 </div>
 <div ui-grid="gridOptions" id="breadBookingsTable" ui-grid-auto-resize ui-grid-cellNav ui-grid-edit ui-grid-row-edit ng-style="calculateTableHeight()"></div>
 <button ng-click="persistAllChanges()" class="tableButton btn btn-primary" ng-disabled="currentBookingMetaData.AlreadyOrdered">{{ 'Breadbookings.Save' | translate }}</button>
